@@ -21,6 +21,7 @@ const dataSrc = DataSourceConfigurer.getInstance();
 const basePath = '/namespaces/:namespace/repository';
 
 export const SourceControlApi = {
+  pushNamespaceConfig: apiCreator(dataSrc, 'POST', 'REQUEST', `${basePath}/configs/push`),
   push: apiCreator(dataSrc, 'POST', 'REQUEST', `${basePath}/apps/:appId/push`),
   pull: apiCreator(dataSrc, 'POST', 'REQUEST', `${basePath}/apps/:appId/pull`),
   list: apiCreator(dataSrc, 'GET', 'REQUEST', `${basePath}/apps`),

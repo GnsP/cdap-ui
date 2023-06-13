@@ -10,6 +10,7 @@
   "dashboard.bind.port": "11011",
   "enable.preview": "true",
   "feature.pipeline.composite.triggers.enabled": "true",
+  "feature.source.control.management.git.enabled": "true",
   "dashboard.router.check.timeout.secs": "0",
   "market.base.url": "https://hub.cdap.io/dev/v2",
   "ui.theme.file": "config/themes/default.json",

@@ -18,11 +18,13 @@ import PrimaryContainedButton from 'components/shared/Buttons/PrimaryContainedBu
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import T from 'i18n-react';
+import { SourceControlApi } from 'api/sourcecontrol';
 import Table from 'components/shared/Table';
 import TableHeader from 'components/shared/Table/TableHeader';
 import TableRow from 'components/shared/Table/TableRow';
 import TableCell from 'components/shared/Table/TableCell';
 import TableBody from 'components/shared/Table/TableBody';
+import { CommitModal } from 'components/SourceControlManagement/LocalPipelineListView/CommitModal';
 import { useSelector } from 'react-redux';
 import ActionsPopover from 'components/shared/ActionsPopover';
 import { UnlinkSourceControlModal } from './UnlinkSourceControlModal';
@@ -51,6 +53,7 @@ export const SourceControlManagement = () => {
   const [isUnlinkModalOpen, setIsUnlinkModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [openCommitModal, setOpenCommitModal] = useState(false);
   const sourceControlManagementConfig: ISourceControlManagementConfig = useSelector(
     (state) => state.sourceControlManagementConfig
   );
@@ -59,6 +62,23 @@ export const SourceControlManagement = () => {
   };
   const toggleUnlinkModal = () => {
     setIsUnlinkModalOpen(!isUnlinkModalOpen);
+  };
+  const toggleCommitModal = () => {
+    setOpenCommitModal(!openCommitModal);
+  };
+
+  const onNamespaceSync = (commitMessage: string): void => {
+    const payload = {
+      commitMessage,
+    };
+
+    const params = {
+      namespace: getCurrentNamespace(),
+    };
+
+    SourceControlApi.pushNamespaceConfig(params, payload).subscribe((res) => {
+      setOpenCommitModal(false);
+    });
   };
 
   const actions = [
@@ -151,9 +171,16 @@ export const SourceControlManagement = () => {
                   : '--'}
               </TableCell>
               <TableCell>
-                <PrimaryTextLoadingButton onClick={validateConfigAndRedirect} loading={loading}>
-                  {T.translate(`${PREFIX}.syncButton`)}
-                </PrimaryTextLoadingButton>
+                <div>
+                  <PrimaryTextLoadingButton onClick={validateConfigAndRedirect} loading={loading}>
+                    {T.translate(`${PREFIX}.syncButton`)}
+                  </PrimaryTextLoadingButton>
+                </div>
+                <div>
+                  <PrimaryTextLoadingButton onClick={toggleCommitModal} loading={false}>
+                    SYNC NAMESPACE
+                  </PrimaryTextLoadingButton>
+                </div>
               </TableCell>
               <TableCell>
                 <ActionsPopover actions={actions} />
@@ -172,6 +199,12 @@ export const SourceControlManagement = () => {
         isOpen={isUnlinkModalOpen}
         toggleModal={toggleUnlinkModal}
         sourceControlManagementConfig={sourceControlManagementConfig}
+      />
+      <CommitModal
+        isOpen={openCommitModal}
+        onToggle={toggleCommitModal}
+        pipelineName={getCurrentNamespace()}
+        onSubmit={onNamespaceSync}
       />
     </>
   );
