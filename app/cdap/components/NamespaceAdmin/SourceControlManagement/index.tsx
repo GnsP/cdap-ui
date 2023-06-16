@@ -19,6 +19,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import T from 'i18n-react';
 import { SourceControlApi } from 'api/sourcecontrol';
+import { IConnection } from 'components/NamespaceAdmin/store';
 import Table from 'components/shared/Table';
 import TableHeader from 'components/shared/Table/TableHeader';
 import TableRow from 'components/shared/Table/TableRow';
@@ -57,6 +58,7 @@ export const SourceControlManagement = () => {
   const sourceControlManagementConfig: ISourceControlManagementConfig = useSelector(
     (state) => state.sourceControlManagementConfig
   );
+  const connections: IConnection[] = useSelector((state) => state.connections);
   const toggleForm = () => {
     setIsFormOpen(!isFormOpen);
   };
@@ -70,6 +72,7 @@ export const SourceControlManagement = () => {
   const onNamespaceSync = (commitMessage: string): void => {
     const payload = {
       commitMessage,
+      connections,
     };
 
     const params = {
