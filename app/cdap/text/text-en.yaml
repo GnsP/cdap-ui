@@ -3346,6 +3346,9 @@ features:
         principal-placeholder: "Kerberos principal of the user to run programs as"
         sld-label: "Specify credentials for securely impersonating programs in this namespace."
         ssd-label: "Security"
+      ServiceAccountStep:
+        ssd-label: Security
+        sld-label: Add service account details
     ApplicationUpload:
       headerlabel: Upload application
       Step1:

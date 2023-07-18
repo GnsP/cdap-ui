@@ -20,6 +20,7 @@ import HadoopMappingStep from 'components/CaskWizards/AddNamespace/HadoopMapping
 import ResourcesStep from 'components/CaskWizards/AddNamespace/ResourcesStep';
 import SecurityStep from 'components/CaskWizards/AddNamespace/SecurityStep';
 import PreferencesStep from 'components/CaskWizards/AddNamespace/PreferencesStep';
+import ServiceAccountStep from 'components/CaskWizards/AddNamespace/ServiceAccountStep';
 import T from 'i18n-react';
 import { Theme } from 'services/ThemeHelper';
 import findIndex from 'lodash/findIndex';
@@ -62,6 +63,13 @@ const AddNamespaceWizardConfig = {
       description: T.translate('features.Wizard.Add-Namespace.SecurityStep.sld-label'),
       content: <SecurityStep />,
     },
+    {
+      id: 'service account',
+      shorttitle: T.translate('features.Wizard.Add-Namespace.ServiceAccountStep.ssd-label'),
+      title: T.translate('features.Wizard.Add-Namespace.ServiceAccountStep.ssd-label'),
+      description: T.translate('features.Wizard.Add-Namespace.ServiceAccountStep.sld-label'),
+      content: <ServiceAccountStep />,
+    },
   ],
 };
 
@@ -78,6 +86,12 @@ if (Theme.showNamespaceSecurity === false) {
 if (Theme.onPremTetheredInstance === false) {
   const ResourcesIndex = findIndex(AddNamespaceWizardConfig.steps, { id: 'resources' });
   AddNamespaceWizardConfig.steps.splice(ResourcesIndex, 1);
+}
+
+
+if (Theme.showNamespaceIsolation === false) {
+  const saIndex = findIndex(AddNamespaceWizardConfig.steps, { id: 'service account' });
+  AddNamespaceWizardConfig.steps.splice(saIndex, 1);
 }
 
 export default AddNamespaceWizardConfig;
