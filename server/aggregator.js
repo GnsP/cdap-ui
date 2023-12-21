@@ -324,11 +324,12 @@ function onSocketData(message) {
         break;
       case 'request':
         r.startTs = Date.now();
-        if ((!r.requestOrigin || r.requestOrigin === REQUEST_ORIGIN_ROUTER) && this.cdapConfig['security.authentication.mode'] === 'PROXY') {
+        if (!r.requestOrigin || r.requestOrigin === REQUEST_ORIGIN_ROUTER) {
           if (!r.headers) {
             r.headers = {};
           }
           r.headers.Authorization = this.connection.authToken;
+          r.headers.authorization = this.connection.authToken;
           r.headers[this.cdapConfig['security.authentication.proxy.user.identity.header']] = this.connection.userid;
         }
         log.debug('[REQUEST]: (method: ' + r.method + ', id: ' + r.id + ', url: ' + r.url + ')');

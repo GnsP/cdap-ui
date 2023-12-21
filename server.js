@@ -20,6 +20,7 @@ import fs from 'fs';
 import log4js from 'log4js';
 import https from 'https';
 import ip from 'ip';
+import cookie from 'cookie';
 import { getApp } from 'server/express';
 import Aggregator from 'server/aggregator';
 import { extractConfig } from 'server/config/parser';
@@ -50,6 +51,13 @@ if (!process.env.LOG4JS_CONFIG) {
 
 // Get a log handle.
 var log = log4js.getLogger('default');
+
+function getAuthHeaderFromRawCookies(req) {
+  const cookies = cookie.parse(req.headers.cookie || '');
+  const authCookie = cookies['CDAP_Auth_Token'];
+
+  return authCookie ? `Bearer ${authCookie}` : '';
+}
 
 function getFullURL(host) {
   let nodejsport = cdapConfig['dashboard.bind.port'];
@@ -223,10 +231,8 @@ getCDAPConfig()
       log.debug('[SOCKET OPEN] Connection to client "' + c.id + '" opened');
       // @ts-ignore
       var a = new Aggregator(c, { ...cdapConfig, ...securityConfig });
-      if (cdapConfig['security.authentication.mode'] === 'PROXY') {
-        c.authToken = authToken;
-        c.userid = userid;
-      }
+      c.authToken = authToken;
+      c.userid = userid;
       wsConnections[c.id] = c;
       c.on('close', function() {
         log.debug('Cleaning out aggregator: ' + JSON.stringify(a.connection.id));
@@ -239,11 +245,11 @@ getCDAPConfig()
 
     sockServer.installHandlers(server, { prefix: '/_sock' });
     server.addListener('upgrade', function(req, socket) {
-      if (cdapConfig['security.authentication.mode'] === 'PROXY') {
-        authToken = req.headers.authorization;
-        const userIdProperty = cdapConfig['security.authentication.proxy.user.identity.header'];
-        userid = req.headers[userIdProperty];
-      }
+      req.headers.authorization = getAuthHeaderFromRawCookies(req);
+      authToken = req.headers.authorization;
+      const userIdProperty = cdapConfig['security.authentication.proxy.user.identity.header'];
+      userid = req.headers[userIdProperty];
+
       if (allowedOrigin.indexOf(req.headers.origin) === -1) {
         log.info('Unknown Origin: ' + req.headers.origin);
         log.info('Denying socket connection and closing the channel');
