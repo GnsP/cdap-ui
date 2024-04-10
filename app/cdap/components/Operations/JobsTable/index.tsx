@@ -22,10 +22,10 @@ import TableHeader from 'components/shared/Table/TableHeader';
 import TableRow from 'components/shared/Table/TableRow';
 import TableCell from 'components/shared/Table/TableCell';
 import TableBody from 'components/shared/Table/TableBody';
-import IconSVG from 'components/shared/IconSVG';
-import StatusIndicator from 'components/shared/Status/StatusIndicator';
+import Status from 'components/shared/Status';
 import { humanReadableDate, humanReadableDuration } from 'services/helpers';
 import { PIPELINE_TYPE } from 'components/Operations/parser';
+import { PROGRAM_STATUSES } from 'services/global-constants';
 
 const styles = (): StyleRules => {
   return {
@@ -46,17 +46,16 @@ export interface IJobsData {
 
 interface IJobsTableProps extends WithStyles<typeof styles> {
   data: IJobsData;
+  isCurrentTimeFrame: boolean;
 }
 
-const JobsTitleView: React.FC<IJobsTableProps> = ({ classes, data }) => {
+const JobsTitleView: React.FC<IJobsTableProps> = ({ classes, data, isCurrentTimeFrame }) => {
   return (
     <div className={classes.root}>
-      <Table columnTemplate="40px 3fr 1fr 1fr 2fr 2fr 1fr" classes={{ grid: classes.grid }}>
+      <Table columnTemplate="150px 3fr 1fr 1fr 2fr 2fr 1fr" classes={{ grid: classes.grid }}>
         <TableHeader>
           <TableRow>
-            <TableCell>
-              <IconSVG name="icon-circle" />
-            </TableCell>
+            <TableCell>Status</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Namespace</TableCell>
             <TableCell>Pipeline type</TableCell>
@@ -67,40 +66,42 @@ const JobsTitleView: React.FC<IJobsTableProps> = ({ classes, data }) => {
         </TableHeader>
 
         <TableBody>
-          {data.jobs.map((row) => {
-            const endTime = row.end ? row.end : Math.floor(Date.now() / 1000);
-            const duration = endTime - row.start;
-            const namespace = row.namespace;
-            const appName = row.application.name;
+          {data.jobs
+            .filter((row) => isCurrentTimeFrame || row.status !== PROGRAM_STATUSES.RUNNING)
+            .map((row) => {
+              const endTime = row.end ? row.end : Math.floor(Date.now() / 1000);
+              const duration = endTime - row.start;
+              const namespace = row.namespace;
+              const appName = row.application.name;
 
-            let link = window.getHydratorUrl({
-              stateName: 'hydrator.detail',
-              stateParams: {
-                namespace,
-                pipelineId: appName,
-                runid: row.run,
-              },
-            });
-            let nativeLink = true;
-            if (row.pipelineType === PIPELINE_TYPE.replication) {
-              link = `/ns/${namespace}/replication/detail/${appName}/monitor`;
-              nativeLink = false;
-            }
+              let link = window.getHydratorUrl({
+                stateName: 'hydrator.detail',
+                stateParams: {
+                  namespace,
+                  pipelineId: appName,
+                  runid: row.run,
+                },
+              });
+              let nativeLink = true;
+              if (row.pipelineType === PIPELINE_TYPE.replication) {
+                link = `/ns/${namespace}/replication/detail/${appName}/monitor`;
+                nativeLink = false;
+              }
 
-            return (
-              <TableRow key={row.run} to={link} nativeLink={nativeLink}>
-                <TableCell>
-                  <StatusIndicator status={row.status} />
-                </TableCell>
-                <TableCell>{row.application.name}</TableCell>
-                <TableCell>{row.namespace}</TableCell>
-                <TableCell>{row.pipelineType}</TableCell>
-                <TableCell>{humanReadableDate(row.start)}</TableCell>
-                <TableCell>{humanReadableDuration(duration)}</TableCell>
-                <TableCell>{row.startMethod.toLowerCase()}</TableCell>
-              </TableRow>
-            );
-          })}
+              return (
+                <TableRow key={row.run} to={link} nativeLink={nativeLink}>
+                  <TableCell>
+                    <Status status={row.status}></Status>
+                  </TableCell>
+                  <TableCell>{row.application.name}</TableCell>
+                  <TableCell>{row.namespace}</TableCell>
+                  <TableCell>{row.pipelineType}</TableCell>
+                  <TableCell>{humanReadableDate(row.start)}</TableCell>
+                  <TableCell>{humanReadableDuration(duration)}</TableCell>
+                  <TableCell>{row.startMethod.toLowerCase()}</TableCell>
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
     </div>

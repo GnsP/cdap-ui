@@ -158,7 +158,7 @@ const OperationsView: React.FC<WithStyles<typeof styles>> = ({ classes }) => {
         </div>
         <div>Last updated {humanReadableDate(data.lastUpdated, true)}</div>
       </div>
-      <JobsTable data={data} />
+      <JobsTable data={data} isCurrentTimeFrame={isNextDisabled()} />
     </div>
   );
 };
