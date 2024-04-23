@@ -24,6 +24,9 @@ export const scmAuthType = [
 
 export const providers = {
   github: 'GITHUB',
+  gitlab: 'GITLAB',
+  bitbucket: 'BITBUCKET_SERVER',
+  bitbucketCloud: 'BITBUCKET_CLOUD',
 };
 
 export const authKeys = ['type', 'token'];
