@@ -22,6 +22,7 @@ import {
   IOperationResource,
   IOperationRun,
   IOperationResourceScopedErrorMessage,
+  SortOrder,
 } from './types';
 import T from 'i18n-react';
 import { ITimeInstant, timeInstantToString } from 'services/DataFormatter';
@@ -154,3 +155,7 @@ export const getOperationRunTime = (operation: IOperationRun): string => {
   }
   return null;
 };
+
+export function invertSortOrder(ord: SortOrder): SortOrder {
+  return ord === 'ASC' ? 'DESC' : 'ASC';
+}

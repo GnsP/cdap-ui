@@ -130,3 +130,11 @@ export function timeInstantToString(t?: ITimeInstant): string {
 
   return moment(t.seconds * 1000).format('DD-MM-YYYY HH:mm:ss A');
 }
+
+export function timeInstantToMs(t?: ITimeInstant): number {
+  if (!t) {
+    return 0;
+  }
+
+  return t.seconds * 1000;
+}

@@ -600,10 +600,6 @@
               <includes>
                 <include>TestRunner.java</include>
               </includes>
-              <parallel>classes</parallel> <!--Running TestRunner classes in parallel-->
-              <threadCount>4</threadCount> <!--Number of classes to run in parallel-->
-              <forkCount>4</forkCount> <!--Number of JVM processes -->
-              <reuseForks>true</reuseForks>
             </configuration>
             <executions>
               <execution>
