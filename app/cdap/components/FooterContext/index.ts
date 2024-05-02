@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 Cask Data, Inc.
+ * Copyright © 2024 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -14,25 +14,28 @@
  * the License.
  */
 
-import T from 'i18n-react';
+import { createContext, useContext, useEffect } from 'react';
 
-const PREFIX = 'features.SourceControlManagement';
+interface IFooterContext {
+  show: boolean;
+  setShow(val?: boolean): void;
+}
 
-export const scmAuthType = [
-  { id: 'PAT', label: T.translate(`${PREFIX}.configModal.auth.pat.label`) },
-];
+export const FooterContext = createContext<IFooterContext>({
+  show: true,
+  setShow() {
+    return;
+  },
+});
 
-export const githubOnlyProviders = {
-  github: 'GITHUB',
-};
+export function useHideFooterInPage() {
+  const { setShow } = useContext(FooterContext);
 
-export const providers = {
-  ...githubOnlyProviders,
-  gitlab: 'GITLAB',
-  bitbucket: 'BITBUCKET_SERVER',
-  bitbucketCloud: 'BITBUCKET_CLOUD',
-};
+  useEffect(() => {
+    setShow(false);
 
-export const authKeys = ['type', 'token'];
+    return () => setShow(true);
+  }, []);
 
-export const patConfigKeys = ['passwordName', 'username'];
+  return setShow;
+}

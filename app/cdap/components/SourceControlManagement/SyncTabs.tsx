@@ -22,47 +22,61 @@ import styled from 'styled-components';
 import T from 'i18n-react';
 import { RemotePipelineListView } from './RemotePipelineListView';
 import { FeatureProvider } from 'services/react/providers/featureFlagProvider';
-import { getNamespacePipelineList, getRemotePipelineList } from './store/ActionCreator';
+import {
+  getNamespacePipelineList,
+  getNamespacePipelineListV2,
+  getRemotePipelineList,
+  getRemotePipelineListV2,
+} from './store/ActionCreator';
 import { getCurrentNamespace } from 'services/NamespaceStore';
+import { useFeatureFlagDefaultFalse } from 'services/react/customHooks/useFeatureFlag';
 
 const PREFIX = 'features.SourceControlManagement';
 
 const StyledDiv = styled.div`
-  padding: 10px;
-  margin-top: 10px;
+  padding: 4px 10px;
+`;
+
+const StyledTabs = styled(Tabs)`
+  border-bottom: 1px solid #e8e8e8;
 `;
 
 const ScmSyncTabs = () => {
   const [tabIndex, setTabIndex] = useState(0);
+  const multiOpEnabled = useFeatureFlagDefaultFalse('source.control.management.multi.app.enabled');
+  const ns = getCurrentNamespace();
 
-  const { ready: pushStateReady, nameFilter } = useSelector(({ push }) => push);
-  useEffect(() => {
-    if (!pushStateReady) {
-      getNamespacePipelineList(getCurrentNamespace(), nameFilter);
+  function fetchNamespacePipelines(nameFilterStr: string) {
+    if (multiOpEnabled) {
+      getNamespacePipelineListV2(ns);
+    } else {
+      getNamespacePipelineList(ns, nameFilterStr);
     }
-  }, [pushStateReady]);
+  }
 
-  const { ready: pullStateReady } = useSelector(({ pull }) => pull);
-  useEffect(() => {
-    if (!pullStateReady) {
-      getRemotePipelineList(getCurrentNamespace());
+  function fetchRemotePipelines() {
+    if (multiOpEnabled) {
+      getRemotePipelineListV2(ns);
+    } else {
+      getRemotePipelineList(ns);
     }
-  }, [pullStateReady]);
+  }
 
+  const { nameFilter } = useSelector(({ push }) => push);
   const handleTabChange = (e, newValue) => {
     setTabIndex(newValue);
     // refetch latest pipeline data, while displaying possibly stale data
     if (newValue === 0) {
-      getNamespacePipelineList(getCurrentNamespace(), nameFilter);
+      fetchNamespacePipelines(nameFilter);
     } else {
-      getRemotePipelineList(getCurrentNamespace());
+      fetchRemotePipelines();
     }
   };
 
   return (
     <>
       <StyledDiv>
-        <Tabs
+        <StyledTabs
           value={tabIndex}
           onChange={handleTabChange}
           textColor="primary"
@@ -70,7 +84,7 @@ const ScmSyncTabs = () => {
         >
           <Tab data-testid="local-pipeline-tab" label={T.translate(`${PREFIX}.push.tab`)} />
           <Tab data-testid="remote-pipeline-tab" label={T.translate(`${PREFIX}.pull.tab`)} />
-        </Tabs>
+        </StyledTabs>
       </StyledDiv>
       <FeatureProvider>
         <StyledDiv>

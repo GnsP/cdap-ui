@@ -20,12 +20,17 @@ import { OperationType } from './OperationType';
 import { OperationStatus } from './OperationStatus';
 import { ITimeInstant } from 'services/DataFormatter';
 
+export type SyncStatusFilter = 'SYNCED' | 'UNSYNCED';
+export type SortOrder = 'ASC' | 'DESC';
+export type SortBy = 'NAME' | 'LAST_SYNCED_AT';
+
 export interface IRepositoryPipeline {
   name: string;
-  fileHash: string;
+  fileHash?: string;
   error: string;
   status: SUPPORT;
-  lastSyncDate?: ITimeInstant;
+  lastSyncDate?: number;
+  syncStatus?: boolean;
 }
 
 export interface IOperationResource {
@@ -83,6 +88,22 @@ export interface IPipeline {
     fileHash: string;
     lastSyncedAt?: ITimeInstant;
   };
+}
+
+export interface IPipelineDetail {
+  name: string;
+  lastSyncedAt?: number;
+  isSynced: boolean;
+  commitId?: string;
+  namespace?: string;
+  specificationHash?: string;
+  type?: string;
+}
+
+export interface IPipelineListResponse {
+  apps: IPipelineDetail[];
+  nextPageToken?: string;
+  lastRefreshTime?: number;
 }
 
 export interface IListResponse {

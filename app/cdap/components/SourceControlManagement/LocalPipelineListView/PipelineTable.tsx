@@ -15,9 +15,29 @@
  */
 
 import React from 'react';
-import { Checkbox, Table, TableBody, TableCell, TableRow, TableHead } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import {
+  Checkbox,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  TableHead,
+  TablePagination,
+  TableSortLabel,
+} from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
-import { setSelectedPipelines } from '../store/ActionCreator';
+import { green, red } from '@material-ui/core/colors';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ErrorIcon from '@material-ui/icons/Error';
+
+import {
+  isLastNamespacePipelinesPage,
+  setSelectedPipelines,
+  updatePushCurrentPage,
+  updatePushPageSize,
+  updatePushSortConfig,
+} from '../store/ActionCreator';
 import { IRepositoryPipeline } from '../types';
 import T from 'i18n-react';
 import StatusButton from 'components/StatusButton';
@@ -29,8 +49,12 @@ import {
   StatusCell,
   StyledFixedWidthCell,
   StyledPopover,
+  SyncStatusWrapper,
+  RefreshTimeLabel,
 } from '../styles';
-import { timeInstantToString } from 'services/DataFormatter';
+import { format, TYPES as FORMAT_TYPES } from 'services/DataFormatter';
+import { invertSortOrder } from '../helpers';
+import { useFeatureFlagDefaultFalse } from 'services/react/customHooks/useFeatureFlag';
 
 const PREFIX = 'features.SourceControlManagement.table';
 
@@ -40,6 +64,7 @@ interface IRepositoryPipelineTableProps {
   showFailedOnly: boolean;
   enableMultipleSelection?: boolean;
   disabled?: boolean;
+  lastOperationInfoShown?: boolean;
 }
 
 export const LocalPipelineTable = ({
@@ -48,8 +73,16 @@ export const LocalPipelineTable = ({
   showFailedOnly,
   enableMultipleSelection = false,
   disabled = false,
+  lastOperationInfoShown = true,
 }: IRepositoryPipelineTableProps) => {
+  const isBackendRefreshEnabled = useFeatureFlagDefaultFalse(
+    'source.control.metadata.auto.refresh.enabled'
+  );
+
   const isSelected = (name: string) => selectedPipelines.indexOf(name) !== -1;
+  const { pageSize, sortBy, sortOrder, currentPage, lastRefreshTime } = useSelector(
+    ({ push }) => push
+  );
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) {
@@ -98,9 +131,35 @@ export const LocalPipelineTable = ({
     setSelectedPipelines(newSelected);
   };
 
+  const handlePageSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    updatePushPageSize(parseInt(value, 10));
+  };
+
+  const handlePageChange = (event: React.MouseEvent | null, page: number) => {
+    updatePushCurrentPage(page);
+  };
+
+  const handleSortByName = (event: React.MouseEvent) => {
+    const newSortOrder = sortBy === 'NAME' ? invertSortOrder(sortOrder) : 'ASC';
+    updatePushSortConfig('NAME', newSortOrder);
+  };
+
+  const handleSortBySyncDate = (event: React.MouseEvent) => {
+    const newSortOrder = sortBy === 'LAST_SYNCED_AT' ? invertSortOrder(sortOrder) : 'ASC';
+    updatePushSortConfig('LAST_SYNCED_AT', newSortOrder);
+  };
+
   return (
-    <TableBox>
-      <Table stickyHeader data-testid="local-pipelines-table">
+    <TableBox lastOperationInfoShown={lastOperationInfoShown}>
+      {isBackendRefreshEnabled && lastRefreshTime && (
+        <RefreshTimeLabel>
+          {T.translate(`${PREFIX}.lastRefreshedAtLabel`, {
+            datetime: format(lastRefreshTime, FORMAT_TYPES.TIMESTAMP_MILLIS),
+          })}
+        </RefreshTimeLabel>
+      )}
+      <Table stickyHeader data-testid="local-pipelines-table" size="small">
         <TableHead>
           <TableRow>
             <TableCell padding="checkbox">
@@ -117,16 +176,42 @@ export const LocalPipelineTable = ({
               )}
             </TableCell>
             <TableCell></TableCell>
-            <StyledTableCell>{T.translate(`${PREFIX}.pipelineName`)}</StyledTableCell>
-            <StyledTableCell>{T.translate(`${PREFIX}.lastSyncDate`)}</StyledTableCell>
-            <StyledFixedWidthCell>
-              <div>
-                {T.translate(`${PREFIX}.gitStatus`)}
-                <StyledPopover target={() => <InfoIcon />} showOn="Hover">
-                  {T.translate(`${PREFIX}.gitStatusHelperText`)}
-                </StyledPopover>
-              </div>
-            </StyledFixedWidthCell>
+            <StyledTableCell>
+              {enableMultipleSelection ? (
+                <TableSortLabel
+                  active={sortBy === 'NAME'}
+                  direction={sortBy === 'NAME' ? sortOrder.toLowerCase() : 'asc'}
+                  onClick={handleSortByName}
+                >
+                  {T.translate(`${PREFIX}.pipelineName`)}
+                </TableSortLabel>
+              ) : (
+                T.translate(`${PREFIX}.pipelineName`)
+              )}
+            </StyledTableCell>
+            {enableMultipleSelection ? (
+              <>
+                <StyledTableCell>
+                  <TableSortLabel
+                    active={sortBy === 'LAST_SYNCED_AT'}
+                    direction={sortBy === 'LAST_SYNCED_AT' ? sortOrder.toLowerCase() : 'asc'}
+                    onClick={handleSortBySyncDate}
+                  >
+                    {T.translate(`${PREFIX}.lastSyncDate`)}
+                  </TableSortLabel>
+                </StyledTableCell>
+                <StyledTableCell>{T.translate(`${PREFIX}.syncStatus`)}</StyledTableCell>
+              </>
+            ) : (
+              <StyledFixedWidthCell>
+                <div>
+                  {T.translate(`${PREFIX}.gitStatus`)}
+                  <StyledPopover target={() => <InfoIcon />} showOn="Hover">
+                    {T.translate(`${PREFIX}.gitStatusHelperText`)}
+                  </StyledPopover>
+                </div>
+              </StyledFixedWidthCell>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -169,15 +254,53 @@ export const LocalPipelineTable = ({
                   )}
                 </StatusCell>
                 <StyledTableCell>{pipeline.name}</StyledTableCell>
-                <StyledTableCell>{timeInstantToString(pipeline.lastSyncDate)}</StyledTableCell>
-                <StyledFixedWidthCell>
-                  {pipeline.fileHash ? T.translate(`${PREFIX}.connected`) : '--'}
-                </StyledFixedWidthCell>
+                {enableMultipleSelection ? (
+                  <>
+                    <StyledTableCell>
+                      {format(pipeline.lastSyncDate, FORMAT_TYPES.TIMESTAMP_MILLIS)}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      {pipeline.syncStatus ? (
+                        <SyncStatusWrapper>
+                          <CheckCircleIcon style={{ color: green[500] }} />
+                          {T.translate(`${PREFIX}.gitSyncStatusSynced`)}
+                        </SyncStatusWrapper>
+                      ) : (
+                        <SyncStatusWrapper>
+                          <ErrorIcon style={{ color: red[500] }} />
+                          {T.translate(`${PREFIX}.gitSyncStatusUnsynced`)}
+                        </SyncStatusWrapper>
+                      )}
+                    </StyledTableCell>
+                  </>
+                ) : (
+                  <StyledFixedWidthCell>
+                    {pipeline.fileHash ? T.translate(`${PREFIX}.connected`) : '--'}
+                  </StyledFixedWidthCell>
+                )}
               </StyledTableRow>
             );
           })}
         </TableBody>
       </Table>
+      {enableMultipleSelection && (
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 50]}
+          component="span"
+          count={-1}
+          rowsPerPage={pageSize}
+          page={currentPage}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handlePageSizeChange}
+          labelDisplayedRows={({ from, to }) =>
+            T.translate(`${PREFIX}.serverSidePaginationLabel`, {
+              from,
+              to: Math.min(to, currentPage * pageSize + localPipelines.length),
+            })
+          }
+          nextIconButtonProps={{ disabled: isLastNamespacePipelinesPage() }}
+        />
+      )}
     </TableBox>
   );
 };
