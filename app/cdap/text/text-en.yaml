@@ -3197,7 +3197,7 @@ features:
         pat:
           label: Personal access token (PAT)
           token: Token
-          tokenHelperText: Refer to the "Creating a personal access token" guide in github docs to generate the token
+          tokenHelperText: Refer to the "Creating access token" guide in {provider} docs to generate the token
           tokenName: Token name
           tokenNameHelperText: Give personal access token a name for secure store. The name can contain lower case alphabets, numbers, _, and -
           username: User name
@@ -3245,7 +3245,10 @@ features:
       pipelinePullMessage: Pulling 1 pipeline from the remote repository
       pipelinesListedFail: "Failed to list remote pipelines"
       pipelinesPulledFail: "Failed to pull {count} pipelines"
-      pipelinesSelected: "{selected} of {total} pipelines selected"
+      pipelinesPulledFailMulti: Failed to pull the pipelines
+      pipelinesSelectedWithTotal: "{selected} of {total} pipelines selected"
+      pipelinesSelected: "{selected} pipelines selected"
+      singularPipelineSelected: "1 pipeline selected"
       pullAppMessage: Pulling {appId} from remote repository now...
       pullAppMessageMulti: Pulling {n} pipelines from the remote repository now...
       pullButton: Pull from repository
@@ -3266,7 +3269,9 @@ features:
       pipelinePushMessage: Pushing 1 pipeline to the remote repository
       pipelinesPushedFail: "Failed to push {count} pipelines"
       pipelinesPushedFailMulti: Failed to push the pipelines
-      pipelinesSelected: "{selected} of {total} pipelines selected"
+      pipelinesSelectedWithTotal: "{selected} of {total} pipelines selected"
+      pipelinesSelected: "{selected} pipelines selected"
+      singularPipelineSelected: "1 pipeline selected"
       pushAppMessage: Pushing {appId} to remote repository now...
       pushAppMessageMulti: Pushing {n} pipelines to the remote repository now...
       pushButton: Push to repository
@@ -3279,12 +3284,20 @@ features:
     table:
       connected: Connected
       pipelineName: Pipeline name
-      lastSyncDate: Last sync date
+      lastSyncDate: Last synced at
       gitStatus: Connected to Git
+      syncStatus: Sync status
       gitStatusHelperText: This status indicates that the pipeline has been pushed to or pulled from the git repository in the past. It does not necessarily mean the content is up to date.
+      syncStatusHelperText: This status indicates whether the pipeline is in sync with the linked remote repository. 
       pullFail: Failed to pull this pipeline from remote.
       pushFail: Failed to push this pipeline to remote.
       synced: Synced
+      filtersLabel: Filters
+      gitSyncStatusAll: All
+      gitSyncStatusSynced: Synced
+      gitSyncStatusUnsynced: Unsynced
+      serverSidePaginationLabel: "Results {from} - {to}"
+      lastRefreshedAtLabel: Last refreshed at {datetime}
     syncButton: Sync Pipelines
     title: Source Control Management
     unlinkButton: Unlink Repository

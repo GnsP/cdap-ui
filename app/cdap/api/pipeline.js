@@ -41,6 +41,7 @@ var pipelineV1AppContextPath = `${pipelineV1AppPath}/contexts/:context`;
 
 export const MyPipelineApi = {
   list: apiCreator(dataSrc, 'GET', 'REQUEST', '/namespaces/:namespace/apps'),
+  listScm: apiCreator(dataSrc, 'GET', 'REQUEST', '/namespaces/:namespace/sourcecontrol/apps'),
   publish: apiCreator(dataSrc, 'PUT', 'REQUEST', basepath),
 
   schedule: apiCreator(dataSrc, 'POST', 'REQUEST', `${schedulePath}/resume`),
@@ -80,4 +81,5 @@ export const MyPipelineApi = {
   ),
 
   getAppVersions: apiCreator(dataSrc, 'GET', 'REQUEST', `${basepath}/versions`),
+  getScmSyncStatus: apiCreator(dataSrc, 'GET', 'REQUEST', `${basepath}/sourcecontrol`),
 };

@@ -21,13 +21,14 @@ import { ISourceControlManagementConfig } from './types';
 import PrimaryContainedButton from 'components/shared/Buttons/PrimaryContainedButton';
 import PrimaryOutlinedButton from 'components/shared/Buttons/PrimaryOutlinedButton';
 import ButtonLoadingHoc from 'components/shared/Buttons/ButtonLoadingHoc';
-import { authKeys, patConfigKeys, providers, scmAuthType } from './constants';
+import { authKeys, githubOnlyProviders, patConfigKeys, providers, scmAuthType } from './constants';
 import { defaultSourceControlManagement, sourceControlManagementFormReducer } from './reducer';
 import { addOrValidateSourceControlManagementForm } from '../store/ActionCreator';
 import { getCurrentNamespace } from 'services/NamespaceStore';
 import { EntityTopPanel } from 'components/EntityTopPanel';
 import Alert from 'components/shared/Alert';
 import PropertyRow from './PropertyRow';
+import { useFeatureFlagDefaultFalse } from 'services/react/customHooks/useFeatureFlag';
 
 const PREFIX = 'features.SourceControlManagement.configModal';
 
@@ -86,6 +87,9 @@ const SourceControlManagementForm = ({
   onToggle,
   isEdit,
 }: ISourceControlManagementFormProps) => {
+  const isGitlabAndBitbucketEnabled = useFeatureFlagDefaultFalse(
+    'source.control.management.gitlab.bitbucket.enabled'
+  );
   const [formState, formStateDispatch] = useReducer(
     sourceControlManagementFormReducer,
     defaultSourceControlManagement
@@ -236,7 +240,9 @@ const SourceControlManagementForm = ({
               'widget-type': 'select',
               'widget-attributes': {
                 default: providers.github,
-                values: Object.values(providers),
+                values: Object.values(
+                  isGitlabAndBitbucketEnabled ? providers : githubOnlyProviders
+                ),
               },
             }}
             onChange={(val) => {
@@ -326,7 +332,9 @@ const SourceControlManagementForm = ({
                 value={formState.config?.auth?.token}
                 property={{
                   name: 'token',
-                  description: T.translate(`${PREFIX}.auth.pat.tokenHelperText`).toString(),
+                  description: T.translate(`${PREFIX}.auth.pat.tokenHelperText`, {
+                    provider: formState.config?.provider || providers.github,
+                  }).toString(),
                   label: T.translate(`${PREFIX}.auth.pat.token`).toString(),
                   required: !isEdit,
                   'widget-type': 'password',
