@@ -3292,7 +3292,7 @@ features:
       gitStatus: Connected to Git
       syncStatus: Sync status
       gitStatusHelperText: This status indicates that the pipeline has been pushed to or pulled from the git repository in the past. It does not necessarily mean the content is up to date.
-      syncStatusHelperText: This status indicates whether the pipeline is in sync with the linked remote repository. 
+      syncStatusHelperText: Indicates the sync status with linked remote repository 
       pullFail: Failed to pull this pipeline from remote.
       pushFail: Failed to push this pipeline to remote.
       synced: Synced
@@ -3302,6 +3302,7 @@ features:
       gitSyncStatusUnsynced: Unsynced
       serverSidePaginationLabel: "Results {from} - {to}"
       lastRefreshedAtLabel: Last refreshed at {datetime}
+      lastSyncedAtRelative: Last synced {diff} ago
     syncButton: Sync Pipelines
     title: Source Control Management
     unlinkButton: Unlink Repository
