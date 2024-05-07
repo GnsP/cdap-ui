@@ -97,7 +97,7 @@ export const getNamespacePipelineListV2 = (namespace) => {
     pageSize,
     pageToken: getPageToken(nextPageTokens, currentPage),
     sortOrder,
-    sortOrderOn: sortBy,
+    sortOn: sortBy,
     filter,
   }).subscribe(
     (res: IPipelineListResponse) => {
@@ -297,7 +297,7 @@ export const getRemotePipelineListV2 = (namespace) => {
     pageSize,
     pageToken: getPageToken(nextPageTokens, currentPage),
     sortOrder,
-    sortOrderOn: sortBy,
+    sortOn: sortBy,
     filter,
   }).subscribe(
     (res: IPipelineListResponse) => {
