@@ -27,7 +27,7 @@ import {
   TableSortLabel,
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
-import { green, red } from '@material-ui/core/colors';
+import { green, orange } from '@material-ui/core/colors';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 
@@ -267,7 +267,7 @@ export const LocalPipelineTable = ({
                         </SyncStatusWrapper>
                       ) : (
                         <SyncStatusWrapper>
-                          <ErrorIcon style={{ color: red[500] }} />
+                          <ErrorIcon style={{ color: orange[300] }} />
                           {T.translate(`${PREFIX}.gitSyncStatusUnsynced`)}
                         </SyncStatusWrapper>
                       )}
