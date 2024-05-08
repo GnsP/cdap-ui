@@ -22,15 +22,8 @@ export const scmAuthType = [
   { id: 'PAT', label: T.translate(`${PREFIX}.configModal.auth.pat.label`) },
 ];
 
-export const githubOnlyProviders = {
-  github: 'GITHUB',
-};
-
 export const providers = {
-  ...githubOnlyProviders,
-  gitlab: 'GITLAB',
-  bitbucket: 'BITBUCKET_SERVER',
-  bitbucketCloud: 'BITBUCKET_CLOUD',
+  github: 'GITHUB',
 };
 
 export const authKeys = ['type', 'token'];

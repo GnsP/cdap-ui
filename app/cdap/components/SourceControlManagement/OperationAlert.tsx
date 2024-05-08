@@ -33,12 +33,10 @@ import { getCurrentNamespace } from 'services/NamespaceStore';
 import { OperationStatus } from './OperationStatus';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import CloseIcon from '@material-ui/icons/Close';
 import { AlertErrorView } from './styles';
 
 interface IOperationBannerProps {
   operation: IOperationRun;
-  onClose?(): void;
 }
 
 const StyledDiv = styled.div`
@@ -47,15 +45,12 @@ const StyledDiv = styled.div`
 
 const ExpandWrapper = styled.div`
   height: 100%;
-  padding-top: 10px;
-
-  display: flex;
-  justify-content: flex-end;
+  padding-top: 12px;
 `;
 
 const PREFIX = 'features.SourceControlManagement';
 
-export const OperationAlert = ({ operation, onClose }: IOperationBannerProps) => {
+export const OperationAlert = ({ operation }: IOperationBannerProps) => {
   const [viewErrorExpanded, setViewErrorExpanded] = useState(false);
 
   const getOperationAction = () => {
@@ -92,22 +87,11 @@ export const OperationAlert = ({ operation, onClose }: IOperationBannerProps) =>
           >
             {viewErrorExpanded ? <ExpandLess /> : <ExpandMore />}
           </Button>
-          {onClose && (
-            <Button color="inherit" size="small" onClick={onClose}>
-              <CloseIcon />
-            </Button>
-          )}
         </ExpandWrapper>
       );
     }
 
-    return (
-      onClose && (
-        <Button color="inherit" size="small" onClick={onClose}>
-          <CloseIcon />
-        </Button>
-      )
-    );
+    return undefined;
   };
 
   const renderOperationTime = () => {

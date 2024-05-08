@@ -14,62 +14,48 @@
  * the License.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import T from 'i18n-react';
-import cloneDeep from 'lodash/cloneDeep';
 import { useSelector } from 'react-redux';
-
-import { SUPPORT } from 'components/StatusButton/constants';
-import Alert from 'components/shared/Alert';
-import PrimaryContainedButton from 'components/shared/Buttons/PrimaryContainedButton';
-import PrimaryTextButton from 'components/shared/Buttons/PrimaryTextButton';
-import { LoadingAppLevel } from 'components/shared/LoadingAppLevel';
-import LoadingSVGCentered from 'components/shared/LoadingSVGCentered';
-import { getCurrentNamespace } from 'services/NamespaceStore';
-import { getHydratorUrl } from 'services/UiUtils/UrlGenerator';
-import { useFeatureFlagDefaultFalse } from 'services/react/customHooks/useFeatureFlag';
-import { useOnUnmount } from 'services/react/customHooks/useOnUnmount';
-import { OperationAlert } from '../OperationAlert';
+import cloneDeep from 'lodash/cloneDeep';
 import { SearchBox } from '../SearchBox';
-import { SyncStatusFilters } from '../SyncStatusFilters';
-import { parseOperationResource } from '../helpers';
+import { FailStatusDiv, PipelineListContainer, StyledSelectionStatusDiv } from '../styles';
+import { RemotePipelineTable } from './RemotePipelineTable';
 import {
   countPullFailedPipelines,
-  dismissOperationAlert,
-  fetchLatestOperation,
   getRemotePipelineList,
-  getRemotePipelineListV2,
-  pullAndDeployMultipleSelectedRemotePipelines,
   pullAndDeploySelectedRemotePipelines,
   resetPullStatus,
-  resetRemote,
   setPullViewErrorMsg,
+  resetRemote,
   setRemoteLoadingMessage,
   setRemoteNameFilter,
   setRemotePipelines,
   toggleRemoteShowFailedOnly,
-  updatePullSyncStatusFilter,
+  pullAndDeployMultipleSelectedRemotePipelines,
+  fetchLatestOperation,
 } from '../store/ActionCreator';
-import {
-  FailStatusDiv,
-  FiltersAndStatusWrapper,
-  PipelineListContainer,
-  StyledSelectionStatusDiv,
-} from '../styles';
-import { IListResponse, IOperationMetaResponse } from '../types';
-import { RemotePipelineTable } from './RemotePipelineTable';
+import { LoadingAppLevel } from 'components/shared/LoadingAppLevel';
+import { getCurrentNamespace } from 'services/NamespaceStore';
+import LoadingSVGCentered from 'components/shared/LoadingSVGCentered';
+import PrimaryTextButton from 'components/shared/Buttons/PrimaryTextButton';
+import PrimaryContainedButton from 'components/shared/Buttons/PrimaryContainedButton';
+import { useOnUnmount } from 'services/react/customHooks/useOnUnmount';
+import { getHydratorUrl } from 'services/UiUtils/UrlGenerator';
+import { SUPPORT } from 'components/StatusButton/constants';
+import { IListResponse, IOperationMetaResponse, IOperationRun } from '../types';
+import Alert from 'components/shared/Alert';
+import { useFeatureFlagDefaultFalse } from 'services/react/customHooks/useFeatureFlag';
+import { parseOperationResource } from '../helpers';
+import { OperationAlert } from '../OperationAlert';
 
 const PREFIX = 'features.SourceControlManagement.pull';
 
 interface IRemotePipelineListViewProps {
   redirectOnSubmit?: boolean;
-  singlePipelineMode?: boolean;
 }
 
-export const RemotePipelineListView = ({
-  redirectOnSubmit,
-  singlePipelineMode,
-}: IRemotePipelineListViewProps) => {
+export const RemotePipelineListView = ({ redirectOnSubmit }: IRemotePipelineListViewProps) => {
   const {
     ready,
     remotePipelines,
@@ -78,29 +64,20 @@ export const RemotePipelineListView = ({
     loadingMessage,
     showFailedOnly,
     pullViewErrorMsg,
-    syncStatusFilter,
   } = useSelector(({ pull }) => pull);
 
-  const { running: isAnOperationRunning, operation, showLastOperationInfo } = useSelector(
+  const { running: isAnOperationRunning, operation } = useSelector(
     ({ operationRun }) => operationRun
   );
 
-  const multiPullEnabled =
-    useFeatureFlagDefaultFalse('source.control.management.multi.app.enabled') &&
-    !singlePipelineMode;
+  const multiPullEnabled = useFeatureFlagDefaultFalse(
+    'source.control.management.multi.app.enabled'
+  );
+  const pullFailedCount = countPullFailedPipelines();
 
-  let pullFailedCount = 0;
-  if (!multiPullEnabled) {
-    pullFailedCount = countPullFailedPipelines();
-  }
   useEffect(() => {
     if (!ready) {
-      const ns = getCurrentNamespace();
-      if (multiPullEnabled) {
-        getRemotePipelineListV2(ns);
-      } else {
-        getRemotePipelineList(ns);
-      }
+      getRemotePipelineList(getCurrentNamespace());
     }
   }, [ready]);
 
@@ -112,37 +89,9 @@ export const RemotePipelineListView = ({
 
   useOnUnmount(() => resetRemote());
 
-  let filteredPipelines = remotePipelines;
-  if (!multiPullEnabled) {
-    filteredPipelines = remotePipelines.filter((pipeline) =>
-      pipeline.name.toLowerCase().includes(nameFilter.toLowerCase())
-    );
-  }
-
-  const handleNameFilterChange = (value: string) => {
-    if (multiPullEnabled) {
-      setRemoteNameFilter(value, true);
-    } else {
-      setRemoteNameFilter(value);
-    }
-  };
-
-  const getSelectedPipelinesCountLabel = () => {
-    if (multiPullEnabled) {
-      if (selectedPipelines.length === 1) {
-        return T.translate(`${PREFIX}.singularPipelineSelected`);
-      }
-
-      return T.translate(`${PREFIX}.pipelinesSelected`, {
-        selected: selectedPipelines.length,
-      });
-    }
-
-    return T.translate(`${PREFIX}.pipelinesSelectedWithTotal`, {
-      selected: selectedPipelines.length,
-      total: remotePipelines.length,
-    });
-  };
+  const filteredPipelines = remotePipelines.filter((pipeline) =>
+    pipeline.name.toLowerCase().includes(nameFilter.toLowerCase())
+  );
 
   const onPullSubmit = () => {
     resetPullStatus();
@@ -209,7 +158,6 @@ export const RemotePipelineListView = ({
             showFailedOnly={showFailedOnly}
             enableMultipleSelection={multiPullEnabled}
             disabled={isAnOperationRunning}
-            lastOperationInfoShown={showLastOperationInfo}
           />
           <PrimaryContainedButton
             size="large"
@@ -234,43 +182,34 @@ export const RemotePipelineListView = ({
         onClose={() => setPullViewErrorMsg()}
       />
       <PipelineListContainer>
-        {operation && multiPullEnabled && showLastOperationInfo && (
-          <OperationAlert operation={operation} onClose={dismissOperationAlert} />
+        <SearchBox nameFilter={nameFilter} setNameFilter={setRemoteNameFilter} />
+        {operation && multiPullEnabled && <OperationAlert operation={operation} />}
+        {selectedPipelines.length > 0 && (
+          <StyledSelectionStatusDiv>
+            <div>
+              {T.translate(`${PREFIX}.pipelinesSelected`, {
+                selected: selectedPipelines.length,
+                total: remotePipelines.length,
+              })}
+            </div>
+            {pullFailedCount > 0 && (
+              <>
+                <FailStatusDiv>
+                  {pullFailedCount === 1
+                    ? T.translate(`${PREFIX}.pipelinePulledFail`)
+                    : T.translate(`${PREFIX}.pipelinesPulledFail`, {
+                        count: pullFailedCount.toString(),
+                      })}
+                </FailStatusDiv>
+                <PrimaryTextButton onClick={toggleRemoteShowFailedOnly}>
+                  {showFailedOnly
+                    ? T.translate('commons.showAll')
+                    : T.translate('commons.showFailed')}
+                </PrimaryTextButton>
+              </>
+            )}
+          </StyledSelectionStatusDiv>
         )}
-        <SearchBox nameFilter={nameFilter} setNameFilter={handleNameFilterChange} />
-
-        <FiltersAndStatusWrapper>
-          {selectedPipelines.length > 0 && (
-            <StyledSelectionStatusDiv>
-              <div>{getSelectedPipelinesCountLabel()}</div>
-              {!multiPullEnabled && pullFailedCount > 0 && (
-                <>
-                  <FailStatusDiv>
-                    {pullFailedCount === 1
-                      ? T.translate(`${PREFIX}.pipelinePulledFail`)
-                      : T.translate(`${PREFIX}.pipelinesPulledFail`, {
-                          count: pullFailedCount.toString(),
-                        })}
-                  </FailStatusDiv>
-                  <PrimaryTextButton onClick={toggleRemoteShowFailedOnly}>
-                    {showFailedOnly
-                      ? T.translate('commons.showAll')
-                      : T.translate('commons.showFailed')}
-                  </PrimaryTextButton>
-                </>
-              )}
-              {multiPullEnabled && pullFailedCount > 0 && (
-                <FailStatusDiv>{T.translate(`${PREFIX}.pipelinesPulledFailMulti`)}</FailStatusDiv>
-              )}
-            </StyledSelectionStatusDiv>
-          )}
-          {multiPullEnabled && (
-            <SyncStatusFilters
-              syncStatusFilter={syncStatusFilter}
-              setSyncStatusFilter={updatePullSyncStatusFilter}
-            />
-          )}
-        </FiltersAndStatusWrapper>
         {ready ? RemotePipelineTableComp() : <LoadingSVGCentered />}
       </PipelineListContainer>
       <LoadingAppLevel
