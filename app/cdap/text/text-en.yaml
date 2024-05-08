@@ -3197,7 +3197,7 @@ features:
         pat:
           label: Personal access token (PAT)
           token: Token
-          tokenHelperText: Refer to the "Creating a personal access token" guide in github docs to generate the token
+          tokenHelperText: Refer to the "Creating access token" guide in {provider} docs to generate the token
           tokenName: Token name
           tokenNameHelperText: Give personal access token a name for secure store. The name can contain lower case alphabets, numbers, _, and -
           username: User name
