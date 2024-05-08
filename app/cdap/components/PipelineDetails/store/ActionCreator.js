@@ -21,7 +21,6 @@ import { MyPipelineApi } from 'api/pipeline';
 import { SourceControlApi } from 'api/sourcecontrol';
 import PipelineDetailStore, { ACTIONS } from 'components/PipelineDetails/store';
 import { getHydratorUrl } from 'services/UiUtils/UrlGenerator';
-import { getCurrentNamespace } from 'services/NamespaceStore';
 
 const init = (pipeline) => {
   PipelineDetailStore.dispatch({
@@ -489,19 +488,6 @@ const setSourceControlMeta = (fileHash) => {
   });
 };
 
-const getScmSyncStatus = (appId) => {
-  const namespace = getCurrentNamespace();
-  MyPipelineApi.getScmSyncStatus({
-    namespace,
-    appId,
-  }).subscribe((res) => {
-    PipelineDetailStore.dispatch({
-      type: ACTIONS.SET_SCM_SYNC_STATUS,
-      payload: res,
-    });
-  });
-};
-
 const reset = () => {
   PipelineDetailStore.dispatch({
     type: ACTIONS.RESET,
@@ -536,7 +522,6 @@ export {
   getRunsForVersion,
   getRunDetails,
   getAppVersion,
-  getScmSyncStatus,
   pollRuns,
   pollRunsCount,
   getNextRunTime,
