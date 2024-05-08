@@ -27,7 +27,6 @@ import TableBody from 'components/shared/Table/TableBody';
 import { useSelector } from 'react-redux';
 import ActionsPopover from 'components/shared/ActionsPopover';
 import { UnlinkSourceControlModal } from './UnlinkSourceControlModal';
-import StyledPasswordWrapper from 'components/AbstractWidget/FormInputs/Password';
 import { ISourceControlManagementConfig } from './types';
 import SourceControlManagementForm from './SourceControlManagementForm';
 import PrimaryTextButton from 'components/shared/Buttons/PrimaryTextButton';
