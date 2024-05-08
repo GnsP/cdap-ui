@@ -18,7 +18,7 @@ import React, { useEffect } from 'react';
 import { connect, Provider } from 'react-redux';
 import T from 'i18n-react';
 import styled from 'styled-components';
-import { green, orange } from '@material-ui/core/colors';
+import { green, red } from '@material-ui/core/colors';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 
@@ -30,7 +30,6 @@ import { GLOBALS } from 'services/global-constants';
 import { Chip } from '@material-ui/core';
 import { useFeatureFlagDefaultFalse } from 'services/react/customHooks/useFeatureFlag';
 import { getScmSyncStatus } from '../store/ActionCreator';
-import moment from 'moment';
 
 const PREFIX = 'features.PipelineDetails.TopPanel';
 const SCM_PREFIX = 'features.SourceControlManagement';
@@ -81,7 +80,7 @@ interface IPipelineDetailsMetadata {
   };
   scmSyncStatus?: {
     isSynced?: boolean;
-    lastSyncedAt?: number;
+    lastModified?: number;
   };
 }
 
@@ -137,33 +136,19 @@ const PipelineDetailsMetadata = ({
             </Popover>
           </StyledSpan>
         )}
-        {scmMultiSyncEnabled && scmSyncStatus && (
+        {scmMultiSyncEnabled && (
           <StyledSpan>
             {scmSyncStatus.isSynced ? (
               <StyledChip
                 variant="outlined"
                 label={T.translate(`${SCM_PREFIX}.table.gitSyncStatusSynced`)}
                 icon={<CheckCircleIcon style={{ color: green[500] }} fontSize="small" />}
-                title={
-                  scmSyncStatus.lastSyncedAt
-                    ? T.translate(`${SCM_PREFIX}.table.lastSyncedAtRelative`, {
-                        diff: moment(scmSyncStatus.lastSyncedAt).fromNow(true),
-                      })
-                    : undefined
-                }
               />
             ) : (
               <StyledChip
                 variant="outlined"
                 label={T.translate(`${SCM_PREFIX}.table.gitSyncStatusUnsynced`)}
-                icon={<ErrorIcon style={{ color: orange[300] }} fontSize="small" />}
-                title={
-                  scmSyncStatus.lastSyncedAt
-                    ? T.translate(`${SCM_PREFIX}.table.lastSyncedAtRelative`, {
-                        diff: moment(scmSyncStatus.lastSyncedAt).fromNow(true),
-                      })
-                    : undefined
-                }
+                icon={<ErrorIcon style={{ color: red[500] }} fontSize="small" />}
               />
             )}
             <Popover

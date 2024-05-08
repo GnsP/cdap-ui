@@ -106,8 +106,7 @@ const DEFAULT_PIPELINE_DETAILS = {
   sourceControlMeta: null,
   pullLoading: false,
   pullStatus: null,
-  scmSyncStatus: null,
-  scmSyncStatusRefreshTime: null,
+  scmSyncStatus: {},
 };
 
 const pipelineDetails = (state = DEFAULT_PIPELINE_DETAILS, action = defaultAction) => {
@@ -290,8 +289,7 @@ const pipelineDetails = (state = DEFAULT_PIPELINE_DETAILS, action = defaultActio
     case ACTIONS.SET_SCM_SYNC_STATUS:
       return {
         ...state,
-        scmSyncStatus: action.payload ? action.payload.app : null,
-        scmSyncStatusRefreshTime: action.payload ? action.payload.lastRefreshTime : null,
+        scmSyncStatus: action.payload,
       };
     case ACTIONS.RESET:
       return DEFAULT_PIPELINE_DETAILS;
