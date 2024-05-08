@@ -28,7 +28,7 @@ import {
   TableRow,
 } from '@material-ui/core';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import { green, orange } from '@material-ui/core/colors';
+import { green, red } from '@material-ui/core/colors';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import StatusButton from 'components/StatusButton';
@@ -255,7 +255,7 @@ export const RemotePipelineTable = ({
                         </SyncStatusWrapper>
                       ) : (
                         <SyncStatusWrapper>
-                          <ErrorIcon style={{ color: orange[300] }} />
+                          <ErrorIcon style={{ color: red[500] }} />
                           {T.translate(`${PREFIX}.gitSyncStatusUnsynced`)}
                         </SyncStatusWrapper>
                       )}

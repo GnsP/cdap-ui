@@ -494,21 +494,12 @@ const getScmSyncStatus = (appId) => {
   MyPipelineApi.getScmSyncStatus({
     namespace,
     appId,
-  }).subscribe(
-    (res) => {
-      PipelineDetailStore.dispatch({
-        type: ACTIONS.SET_SCM_SYNC_STATUS,
-        payload: res,
-      });
-    },
-    // eslint-disable-next-line no-unused-vars
-    (err) => {
-      PipelineDetailStore.dispatch({
-        type: ACTIONS.SET_SCM_SYNC_STATUS,
-        payload: null,
-      });
-    }
-  );
+  }).subscribe((res) => {
+    PipelineDetailStore.dispatch({
+      type: ACTIONS.SET_SCM_SYNC_STATUS,
+      payload: res,
+    });
+  });
 };
 
 const reset = () => {
