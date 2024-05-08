@@ -14,22 +14,16 @@
  * the License.
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect, Provider } from 'react-redux';
 import T from 'i18n-react';
 import styled from 'styled-components';
-import { green, red } from '@material-ui/core/colors';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
-
 import PipelineDetailStore from 'components/PipelineDetails/store';
 import Tags from 'components/shared/Tags';
 import IconSVG from 'components/shared/IconSVG';
 import Popover from 'components/shared/Popover';
 import { GLOBALS } from 'services/global-constants';
 import { Chip } from '@material-ui/core';
-import { useFeatureFlagDefaultFalse } from 'services/react/customHooks/useFeatureFlag';
-import { getScmSyncStatus } from '../store/ActionCreator';
 
 const PREFIX = 'features.PipelineDetails.TopPanel';
 const SCM_PREFIX = 'features.SourceControlManagement';
@@ -41,7 +35,6 @@ const StyledSpan = styled.span`
 
 const StyledChip = styled(Chip)`
   height: 20px;
-  margin-right: 10px;
 `;
 
 const mapStateToPipelineTagsProps = (state) => {
@@ -59,14 +52,13 @@ const mapStateToPipelineTagsProps = (state) => {
 const ConnectedPipelineTags = connect(mapStateToPipelineTagsProps)(Tags);
 
 const mapStateToPipelineDetailsMetadataProps = (state) => {
-  const { name, artifact, version, description, sourceControlMeta, scmSyncStatus } = state;
+  const { name, artifact, version, description, sourceControlMeta } = state;
   return {
     name,
     artifactName: artifact.name,
     version,
     description,
     sourceControlMeta,
-    scmSyncStatus,
   };
 };
 
@@ -78,10 +70,6 @@ interface IPipelineDetailsMetadata {
   sourceControlMeta: {
     fileHash: string;
   };
-  scmSyncStatus?: {
-    isSynced?: boolean;
-    lastModified?: number;
-  };
 }
 
 const PipelineDetailsMetadata = ({
@@ -90,18 +78,7 @@ const PipelineDetailsMetadata = ({
   version,
   description,
   sourceControlMeta,
-  scmSyncStatus,
 }: IPipelineDetailsMetadata) => {
-  const scmMultiSyncEnabled = useFeatureFlagDefaultFalse(
-    'source.control.management.multi.app.enabled'
-  );
-
-  useEffect(() => {
-    if (name && scmMultiSyncEnabled) {
-      getScmSyncStatus(name);
-    }
-  }, [name]);
-
   return (
     <div className="pipeline-metadata">
       <div className="pipeline-type-name-version">
@@ -124,7 +101,7 @@ const PipelineDetailsMetadata = ({
             {description}
           </Popover>
         </span>
-        {!scmMultiSyncEnabled && sourceControlMeta && sourceControlMeta.fileHash && (
+        {sourceControlMeta && sourceControlMeta.fileHash && (
           <StyledSpan>
             <StyledChip variant="outlined" label={T.translate(`${SCM_PREFIX}.table.gitStatus`)} />
             <Popover
@@ -133,30 +110,6 @@ const PipelineDetailsMetadata = ({
               placement="bottom"
             >
               {T.translate(`${SCM_PREFIX}.table.gitStatusHelperText`)}
-            </Popover>
-          </StyledSpan>
-        )}
-        {scmMultiSyncEnabled && (
-          <StyledSpan>
-            {scmSyncStatus.isSynced ? (
-              <StyledChip
-                variant="outlined"
-                label={T.translate(`${SCM_PREFIX}.table.gitSyncStatusSynced`)}
-                icon={<CheckCircleIcon style={{ color: green[500] }} fontSize="small" />}
-              />
-            ) : (
-              <StyledChip
-                variant="outlined"
-                label={T.translate(`${SCM_PREFIX}.table.gitSyncStatusUnsynced`)}
-                icon={<ErrorIcon style={{ color: red[500] }} fontSize="small" />}
-              />
-            )}
-            <Popover
-              target={() => <IconSVG name="icon-info-circle" />}
-              showOn="Hover"
-              placement="bottom"
-            >
-              {T.translate(`${SCM_PREFIX}.table.syncStatusHelperText`)}
             </Popover>
           </StyledSpan>
         )}

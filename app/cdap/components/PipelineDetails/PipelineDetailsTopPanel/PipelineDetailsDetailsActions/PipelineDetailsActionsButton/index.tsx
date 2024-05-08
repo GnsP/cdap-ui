@@ -40,7 +40,6 @@ import styled from 'styled-components';
 import { LoadingAppLevel } from 'components/shared/LoadingAppLevel';
 import Alert from 'components/shared/Alert';
 import {
-  getScmSyncStatus,
   pullPipeline,
   setPullStatus,
   setSourceControlMeta,
@@ -318,18 +317,13 @@ class PipelineDetailsActionsButton extends Component<IPipelineDetailsActionsButt
     );
   }
 
-  public onPipelinePush = (fileHash) => {
-    setSourceControlMeta(fileHash);
-    getScmSyncStatus(this.props.pipelineName);
-  };
-
   public renderCommitModal = () => {
     return (
       <CommitModal
         isOpen={this.state.showCommitModal}
         onToggle={this.toggleCommitModal}
         pipelineName={this.props.pipelineName}
-        updateFileHash={this.onPipelinePush}
+        updateFileHash={setSourceControlMeta}
       />
     );
   };

@@ -56,7 +56,6 @@ const ACTIONS = {
   SET_PULL_LOADING: 'SET_PULL_LOADING',
   SET_PULL_STATUS: 'SET_PULL_STATUS',
   SET_SOURCE_CONTROL_META: 'SET_SOURCE_CONTROL_META',
-  SET_SCM_SYNC_STATUS: 'SET_SCM_SYNC_STATUS',
 
   RESET: 'RESET',
 };
@@ -106,7 +105,6 @@ const DEFAULT_PIPELINE_DETAILS = {
   sourceControlMeta: null,
   pullLoading: false,
   pullStatus: null,
-  scmSyncStatus: {},
 };
 
 const pipelineDetails = (state = DEFAULT_PIPELINE_DETAILS, action = defaultAction) => {
@@ -285,11 +283,6 @@ const pipelineDetails = (state = DEFAULT_PIPELINE_DETAILS, action = defaultActio
       return {
         ...state,
         sourceControlMeta: action.payload.sourceControlMeta,
-      };
-    case ACTIONS.SET_SCM_SYNC_STATUS:
-      return {
-        ...state,
-        scmSyncStatus: action.payload,
       };
     case ACTIONS.RESET:
       return DEFAULT_PIPELINE_DETAILS;
