@@ -15,42 +15,13 @@
  */
 
 import React from 'react';
-import { useSelector } from 'react-redux';
 import T from 'i18n-react';
-
-import {
-  Checkbox,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-} from '@material-ui/core';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import { green, red } from '@material-ui/core/colors';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
+import { Checkbox, Table, TableBody, TableCell, TableRow, TableHead } from '@material-ui/core';
+import { setSelectedRemotePipelines } from '../store/ActionCreator';
+import { IRepositoryPipeline } from '../types';
 import StatusButton from 'components/StatusButton';
 import { SUPPORT } from 'components/StatusButton/constants';
-import { TYPES as FORMAT_TYPES, format } from 'services/DataFormatter';
-import { invertSortOrder } from '../helpers';
-import {
-  isLastRemotePipelinesPage,
-  setSelectedRemotePipelines,
-  updatePullCurrentPage,
-  updatePullPageSize,
-  updatePullSortConfig,
-} from '../store/ActionCreator';
-import {
-  RefreshTimeLabel,
-  StyledTableCell,
-  StyledTableRow,
-  SyncStatusWrapper,
-  TableBox,
-} from '../styles';
-import { IRepositoryPipeline } from '../types';
-import { useFeatureFlagDefaultFalse } from 'services/react/customHooks/useFeatureFlag';
+import { StyledTableCell, StyledTableRow, TableBox } from '../styles';
 
 const PREFIX = 'features.SourceControlManagement.table';
 
@@ -60,7 +31,6 @@ interface IRepositoryPipelineTableProps {
   showFailedOnly: boolean;
   enableMultipleSelection?: boolean;
   disabled?: boolean;
-  lastOperationInfoShown?: boolean;
 }
 
 export const RemotePipelineTable = ({
@@ -69,15 +39,8 @@ export const RemotePipelineTable = ({
   showFailedOnly,
   enableMultipleSelection = false,
   disabled = false,
-  lastOperationInfoShown = true,
 }: IRepositoryPipelineTableProps) => {
-  const isBackendRefreshEnabled = useFeatureFlagDefaultFalse(
-    'source.control.metadata.auto.refresh.enabled'
-  );
   const isSelected = (name: string) => selectedPipelines.indexOf(name) !== -1;
-  const { pageSize, sortBy, sortOrder, currentPage, lastRefreshTime } = useSelector(
-    ({ pull }) => pull
-  );
 
   const handleClick = (event: React.MouseEvent, name: string) => {
     if (disabled) {
@@ -92,6 +55,7 @@ export const RemotePipelineTable = ({
   };
 
   const handleSingleSelection = (name: string) => {
+    // currently only 1 application pull at a time is allowed, so single selection
     const selectedIndex = selectedPipelines.indexOf(name);
     let newSelected = [];
     if (selectedIndex === -1) {
@@ -126,35 +90,9 @@ export const RemotePipelineTable = ({
     setSelectedRemotePipelines([]);
   };
 
-  const handlePageSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    updatePullPageSize(parseInt(value, 10));
-  };
-
-  const handlePageChange = (event: React.MouseEvent | null, page: number) => {
-    updatePullCurrentPage(page);
-  };
-
-  const handleSortByName = (event: React.MouseEvent) => {
-    const newSortOrder = sortBy === 'NAME' ? invertSortOrder(sortOrder) : 'ASC';
-    updatePullSortConfig('NAME', newSortOrder);
-  };
-
-  const handleSortBySyncDate = (event: React.MouseEvent) => {
-    const newSortOrder = sortBy === 'LAST_SYNCED_AT' ? invertSortOrder(sortOrder) : 'ASC';
-    updatePullSortConfig('LAST_SYNCED_AT', newSortOrder);
-  };
-
   return (
-    <TableBox lastOperationInfoShown={lastOperationInfoShown}>
-      {isBackendRefreshEnabled && lastRefreshTime && (
-        <RefreshTimeLabel>
-          {T.translate(`${PREFIX}.lastRefreshedAtLabel`, {
-            datetime: format(lastRefreshTime, FORMAT_TYPES.TIMESTAMP_MILLIS),
-          })}
-        </RefreshTimeLabel>
-      )}
-      <Table data-testid="remote-pipelines-table" stickyHeader size="small">
+    <TableBox>
+      <Table data-testid="remote-pipelines-table" stickyHeader>
         <TableHead>
           <TableRow>
             <TableCell padding="checkbox">
@@ -172,33 +110,7 @@ export const RemotePipelineTable = ({
               )}
             </TableCell>
             <TableCell></TableCell>
-            <StyledTableCell>
-              {enableMultipleSelection ? (
-                <TableSortLabel
-                  active={sortBy === 'NAME'}
-                  direction={sortBy === 'NAME' ? sortOrder.toLowerCase() : 'asc'}
-                  onClick={handleSortByName}
-                >
-                  {T.translate(`${PREFIX}.pipelineName`)}
-                </TableSortLabel>
-              ) : (
-                T.translate(`${PREFIX}.pipelineName`)
-              )}
-            </StyledTableCell>
-            {enableMultipleSelection && (
-              <>
-                <StyledTableCell>
-                  <TableSortLabel
-                    active={sortBy === 'LAST_SYNCED_AT'}
-                    direction={sortBy === 'LAST_SYNCED_AT' ? sortOrder.toLowerCase() : 'asc'}
-                    onClick={handleSortBySyncDate}
-                  >
-                    {T.translate(`${PREFIX}.lastSyncDate`)}
-                  </TableSortLabel>
-                </StyledTableCell>
-                <StyledTableCell>{T.translate(`${PREFIX}.syncStatus`)}</StyledTableCell>
-              </>
-            )}
+            <StyledTableCell>{T.translate(`${PREFIX}.pipelineName`)}</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -242,49 +154,11 @@ export const RemotePipelineTable = ({
                   )}
                 </TableCell>
                 <StyledTableCell>{pipeline.name}</StyledTableCell>
-                {enableMultipleSelection && (
-                  <>
-                    <StyledTableCell>
-                      {format(pipeline.lastSyncDate, FORMAT_TYPES.TIMESTAMP_MILLIS)}
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      {pipeline.syncStatus ? (
-                        <SyncStatusWrapper>
-                          <CheckCircleIcon style={{ color: green[500] }} />
-                          {T.translate(`${PREFIX}.gitSyncStatusSynced`)}
-                        </SyncStatusWrapper>
-                      ) : (
-                        <SyncStatusWrapper>
-                          <ErrorIcon style={{ color: red[500] }} />
-                          {T.translate(`${PREFIX}.gitSyncStatusUnsynced`)}
-                        </SyncStatusWrapper>
-                      )}
-                    </StyledTableCell>
-                  </>
-                )}
               </StyledTableRow>
             );
           })}
         </TableBody>
       </Table>
-      {enableMultipleSelection && (
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 50]}
-          component="span"
-          count={-1}
-          rowsPerPage={pageSize}
-          page={currentPage}
-          onPageChange={handlePageChange}
-          onRowsPerPageChange={handlePageSizeChange}
-          labelDisplayedRows={({ from, to }) =>
-            T.translate(`${PREFIX}.serverSidePaginationLabel`, {
-              from,
-              to: Math.min(to, currentPage * pageSize + remotePipelines.length),
-            })
-          }
-          nextIconButtonProps={{ disabled: isLastRemotePipelinesPage() }}
-        />
-      )}
     </TableBox>
   );
 };

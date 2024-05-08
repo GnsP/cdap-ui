@@ -393,16 +393,14 @@ function makeApp(authAddress, cdapConfig, uiSettings) {
           log.error(
             '[ERROR] Market request to url: ' + sourceLink + ' responded with error: ' + err
           );
-          return res.status((marketResponse && marketResponse.statusCode) || 502).send(err);
+          res.status((marketResponse && marketResponse.statusCode) || 502).send(err);
         } else {
-          return res.status(marketResponse.statusCode).send(marketResponse.body);
+          res.status(marketResponse.statusCode).send(marketResponse.body);
         }
       }
     ).on('error', function(err) {
       log.error('[ERROR] Market request had error: (url: ' + sourceLink + ') ' + err.message);
-      if (!res.headersSent) {
-        return res.status(502).send(err.message);
-      }
+      res.status(502).send(err.message);
     });
   });
 

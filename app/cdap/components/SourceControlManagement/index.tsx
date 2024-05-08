@@ -24,15 +24,11 @@ import { useHistory } from 'react-router';
 import { useOnUnmount } from 'services/react/customHooks/useOnUnmount';
 import { reset, resetRemote } from './store/ActionCreator';
 import ScmSyncTabs from './SyncTabs';
-import { useHideFooterInPage } from 'components/FooterContext';
-import { FeatureProvider } from 'services/react/providers/featureFlagProvider';
 
 const PREFIX = 'features.SourceControlManagement';
 
 const SourceControlManagementSyncView = () => {
   const history = useHistory();
-  useHideFooterInPage();
-
   useOnUnmount(() => {
     resetRemote();
     reset();
@@ -52,9 +48,7 @@ const SourceControlManagementSyncView = () => {
           history.push(closeAndBackLink);
         }}
       />
-      <FeatureProvider>
-        <ScmSyncTabs />
-      </FeatureProvider>
+      <ScmSyncTabs />
     </Provider>
   );
 };

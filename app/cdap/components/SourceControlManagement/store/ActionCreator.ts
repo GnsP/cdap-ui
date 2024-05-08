@@ -21,103 +21,20 @@ import { of } from 'rxjs/observable/of';
 import { MyPipelineApi } from 'api/pipeline';
 import { BATCH_PIPELINE_TYPE } from 'services/helpers';
 import SourceControlManagementSyncStore, {
-  DEFAULT_PAGE_SIZE,
   OperationRunActions,
   PullFromGitActions,
   PushToGitActions,
 } from '.';
 import { SourceControlApi } from 'api/sourcecontrol';
 import { LongRunningOperationApi } from 'api/longRunningOperation';
-import {
-  IPipeline,
-  IPushResponse,
-  IRepositoryPipeline,
-  IOperationRun,
-  IPipelineDetail,
-  IPipelineListResponse,
-  SyncStatusFilter,
-  SortBy,
-  SortOrder,
-} from '../types';
+import { IPipeline, IPushResponse, IRepositoryPipeline, IOperationRun } from '../types';
 import { SUPPORT } from 'components/StatusButton/constants';
 import { compareTimeInstant } from '../helpers';
 import { getCurrentNamespace } from 'services/NamespaceStore';
-import { timeInstantToMs } from 'services/DataFormatter';
 
 const PREFIX = 'features.SourceControlManagement';
-const FILTER_SPLITTER = 'AND';
-const NAME_FILTER_KEY = 'NAME_CONTAINS';
-const SYNC_STATUS_FILTER_KEY = 'IS_SYNCED';
-
-function makeScmQueryFilter(nameFilter?: string, syncStatusFilter?: SyncStatusFilter): string {
-  const filters = [];
-  if (nameFilter) {
-    filters.push(`"${NAME_FILTER_KEY}=${nameFilter}"`);
-  }
-  if (syncStatusFilter) {
-    filters.push(`"${SYNC_STATUS_FILTER_KEY}=${syncStatusFilter === 'SYNCED'}"`);
-  }
-
-  return filters.join(FILTER_SPLITTER) || undefined;
-}
-
-function getPageToken(nextPageTokens: string[], pageNo: number = 0) {
-  if (pageNo === 0) {
-    return undefined;
-  }
-
-  // as the pageToken for the current page is the nextPageToken of the previous
-  return nextPageTokens[pageNo - 1];
-}
-
-export function isLastRemotePipelinesPage() {
-  const { nextPageTokens, currentPage } = SourceControlManagementSyncStore.getState().pull;
-  return !nextPageTokens[currentPage];
-}
-
-export function isLastNamespacePipelinesPage() {
-  const { nextPageTokens, currentPage } = SourceControlManagementSyncStore.getState().push;
-  return !nextPageTokens[currentPage];
-}
 
 // push actions
-export const getNamespacePipelineListV2 = (namespace) => {
-  const {
-    nameFilter,
-    syncStatusFilter,
-    pageSize,
-    nextPageTokens,
-    currentPage,
-    sortBy,
-    sortOrder,
-  } = SourceControlManagementSyncStore.getState().push;
-  const filter = makeScmQueryFilter(nameFilter, syncStatusFilter);
-  MyPipelineApi.listScm({
-    namespace,
-    pageSize,
-    pageToken: getPageToken(nextPageTokens, currentPage),
-    sortOrder,
-    sortOrderOn: sortBy,
-    filter,
-  }).subscribe(
-    (res: IPipelineListResponse) => {
-      const nsPipelines = res.apps.map((pipeline) => ({
-        name: pipeline.name,
-        lastSyncDate: pipeline.lastSyncedAt,
-        syncStatus: pipeline.isSynced,
-        error: null,
-        status: null,
-      }));
-      setLocalPipelines(nsPipelines);
-      setPushNextPageToken(currentPage, res.nextPageToken);
-      setPushLastRefreshTime(res.lastRefreshTime);
-    },
-    (err) => {
-      setLocalPipelines([]);
-    }
-  );
-};
-
 export const getNamespacePipelineList = (namespace, nameFilter = null) => {
   MyPipelineApi.list({
     namespace,
@@ -130,7 +47,7 @@ export const getNamespacePipelineList = (namespace, nameFilter = null) => {
         return {
           name: pipeline.name,
           fileHash: pipeline.sourceControlMeta?.fileHash,
-          lastSyncDate: timeInstantToMs(pipeline.sourceControlMeta?.lastSyncedAt),
+          lastSyncDate: pipeline.sourceControlMeta?.lastSyncedAt,
           error: null,
           status: null,
         };
@@ -157,7 +74,7 @@ const applySearch = () => {
     type: PushToGitActions.applySearch,
   });
 };
-const debouncedApplySearch = debounce(applySearch, 300);
+const debouncedApplySearch = debounce(applySearch, 1000);
 
 export const setNameFilter = (nameFilter: string) => {
   SourceControlManagementSyncStore.dispatch({
@@ -187,7 +104,7 @@ export const pushSelectedPipelines = (namespace, apps, payload, loadingMessageDi
         appId,
       };
       return SourceControlApi.push(params, payload).pipe(
-        map((res: { apps?: IPushResponse[] } | string) => {
+        map((res: IPushResponse | string) => {
           if (typeof res === 'string') {
             return { message: res, name: appId, status: SUPPORT.partial };
           }
@@ -195,7 +112,7 @@ export const pushSelectedPipelines = (namespace, apps, payload, loadingMessageDi
             message: null,
             name: appId,
             status: SUPPORT.yes,
-            fileHash: res.apps[0]?.fileHash,
+            fileHash: res.fileHash,
           };
         }),
         catchError((err) => {
@@ -281,44 +198,6 @@ export const reset = () => {
 };
 
 // pull actions
-export const getRemotePipelineListV2 = (namespace) => {
-  const {
-    nameFilter,
-    syncStatusFilter,
-    pageSize,
-    nextPageTokens,
-    currentPage,
-    sortBy,
-    sortOrder,
-  } = SourceControlManagementSyncStore.getState().pull;
-  const filter = makeScmQueryFilter(nameFilter, syncStatusFilter);
-  SourceControlApi.list({
-    namespace,
-    pageSize,
-    pageToken: getPageToken(nextPageTokens, currentPage),
-    sortOrder,
-    sortOrderOn: sortBy,
-    filter,
-  }).subscribe(
-    (res: IPipelineListResponse) => {
-      const remotePipelines = res.apps.map((pipeline) => ({
-        name: pipeline.name,
-        lastSyncDate: pipeline.lastSyncedAt,
-        syncStatus: pipeline.isSynced,
-        error: null,
-        status: null,
-      }));
-      setRemotePipelines(remotePipelines);
-      setPullNextPageToken(currentPage, res.nextPageToken);
-      setPullLastRefreshTime(res.lastRefreshTime);
-    },
-    (err) => {
-      setRemotePipelines([]);
-      setPullViewErrorMsg(err.message || T.translate(`${PREFIX}.pull.pipelinesListedFail`));
-    }
-  );
-};
-
 export const getRemotePipelineList = (namespace) => {
   SourceControlApi.list({
     namespace,
@@ -360,24 +239,13 @@ export const setPullViewErrorMsg = (errorMsg: string = '') => {
   });
 };
 
-const applySearchRemote = () => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PullFromGitActions.applySearch,
-  });
-};
-const debouncedApplySearchRemote = debounce(applySearchRemote, 300);
-
-export const setRemoteNameFilter = (nameFilter: string, refetch: boolean = false) => {
+export const setRemoteNameFilter = (nameFilter: string) => {
   SourceControlManagementSyncStore.dispatch({
     type: PullFromGitActions.setNameFilter,
     payload: {
       nameFilter,
     },
   });
-
-  if (refetch) {
-    debouncedApplySearchRemote();
-  }
 };
 
 export const setSelectedRemotePipelines = (selectedPipelines: string[]) => {
@@ -501,8 +369,6 @@ export const setLatestOperation = (namespace: string, operation: IOperationRun) 
         type: OperationRunActions.setLatestOperation,
         payload: res,
       });
-      markPullViewStale();
-      markPushViewStale();
     }
   });
 };
@@ -572,133 +438,4 @@ export const stopOperation = (namespace: string, operation: IOperationRun) => ()
 export const refetchAllPipelines = () => {
   getNamespacePipelineList(getCurrentNamespace());
   getRemotePipelineList(getCurrentNamespace());
-};
-
-export const dismissOperationAlert = () => {
-  SourceControlManagementSyncStore.dispatch({
-    type: OperationRunActions.setShowLastOperationInfo,
-    payload: false,
-  });
-};
-
-export const updatePullSyncStatusFilter = (payload?: SyncStatusFilter) => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PullFromGitActions.setSyncStatusFilter,
-    payload,
-  });
-  applySearchRemote();
-};
-
-export const updatePushSyncStatusFilter = (payload?: SyncStatusFilter) => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PushToGitActions.setSyncStatusFilter,
-    payload,
-  });
-  applySearch();
-};
-
-export const updatePullPageSize = (payload: number = DEFAULT_PAGE_SIZE) => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PullFromGitActions.setPageSize,
-    payload,
-  });
-  // if pageSize changes move to the first page,
-  // to preserve consistency of pagination
-  updatePullCurrentPage(0);
-};
-
-export const updatePushPageSize = (payload: number = DEFAULT_PAGE_SIZE) => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PushToGitActions.setPageSize,
-    payload,
-  });
-  // if pageSize changes move to the first page,
-  // to preserve consistency of pagination
-  updatePushCurrentPage(0);
-};
-
-export const updatePullSortConfig = (sortBy: SortBy, sortOrder: SortOrder) => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PullFromGitActions.setSortConfig,
-    payload: {
-      sortBy,
-      sortOrder,
-    },
-  });
-  // if sort config changes, move to the first page
-  updatePullCurrentPage(0);
-};
-
-export const updatePushSortConfig = (sortBy: SortBy, sortOrder: SortOrder) => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PushToGitActions.setSortConfig,
-    payload: {
-      sortBy,
-      sortOrder,
-    },
-  });
-  // if sort config changes, move to the first page
-  updatePushCurrentPage(0);
-};
-
-const setPullNextPageToken = (currentPage: number, nextToken?: string) => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PullFromGitActions.setPageToken,
-    payload: {
-      currentPage,
-      nextToken,
-    },
-  });
-};
-
-const setPullLastRefreshTime = (payload?: number) => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PullFromGitActions.setLastRefreshTime,
-    payload,
-  });
-};
-
-const setPushNextPageToken = (currentPage: number, nextToken?: string) => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PushToGitActions.setPageToken,
-    payload: {
-      currentPage,
-      nextToken,
-    },
-  });
-};
-
-const setPushLastRefreshTime = (payload?: number) => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PushToGitActions.setLastRefreshTime,
-    payload,
-  });
-};
-
-export const updatePullCurrentPage = (payload: number) => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PullFromGitActions.setCurrentPage,
-    payload,
-  });
-  markPullViewStale();
-};
-
-export const updatePushCurrentPage = (payload: number) => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PushToGitActions.setCurrentPage,
-    payload,
-  });
-  markPushViewStale();
-};
-
-export const markPullViewStale = () => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PullFromGitActions.markStale,
-  });
-};
-
-export const markPushViewStale = () => {
-  SourceControlManagementSyncStore.dispatch({
-    type: PushToGitActions.markStale,
-  });
 };
