@@ -15,11 +15,11 @@
 name: Build with Unit and Integration Tests
 
 on:
-  workflow_run:
-    workflows:
-      - Trigger build
-    types:
-      - completed
+  push:
+    branches: [ develop, release/** ]
+  pull_request:
+    branches: [ develop, release/** ]
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
     inputs:
       branch:
@@ -36,11 +36,8 @@ jobs:
 
     steps:
     # Pinned 1.0.0 version
-    - uses: marocchino/action-workflow_run-status@54b6e87d6cb552fc5f36dbe9a722a6048725917a
-      if: github.event_name != 'workflow_dispatch'
     - uses: actions/checkout@v3
       with:
-        ref: ${{ github.event.workflow_run.head_sha }}
         submodules: recursive
 
     # installing node 16.16
