@@ -18,6 +18,7 @@ import * as React from 'react';
 import CheckBox from '@material-ui/core/Checkbox';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import T from 'i18n-react';
 
 interface INullableBaseProps {
   nullable: boolean;
@@ -37,6 +38,7 @@ const NullableBase = ({ nullable, onNullable: onChange }: INullableBaseProps) =>
       }}
       disabled={typeof onChange !== 'function'}
       data-testid="schema-field-nullable-checkbox"
+      title={T.translate('features.SchemaEditor.Tooltips.nullableCheckbox').toString()}
     />
   );
 };
