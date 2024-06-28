@@ -3171,6 +3171,8 @@ features:
     Labels:
       fieldName: Field name
       symbolName: Symbol name
+    Tooltips:
+      nullableCheckbox: Select to make the column nullable
   ServiceEnableUtility:
     serviceNotFound: Cannot find {artifactName} artifact
   ServiceAccounts:
