@@ -31,8 +31,10 @@ import XmlToJsonModal from 'components/DataPrep/Directives/Parse/Modals/XmlToJso
 import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { setPopoverOffset } from 'components/DataPrep/helper';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
 
 const SUFFIX = 'features.DataPrep.Directives.Parse';
+const TESTID_PREFIX = 'features.dataprep.directives.parse';
 
 require('./ParseDirective.scss');
 
@@ -252,7 +254,7 @@ export default class ParseDirective extends Component {
         <div className="parse-options">
           {this.PARSE_OPTIONS.map((option) => {
             return (
-              <div key={option} className="option" onClick={this.selectParse.bind(this, option)}>
+              <div key={option} className="option" onClick={this.selectParse.bind(this, option)} data-testid={getDataTestid(`${TESTID_PREFIX}.option`, option)}>
                 {T.translate(`${SUFFIX}.Parsers.${option}.label`)}
               </div>
             );
@@ -271,6 +273,7 @@ export default class ParseDirective extends Component {
         className={classnames('parse-directive clearfix action-item', {
           active: this.props.isOpen,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span>{T.translate(`${SUFFIX}.title`)}</span>
 

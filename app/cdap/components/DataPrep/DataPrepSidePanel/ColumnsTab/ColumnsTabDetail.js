@@ -18,8 +18,11 @@ import PropTypes from 'prop-types';
 
 import React from 'react';
 import T from 'i18n-react';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.DataPrepSidePanel.ColumnsTab.ColumnDetail';
+const TESTID_PREFIX = 'features.dataprep.workspace.columnsPanel.list.column';
+
 export default function ColumnsTabDetail({ columnInfo }) {
   let { types } = columnInfo;
   if (!types) {
@@ -29,7 +32,10 @@ export default function ColumnsTabDetail({ columnInfo }) {
   return (
     <tr className="column-tab-details">
       <td colSpan="6">
-        <table className="table statistics-table">
+        <table
+          className="table statistics-table"
+          data-testid={getDataTestid(`${TESTID_PREFIX}.details`)}
+        >
           <thead>
             <tr>
               <th>{T.translate(`${PREFIX}.Header.inferredType`)}</th>

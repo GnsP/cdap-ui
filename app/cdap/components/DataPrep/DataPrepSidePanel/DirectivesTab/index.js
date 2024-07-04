@@ -21,8 +21,12 @@ import DirectivesTabRow from 'components/DataPrep/DataPrepSidePanel/DirectivesTa
 import fileDownload from 'js-file-download';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import T from 'i18n-react';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
 
 require('./DirectivesTab.scss');
+
+const TESTID_PREFIX = 'features.dataprep.workspace.transformationsPanel';
+
 export default class DirectivesTab extends Component {
   constructor(props) {
     super(props);
@@ -101,7 +105,11 @@ export default class DirectivesTab extends Component {
         <div className="directives-tab-header">
           <span>#</span>
           <span>{T.translate('features.DataPrep.DataPrepSidePanel.DirectivesTab.label')}</span>
-          <button className="btn btn-link float-right" onClick={this.download}>
+          <button
+            className="btn btn-link float-right"
+            onClick={this.download}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.downloadButton`)}
+          >
             <span className="fa fa-download" />
           </button>
         </div>

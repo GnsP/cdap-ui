@@ -90,6 +90,7 @@ interface IActionCardProps extends WithStyles<typeof styles> {
     description: string;
     links: ILink[];
     experiment?: string;
+    dataTestId?: string;
   };
 }
 
@@ -115,14 +116,24 @@ const ActionCardView: React.FC<IActionCardProps> = ({ config, classes }) => {
 
           if (isNativeLink) {
             return (
-              <a href={url} key={link.label} className={classes.link}>
+              <a
+                href={url}
+                key={link.label}
+                className={classes.link}
+                data-testid={config.dataTestId}
+              >
                 {link.label}
               </a>
             );
           } else {
             url = url.slice(linkPrefix.length);
             return (
-              <Link to={url} key={link.label} className={classes.link}>
+              <Link
+                to={url}
+                key={link.label}
+                className={classes.link}
+                data-testid={config.dataTestId}
+              >
                 {link.label}
               </Link>
             );

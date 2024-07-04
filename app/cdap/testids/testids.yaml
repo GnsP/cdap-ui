@@ -8,6 +8,11 @@
 # Please do not modify this comment section at the top.
 # This section is added by the testid-yaml-loader.
 
+common:
+  components:
+    scrollableList:
+      scrollDownButton: ~
+      scrollUpButton: ~
 features:
   administration:
     configuration:
@@ -20,6 +25,100 @@ features:
       tab: ~
     tethering:
       tab: ~
+  dataprep:
+    directives:
+      parse:
+        modal:
+          csv:
+            applyButton: ~
+            cancelButton: ~
+            closeButton: ~
+            customDelimeterInput: ~
+            firstRowAsHeaderToggle: ~
+            option: ~
+            title: ~
+          log:
+            applyButton: ~
+            cancelButton: ~
+            closeButton: ~
+            customLogFormatInput: ~
+            option: ~
+            title: ~
+          xmlToJson:
+            applyButton: ~
+            cancelButton: ~
+            closeButton: ~
+            depthInput: ~
+            keepStringsToggle: ~
+            title: ~
+        option: ~
+        title: ~
+    workspace:
+      cli:
+        autocomplete:
+          container: ~
+          directive:
+            description: ~
+            name: ~
+            title: ~
+            usage: ~
+        input: ~
+      columnsPanel:
+        actionsDropdown:
+          directive: ~
+          dropdownToggle: ~
+        list:
+          column:
+            details: ~
+            listRow: ~
+            name: ~
+            selectToggle: ~
+          header:
+            actionsDropdownToggle: ~
+            selectAllToggle: ~
+            unselectAllToggle: ~
+        search:
+          clearButton: ~
+          input: ~
+      dataTable:
+        body:
+          cell: ~
+        head:
+          col: ~
+          columnName: ~
+          columnNameInput: ~
+          columnSelectToggle: ~
+          dataType: ~
+          directivesDropdown:
+            menu: ~
+            toggleButton: ~
+      rightSidePanel:
+        tabs:
+          columns: ~
+          transformations: ~
+      topPanel:
+        actionButtons:
+          apply: ~
+          createPipeline: ~
+          moreDropdownButton: ~
+          moreDropdownMenu:
+            ingestData: ~
+            viewSchema: ~
+          upgradeButton: ~
+        connectionType: ~
+        rowsColumnsCount: ~
+        tabs:
+          data: ~
+          viz: ~
+        workspaceName: ~
+      transformationsPanel:
+        downloadButton: ~
+        list:
+          directive: ~
+    workspaceTabs:
+      workspaceTab:
+        closeButton: ~
+        name: ~
   entityListView:
     allEntities: ~
     entity:
@@ -32,3 +131,6 @@ features:
         truncate: ~
       named: ~
     justAdded: ~
+  home:
+    wrangler:
+      pageLink: ~

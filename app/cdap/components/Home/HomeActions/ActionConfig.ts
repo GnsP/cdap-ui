@@ -16,7 +16,9 @@
 
 import T from 'i18n-react';
 import { Theme } from 'services/ThemeHelper';
+import { getDataTestid } from '../../../testids/TestidsProvider';
 const PREFIX = 'features.Home';
+const TESTID_PREFIX = 'features.home';
 
 interface ILink {
   label: string;
@@ -30,6 +32,7 @@ interface IAction {
   links: ILink[];
   experiment?: string;
   featureFlag?: boolean;
+  dataTestId?: string;
 }
 
 export const ActionConfig: IAction[] = [
@@ -49,6 +52,7 @@ export const ActionConfig: IAction[] = [
     img: '/cdap_assets/img/cleanse_data.svg',
     title: T.translate(`${PREFIX}.Wrangler.title`).toString(),
     description: T.translate(`${PREFIX}.Wrangler.description`).toString(),
+    dataTestId: getDataTestid(`${TESTID_PREFIX}.wrangler.pageLink`),
     links: [
       {
         label: T.translate(`${PREFIX}.Wrangler.linkLabel`).toString(),

@@ -23,9 +23,11 @@ import TargetTab from 'components/DataPrep/DataPrepSidePanel/TargetTab';
 import DirectivesTab from 'components/DataPrep/DataPrepSidePanel/DirectivesTab';
 import T from 'i18n-react';
 import If from 'components/shared/If';
+import { getDataTestid } from '../../../testids/TestidsProvider';
 
 require('./DataPrepSidePanel.scss');
 const PREFIX = 'features.DataPrep.DataPrepSidePanel';
+const TESTID_PREFIX = 'features.dataprep.workspace.rightSidePanel';
 
 export default class DataPrepSidePanel extends Component {
   constructor(props) {
@@ -123,6 +125,7 @@ export default class DataPrepSidePanel extends Component {
             <div
               className={classnames('tab', { active: this.state.activeTab === 1 })}
               onClick={this.setActiveTab.bind(this, 1)}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.tabs.columns`)}
             >
               {T.translate(`${PREFIX}.columnsTabLabel`, {
                 columnsCount: this.state.headers.length,
@@ -131,6 +134,7 @@ export default class DataPrepSidePanel extends Component {
             <div
               className={classnames('tab', { active: this.state.activeTab === 2 })}
               onClick={this.setActiveTab.bind(this, 2)}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.tabs.transformations`)}
             >
               {T.translate(`${PREFIX}.directivesTabLabel`, {
                 directivesCount: this.state.directives.length,

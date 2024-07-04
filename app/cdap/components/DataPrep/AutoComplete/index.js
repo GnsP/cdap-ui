@@ -26,8 +26,11 @@ import classnames from 'classnames';
 import NamespaceStore from 'services/NamespaceStore';
 import ee from 'event-emitter';
 import globalEvents from 'services/global-events';
+import { getDataTestid } from '../../../testids/TestidsProvider';
 
 require('./AutoComplete.scss');
+
+const TESTID_PREFIX = 'features.dataprep.workspace.cli.autocomplete';
 
 export default class DataPrepAutoComplete extends Component {
   constructor(props) {
@@ -219,6 +222,7 @@ export default class DataPrepAutoComplete extends Component {
         className={classnames('dataprep-auto-complete-container', {
           'has-error': this.props.hasError,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.container`)}
       >
         {this.state.activeResults.map((row, index) => {
           return (
@@ -228,14 +232,26 @@ export default class DataPrepAutoComplete extends Component {
               })}
               key={row.uniqueId}
               onClick={this.handleRowClick.bind(this, row)}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.directive.name`, row.item.directive)}
             >
-              <div className="directive-title">
+              <div
+                className="directive-title"
+                data-testid={getDataTestid(`${TESTID_PREFIX}.directive.title`)}
+              >
                 <strong>{row.item.directive}</strong>
               </div>
-              <div className="directive-description">{row.item.description}</div>
+              <div
+                className="directive-description"
+                data-testid={getDataTestid(`${TESTID_PREFIX}.directive.description`)}
+              >
+                {row.item.description}
+              </div>
 
               {this.state.matchedmatched || this.state.activeResults.length === 1 ? (
-                <div className="directive-usage">
+                <div
+                  className="directive-usage"
+                  data-testid={getDataTestid(`${TESTID_PREFIX}.directive.usage`)}
+                >
                   <span>Usage: </span>
                   <pre>{row.item.usage}</pre>
                 </div>
