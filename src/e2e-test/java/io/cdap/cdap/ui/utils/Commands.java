@@ -354,8 +354,10 @@ public class Commands implements CdfHelper {
 
   public static void dismissTopBanner() {
     try {
-      ElementHelper.clickOnElement(Helper.locateElementByXPath(
-          "//div[@data-testid='valium-banner-hydrator']//button[@class='close ng-scope']"));
+      WebElement bannerCloseButton = Helper.locateElementByXPath(
+          "//div[@data-testid='valium-banner-hydrator']//button[@class='close ng-scope']");
+      WaitHelper.waitForElementToBeClickable(bannerCloseButton);
+      ElementHelper.clickOnElement(bannerCloseButton);
     } catch (NoSuchElementException e) {
       // pass
     }
