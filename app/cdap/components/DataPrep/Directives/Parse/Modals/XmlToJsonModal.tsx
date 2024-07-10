@@ -19,8 +19,10 @@ import T from 'i18n-react';
 import Mousetrap from 'mousetrap';
 import classnames from 'classnames';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { getDataTestid } from '../../../../../testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.Parse';
+const TESTID_PREFIX = 'features.dataprep.directives.parse.modal.xmlToJson';
 
 interface IXmlToJsonProps {
   toggle(): void;
@@ -62,8 +64,14 @@ export default function XmlToJsonModal({ toggle, onApply }: IXmlToJsonProps) {
       autoFocus={false}
     >
       <ModalHeader>
-        <span>{T.translate(`${PREFIX}.modalTitle`, { parser: parserTitle })}</span>
-        <div className="close-section float-right" onClick={toggle}>
+        <span data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}>
+          {T.translate(`${PREFIX}.modalTitle`, { parser: parserTitle })}
+        </span>
+        <div
+          className="close-section float-right"
+          onClick={toggle}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.closeButton`)}
+        >
           <span className="fa fa-times" />
         </div>
       </ModalHeader>
@@ -81,11 +89,15 @@ export default function XmlToJsonModal({ toggle, onApply }: IXmlToJsonProps) {
             value={depthValue}
             onChange={onDepthChange}
             autoFocus
+            data-testid={getDataTestid(`${TESTID_PREFIX}.depthInput`)}
           />
         </div>
         <br />
         <div className="optional-config">
-          <span onClick={toggleKeepStrings}>
+          <span
+            onClick={toggleKeepStrings}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.keepStringsToggle`)}
+          >
             <span
               className={classnames('fa', {
                 'fa-square-o': !keepStrings,
@@ -98,10 +110,18 @@ export default function XmlToJsonModal({ toggle, onApply }: IXmlToJsonProps) {
       </ModalBody>
 
       <ModalFooter>
-        <button className="btn btn-primary" onClick={handleApply}>
+        <button
+          className="btn btn-primary"
+          onClick={handleApply}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
+        >
           {T.translate('features.DataPrep.Directives.apply')}
         </button>
-        <button className="btn btn-secondary" onClick={toggle}>
+        <button
+          className="btn btn-secondary"
+          onClick={toggle}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+        >
           {T.translate('features.DataPrep.Directives.cancel')}
         </button>
       </ModalFooter>

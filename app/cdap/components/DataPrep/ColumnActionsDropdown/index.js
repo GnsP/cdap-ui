@@ -27,6 +27,7 @@ import isEqual from 'lodash/isEqual';
 import DataPrepStore from 'components/DataPrep/store';
 import ScrollableList from 'components/shared/ScrollableList';
 import { Theme } from 'services/ThemeHelper';
+import { getDataTestid } from '../../../testids/TestidsProvider';
 
 // Directives List
 import ParseDirective from 'components/DataPrep/Directives/Parse';
@@ -57,6 +58,7 @@ import MapToTargetDirective from 'components/DataPrep/Directives/MapToTarget';
 import ee from 'event-emitter';
 
 require('./ColumnActionsDropdown.scss');
+const TESTID_PREFIX = 'features.dataprep.workspace.dataTable.head.directivesDropdown';
 
 export default class ColumnActionsDropdown extends Component {
   constructor(props) {
@@ -86,6 +88,7 @@ export default class ColumnActionsDropdown extends Component {
         id: uuidV4(),
         tag: ParseDirective,
         requiredColCount: 1,
+        testid: 'parse-directive',
       },
       {
         tag: 'divider',
@@ -97,6 +100,7 @@ export default class ColumnActionsDropdown extends Component {
           id: uuidV4(),
           tag: MapToTargetDirective,
           requiredColCount: 1,
+          testid: 'map-to-target-directive',
         },
         {
           tag: 'divider',
@@ -108,11 +112,13 @@ export default class ColumnActionsDropdown extends Component {
         id: uuidV4(),
         tag: SetCharacterEncoding,
         requiredColCount: 1,
+        testid: 'set-character-encoding-directive',
       },
       {
         id: uuidV4(),
         tag: ChangeDataTypeDirective,
         requiredColCount: 1,
+        testid: 'change-data-type-directive',
       },
       {
         tag: 'divider',
@@ -121,16 +127,19 @@ export default class ColumnActionsDropdown extends Component {
         id: uuidV4(),
         tag: Format,
         requiredColCount: 1,
+        testid: 'format-directive',
       },
       {
         id: uuidV4(),
         tag: Calculate,
         requiredColCount: 0,
+        testid: 'calculate-directive',
       },
       {
         id: uuidV4(),
         tag: CustomTransform,
         requiredColCount: 1,
+        testid: 'custom-transform-directive',
       },
       {
         tag: 'divider',
@@ -139,21 +148,25 @@ export default class ColumnActionsDropdown extends Component {
         id: uuidV4(),
         tag: FilterDirective,
         requiredColCount: 1,
+        testid: 'filter-directive',
       },
       {
         id: uuidV4(),
         tag: MarkAsError,
         requiredColCount: 1,
+        testid: 'mark-as-error-directive',
       },
       {
         id: uuidV4(),
         tag: FindAndReplaceDirective,
         requiredColCount: 1,
+        testid: 'find-and-replace-directive',
       },
       {
         id: uuidV4(),
         tag: FillNullOrEmpty,
         requiredColCount: 1,
+        testid: 'fill-null-or-empty-directive',
       },
       {
         tag: 'divider',
@@ -162,26 +175,31 @@ export default class ColumnActionsDropdown extends Component {
         id: uuidV4(),
         tag: CopyColumnDirective,
         requiredColCount: 1,
+        testid: 'copy-column-directive',
       },
       {
         id: uuidV4(),
         tag: DropColumnDirective,
         requiredColCount: 0,
+        testid: 'drop-column-directive',
       },
       {
         id: uuidV4(),
         tag: KeepColumnDirective,
         requiredColCount: 0,
+        testid: 'keep-column-directive',
       },
       {
         id: uuidV4(),
         tag: MergeColumnsDirective,
         requiredColCount: 2,
+        testid: 'merge-column-directive',
       },
       {
         id: uuidV4(),
         tag: SwapColumnsDirective,
         requiredColCount: 2,
+        testid: 'swap-column-directive',
       },
       {
         tag: 'divider',
@@ -190,21 +208,25 @@ export default class ColumnActionsDropdown extends Component {
         id: uuidV4(),
         tag: ExtractFields,
         requiredColCount: 1,
+        testid: 'extract-fields-directive',
       },
       {
         id: uuidV4(),
         tag: Explode,
         requiredColCount: 0,
+        testid: 'explode-directive',
       },
       {
         id: uuidV4(),
         tag: DefineVariableDirective,
         requiredColCount: 1,
+        testid: 'define-variable-directive',
       },
       {
         id: uuidV4(),
         tag: SetCounterDirective,
         requiredColCount: 1,
+        testid: 'set-counter-directive',
       },
       {
         tag: 'divider',
@@ -213,21 +235,25 @@ export default class ColumnActionsDropdown extends Component {
         id: uuidV4(),
         tag: MaskData,
         requiredColCount: 1,
+        testid: 'mask-data-directive',
       },
       {
         id: uuidV4(),
         tag: EncodeDecode,
         requiredColCount: 1,
+        testid: 'encode-decode-directive',
       },
       {
         id: uuidV4(),
         tag: Decode,
         requiredColCount: 1,
+        testid: 'decode-directive',
       },
       {
         id: uuidV4(),
         tag: Hash,
         requiredColCount: 1,
+        testid: 'hash-directive',
       }
     );
     this.eventEmitter = ee(ee);
@@ -391,6 +417,7 @@ export default class ColumnActionsDropdown extends Component {
                   key={directive.id}
                   onClick={!disabled ? this.directiveClick.bind(this, directive.id) : undefined}
                   className={classnames({ disabled: disabled })}
+                  data-testid={getDataTestid(`${TESTID_PREFIX}.menu`, directive.testid)}
                 >
                   <Tag
                     column={column}
@@ -420,6 +447,7 @@ export default class ColumnActionsDropdown extends Component {
           onClick={this.toggleDropdown}
           id={`dataprep-action-${this.dropdownId}`}
           disabled={this.props.disabled}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.toggleButton`)}
         />
         <UncontrolledTooltip
           target={`dataprep-action-${this.dropdownId}`}

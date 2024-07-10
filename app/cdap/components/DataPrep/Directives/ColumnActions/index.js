@@ -24,9 +24,12 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import Bulkset from 'components/DataPrep/Directives/ColumnActions/Bulkset';
 import ReplaceColumns from 'components/DataPrep/Directives/ColumnActions/ReplaceColumns';
 import T from 'i18n-react';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
 require('./ColumnActions.scss');
 
 const PREFIX = 'features.DataPrep.Directives.ColumnActions';
+const TESTID_PREFIX = 'features.dataprep.workspace.columnsPanel.actionsDropdown';
+
 export default class ColumnActions extends Component {
   constructor(props) {
     super(props);
@@ -96,7 +99,7 @@ export default class ColumnActions extends Component {
     return (
       <div className="columns-actions-dropdown">
         <UncontrolledDropdown className="collapsed-dropdown-toggle">
-          <DropdownToggle>
+          <DropdownToggle data-testid={getDataTestid(`${TESTID_PREFIX}.dropdownToggle`)}>
             <span>{T.translate('features.DataPrep.Directives.ColumnActions.label')}</span>
             <IconSVG name="icon-chevron-down" />
           </DropdownToggle>
@@ -107,6 +110,7 @@ export default class ColumnActions extends Component {
                   key={i}
                   title={directive.name}
                   onClick={this.setActiveDirective.bind(this, i)}
+                  data-testid={getDataTestid(`${TESTID_PREFIX}.directive`, directive.name)}
                 >
                   {directive.label}
                 </DropdownItem>

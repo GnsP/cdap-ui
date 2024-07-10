@@ -30,6 +30,7 @@ import IconSVG from 'components/shared/IconSVG';
 import DataPrepPlusButton from 'components/DataPrep/TopPanel/PlusButton';
 import { Theme } from 'services/ThemeHelper';
 import classnames from 'classnames';
+import { getDataTestid } from '../../../testids/TestidsProvider';
 
 const SchemaModal = Loadable({
   loader: () =>
@@ -58,6 +59,7 @@ const IngestDataFromDataPrep = Loadable({
 
 require('./TopPanel.scss');
 const PREFIX = 'features.DataPrep.TopPanel';
+const TESTID_PREFIX = 'features.dataprep.workspace.topPanel';
 
 export default class DataPrepTopPanel extends Component {
   constructor(props) {
@@ -179,11 +181,13 @@ export default class DataPrepTopPanel extends Component {
         isNil(this.state.workspaceInfo) ||
         objectQuery(this.state, 'workspaceInfo', 'properties', 'connection') === 'upload',
       disabledTooltip: T.translate(`${PREFIX}.copyToCDAPDatasetBtn.disabledTooltip`),
+      dataTestid: getDataTestid(`${TESTID_PREFIX}.actionButtons.moreDropdownMenu.ingestData`),
     },
     {
       label: T.translate(`${PREFIX}.viewSchemaBtnLabel`),
       iconName: 'icon-info-circle',
       onClick: this.toggleSchemaModal,
+      dataTestid: getDataTestid(`${TESTID_PREFIX}.actionButtons.moreDropdownMenu.viewSchema`),
     },
   ];
 
@@ -198,15 +202,26 @@ export default class DataPrepTopPanel extends Component {
 
     return (
       <div className="data-prep-name">
-        <div className="connection-type truncate" title={connectionInfo}>
+        <div
+          className="connection-type truncate"
+          title={connectionInfo}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.connectionType`)}
+        >
           {connectionInfo}
         </div>
 
         <div className="title_bar">
-          <div className="title" title={workspaceName}>
+          <div
+            className="title"
+            title={workspaceName}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.workspaceName`)}
+          >
             {workspaceName}
           </div>
-          <div className="row_column_count">
+          <div
+            className="row_column_count"
+            data-testid={getDataTestid(`${TESTID_PREFIX}.rowsColumnsCount`)}
+          >
             {T.translate('features.DataPrep.TopPanel.columns')}: {dataprep.headers.length} |{' '}
             {T.translate('features.DataPrep.TopPanel.rows')}: {dataprep.data.length}
           </div>
@@ -253,6 +268,7 @@ export default class DataPrepTopPanel extends Component {
           })}
           title={menuItem.label}
           onClick={isDisabled ? preventPropagation : menuItem.onClick}
+          data-testid={menuItem.dataTestid}
           {...props}
         >
           {getMenuItem(menuItem)}
@@ -272,7 +288,11 @@ export default class DataPrepTopPanel extends Component {
   renderMenu() {
     return (
       <Popover
-        target={() => <span>{T.translate('features.DataPrep.TopPanel.more')}</span>}
+        target={() => (
+          <span data-testid={getDataTestid(`${TESTID_PREFIX}.actionButtons.moreDropdownButton`)}>
+            {T.translate('features.DataPrep.TopPanel.more')}
+          </span>
+        )}
         targetDimension={{ width: '31px', height: '31px' }}
         className="more-dropdown"
         placement="bottom"
@@ -296,6 +316,7 @@ export default class DataPrepTopPanel extends Component {
             ? 'disabled'
             : false
         }
+        data-testid={getDataTestid(`${TESTID_PREFIX}.actionButtons.apply`)}
       >
         {this.state.onSubmitLoading ? <IconSVG name="icon-spinner" className="fa-spin" /> : null}
         <span>{T.translate(`${PREFIX}.applyBtnLabel`)}</span>
@@ -306,7 +327,11 @@ export default class DataPrepTopPanel extends Component {
   renderUpgradeBtn() {
     return (
       <div className="upgrade-button">
-        <button className="btn btn-info" onClick={this.toggleUpgradeModal}>
+        <button
+          className="btn btn-info"
+          onClick={this.toggleUpgradeModal}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.actionButtons.upgradeButton`)}
+        >
           <span className="fa fa-wrench fa-fw" />
           {T.translate(`${PREFIX}.upgradeBtnLabel`)}
         </button>
@@ -330,7 +355,11 @@ export default class DataPrepTopPanel extends Component {
           {this.state.higherVersion ? this.renderUpgradeBtn() : null}
           {this.props.mode === 'ROUTED_WORKSPACE' ? this.renderApplyBtn() : null}
           {this.props.mode !== 'ROUTED_WORKSPACE' ? (
-            <button className="btn btn-primary" onClick={this.toggleAddToPipelineModal}>
+            <button
+              className="btn btn-primary"
+              onClick={this.toggleAddToPipelineModal}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.actionButtons.createPipeline`)}
+            >
               {T.translate(`${PREFIX}.addToPipelineBtnLabel`)}
             </button>
           ) : null}

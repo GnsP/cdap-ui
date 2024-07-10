@@ -22,8 +22,10 @@ import classnames from 'classnames';
 import T from 'i18n-react';
 import MouseTrap from 'mousetrap';
 import DeprecatedMessage from 'components/shared/DeprecatedMessage';
+import { getDataTestid } from '../../../../../testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.Parse';
+const TESTID_PREFIX = 'features.dataprep.directives.parse.modal.csv';
 
 const OPTIONS_MAP = {
   COMMA: ',',
@@ -97,6 +99,7 @@ export default class CSVModal extends Component {
           onChange={this.handleCustomDelimiterChange}
           placeholder={T.translate(`${PREFIX}.Parsers.CSV.customPlaceholder`)}
           autoFocus
+          data-testid={getDataTestid(`${TESTID_PREFIX}.customDelimeterInput`)}
         />
       </div>
     );
@@ -117,9 +120,15 @@ export default class CSVModal extends Component {
         className="dataprep-parse-modal cdap-modal"
       >
         <ModalHeader>
-          <span>{T.translate(`${PREFIX}.modalTitle`, { parser: 'CSV' })}</span>
+          <span data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}>
+            {T.translate(`${PREFIX}.modalTitle`, { parser: 'CSV' })}
+          </span>
 
-          <div className="close-section float-right" onClick={this.props.toggle}>
+          <div
+            className="close-section float-right"
+            onClick={this.props.toggle}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.closeButton`)}
+          >
             <span className="fa fa-times" />
           </div>
         </ModalHeader>
@@ -131,7 +140,11 @@ export default class CSVModal extends Component {
           <div className="list-options">
             {options.map((option) => {
               return (
-                <div key={option} onClick={this.selectDelimiter.bind(this, option)}>
+                <div
+                  key={option}
+                  onClick={this.selectDelimiter.bind(this, option)}
+                  data-testid={getDataTestid(`${TESTID_PREFIX}.option`, option)}
+                >
                   <span
                     className={classnames('fa', {
                       'fa-circle-o': option !== this.state.delimiter,
@@ -146,7 +159,10 @@ export default class CSVModal extends Component {
             {this.renderCustomText()}
           </div>
           <div className="optional-config">
-            <span onClick={this.toggleSetFirstRow}>
+            <span
+              onClick={this.toggleSetFirstRow}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.firstRowAsHeaderToggle`)}
+            >
               <span
                 className={classnames('fa', {
                   'fa-square-o': !this.state.firstRowHeader,
@@ -160,10 +176,19 @@ export default class CSVModal extends Component {
         </ModalBody>
 
         <ModalFooter>
-          <button className="btn btn-primary" onClick={this.apply} disabled={disabled}>
+          <button
+            className="btn btn-primary"
+            onClick={this.apply}
+            disabled={disabled}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
+          >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
-          <button className="btn btn-secondary" onClick={this.props.toggle}>
+          <button
+            className="btn btn-secondary"
+            onClick={this.props.toggle}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </ModalFooter>

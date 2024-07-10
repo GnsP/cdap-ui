@@ -115,6 +115,7 @@ export default class TextboxOnValium extends Component {
         value={this.state.textValue}
         onKeyPress={this.handleKeyPress}
         onKeyUp={!this.props.onKeyUp ? this.handleKeyPress : this.props.onKeyUp}
+        data-testid={this.props.dataTestid}
       />
     );
   }
@@ -124,6 +125,7 @@ TextboxOnValium.defaultProps = {
   allowSpace: true,
   validCharacterRegex: null,
   disabled: false,
+  dataTestid: '',
 };
 
 TextboxOnValium.propTypes = {
@@ -138,4 +140,5 @@ TextboxOnValium.propTypes = {
   shouldSelect: PropTypes.bool,
   validCharacterRegex: PropTypes.object, // regex expression
   disabled: PropTypes.bool,
+  dataTestid: PropTypes.string,
 };

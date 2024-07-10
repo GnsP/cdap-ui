@@ -20,7 +20,10 @@ import DataPrepAutoComplete from 'components/DataPrep/AutoComplete';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
+import { getDataTestid } from '../../../testids/TestidsProvider';
 require('./DataPrepCLI.scss');
+
+const TESTID_PREFIX = 'features.dataprep.workspace.cli';
 
 export default class DataPrepCLI extends Component {
   static propTypes = {
@@ -163,6 +166,7 @@ export default class DataPrepCLI extends Component {
               ref={(ref) => (this.directiveRef = ref)}
               onPaste={this.handlePaste}
               disabled={this.props.disabled}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.input`)}
             />
           </div>
         </div>

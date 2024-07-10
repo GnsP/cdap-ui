@@ -33,6 +33,8 @@ import DataQuality from 'components/DataPrep/DataPrepTable/DataQuality';
 import DataType from 'components/DataPrep/DataPrepTable/DataType';
 import Page500 from 'components/500';
 import Page404 from 'components/404';
+import { getDataTestid } from '../../../testids/TestidsProvider';
+
 // Lazy load polyfill in safari as InteresectionObservers are not implemented there yet.
 (async function() {
   typeof IntersectionObserver === 'undefined'
@@ -41,6 +43,7 @@ import Page404 from 'components/404';
 })();
 
 const PREFIX = 'features.DataPrep.DataPrepTable';
+const TESTID_PREFIX = 'features.dataprep.workspace.dataTable';
 const DEFAULT_WINDOW_SIZE = 100;
 export default class DataPrepTable extends Component {
   static propTypes = {
@@ -287,6 +290,7 @@ export default class DataPrepTable extends Component {
                     dropdownOpened: this.state.columnDropdownOpen === head.name,
                   })}
                   key={head.name}
+                  data-testid={getDataTestid(`${TESTID_PREFIX}.head.col`, index + 1)}
                 >
                   <DataQuality columnInfo={this.state.columns[head.name]} />
                   <div className="column-wrapper-container">
@@ -303,6 +307,7 @@ export default class DataPrepTable extends Component {
                         <span
                           className="header-text"
                           onClick={this.switchToEditColumnName.bind(this, head)}
+                          data-testid={getDataTestid(`${TESTID_PREFIX}.head.columnName`)}
                         >
                           <span>{head.name}</span>
                         </span>
@@ -314,6 +319,7 @@ export default class DataPrepTable extends Component {
                             onWarning={this.showWarningMessage.bind(this, index)}
                             allowSpace={false}
                             shouldSelect={true}
+                            dataTestid={getDataTestid(`${TESTID_PREFIX}.head.columnNameInput`)}
                           />
                           {head.showDuplicateWarning || head.showInvalidWarning ? (
                             <WarningContainer
@@ -346,6 +352,7 @@ export default class DataPrepTable extends Component {
                           'fa-square-o': !this.columnIsSelected(head.name),
                           'fa-check-square': this.columnIsSelected(head.name),
                         })}
+                        data-testid={getDataTestid(`${TESTID_PREFIX}.head.columnSelectToggle`)}
                       />
                     </div>
                   </div>
@@ -358,10 +365,20 @@ export default class DataPrepTable extends Component {
           {data.slice(0, this.state.windowSize).map((row) => {
             return (
               <tr key={row.uniqueId} id={`dataprep-${row.scrollId}`}>
-                <td>{row.scrollId + 1}</td>
+                <td
+                  data-testid={getDataTestid(`${TESTID_PREFIX}.body.cell`, `${row.scrollId + 1}-0`)}
+                >
+                  {row.scrollId + 1}
+                </td>
                 {headers.map((head, i) => {
                   return (
-                    <td key={i}>
+                    <td
+                      key={i}
+                      data-testid={getDataTestid(
+                        `${TESTID_PREFIX}.body.cell`,
+                        `${row.scrollId + 1}-${i + 1}`
+                      )}
+                    >
                       <div>{row[head.name]}</div>
                     </td>
                   );

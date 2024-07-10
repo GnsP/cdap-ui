@@ -21,8 +21,10 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classnames from 'classnames';
 import T from 'i18n-react';
 import MouseTrap from 'mousetrap';
+import { getDataTestid } from '../../../../../testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.Parse';
+const TESTID_PREFIX = 'features.dataprep.directives.parse.modal.log';
 
 const OPTIONS_MAP = {
   COMMON: 'common',
@@ -87,6 +89,7 @@ export default class LogModal extends Component {
           onChange={this.handleCustomFormatChange}
           placeholder={T.translate(`${PREFIX}.Parsers.LOG.customPlaceholder`)}
           autoFocus
+          data-testid={getDataTestid(`${TESTID_PREFIX}.customLogFormatInput`)}
         />
       </div>
     );
@@ -107,9 +110,15 @@ export default class LogModal extends Component {
         className="dataprep-parse-modal cdap-modal"
       >
         <ModalHeader>
-          <span>{T.translate(`${PREFIX}.modalTitle`, { parser: 'Log' })}</span>
+          <span data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}>
+            {T.translate(`${PREFIX}.modalTitle`, { parser: 'Log' })}
+          </span>
 
-          <div className="close-section float-right" onClick={this.props.toggle}>
+          <div
+            className="close-section float-right"
+            onClick={this.props.toggle}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.closeButton`)}
+          >
             <span className="fa fa-times" />
           </div>
         </ModalHeader>
@@ -121,7 +130,11 @@ export default class LogModal extends Component {
           <div className="list-options">
             {options.map((option) => {
               return (
-                <div key={option} onClick={this.selectFormat.bind(this, option)}>
+                <div
+                  key={option}
+                  onClick={this.selectFormat.bind(this, option)}
+                  data-testid={getDataTestid(`${TESTID_PREFIX}.option`, option)}
+                >
                   <span
                     className={classnames('fa', {
                       'fa-circle-o': option !== this.state.format,
@@ -138,10 +151,19 @@ export default class LogModal extends Component {
         </ModalBody>
 
         <ModalFooter>
-          <button className="btn btn-primary" onClick={this.apply} disabled={disabled}>
+          <button
+            className="btn btn-primary"
+            onClick={this.apply}
+            disabled={disabled}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
+          >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
-          <button className="btn btn-secondary" onClick={this.props.toggle}>
+          <button
+            className="btn btn-secondary"
+            onClick={this.props.toggle}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </ModalFooter>

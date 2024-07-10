@@ -21,6 +21,9 @@ import { preventPropagation } from 'services/helpers';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames';
 import { CSSTransition } from 'react-transition-group';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
+
+const TESTID_PREFIX = 'features.dataprep.workspace.columnsPanel.list.column';
 
 class ColumnsTabRow extends Component {
   constructor(props) {
@@ -78,6 +81,7 @@ class ColumnsTabRow extends Component {
           })}
           onClick={this.props.onShowDetails}
           ref={this.props.innerRef}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.listRow`, this.props.columnName)}
         >
           <td />
           <td>
@@ -87,12 +91,15 @@ class ColumnsTabRow extends Component {
                 'fa-square-o': !this.state.selected,
                 'fa-check-square': this.state.selected,
               })}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.selectToggle`)}
             />
           </td>
           <td>
             <span>{this.props.index + 1}</span>
           </td>
-          <td className="column-name">{this.props.columnName}</td>
+          <td className="column-name" data-testid={getDataTestid(`${TESTID_PREFIX}.name`)}>
+            {this.props.columnName}
+          </td>
           <td className="text-right non-null">
             <span>{`${nonNull}%`}</span>
           </td>

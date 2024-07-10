@@ -26,7 +26,10 @@ import findIndex from 'lodash/findIndex';
 import T from 'i18n-react';
 import ColumnActions from 'components/DataPrep/Directives/ColumnActions';
 import IconSVG from 'components/shared/IconSVG';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
+
 const PREFIX = 'features.DataPrep.DataPrepSidePanel.ColumnsTab';
+const TESTID_PREFIX = 'features.dataprep.workspace.columnsPanel';
 
 require('./ColumnsTab.scss');
 
@@ -141,14 +144,25 @@ export default class ColumnsTab extends Component {
   renderDropdown() {
     return (
       <UncontrolledDropdown className="columns-tab-toggle-all-dropdown">
-        <DropdownToggle className="columns-tab-dropdown-toggle">
+        <DropdownToggle
+          className="columns-tab-dropdown-toggle"
+          data-testid={getDataTestid(`${TESTID_PREFIX}.list.header.actionsDropdownToggle`)}
+        >
           <IconSVG name="icon-caret-square-o-down" />
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem className="toggle-all-option" onClick={this.clearAllColumns}>
+          <DropdownItem
+            className="toggle-all-option"
+            onClick={this.clearAllColumns}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.list.header.unselectAllToggle`)}
+          >
             {T.translate(`${PREFIX}.toggle.clearAll`)}
           </DropdownItem>
-          <DropdownItem className="toggle-all-option" onClick={this.selectAllColumns}>
+          <DropdownItem
+            className="toggle-all-option"
+            onClick={this.selectAllColumns}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.list.header.selectAllToggle`)}
+          >
             {T.translate(`${PREFIX}.toggle.selectAll`)}
           </DropdownItem>
         </DropdownMenu>
@@ -300,12 +314,17 @@ export default class ColumnsTab extends Component {
               value={this.state.searchText}
               onChange={this.handleChangeSearch}
               ref={(ref) => (this.searchBox = ref)}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.search.input`)}
             />
 
             {this.state.searchText.length === 0 ? (
               <span className="fa fa-search" />
             ) : (
-              <span className="fa fa-times-circle" onClick={this.clearSearch} />
+              <span
+                className="fa fa-times-circle"
+                onClick={this.clearSearch}
+                data-testid={getDataTestid(`${TESTID_PREFIX}.search.clearButton`)}
+              />
             )}
           </div>
           <ColumnActions />

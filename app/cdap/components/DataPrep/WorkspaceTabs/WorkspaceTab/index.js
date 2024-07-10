@@ -20,10 +20,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import NamespaceStore from 'services/NamespaceStore';
 import IconSVG from 'components/shared/IconSVG';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
 
 require('./WorkspaceTab.scss');
 
 const MAX_NAME_WIDTH = 140;
+const TESTID_PREFIX = 'features.dataprep.workspaceTabs.workspaceTab';
 
 export default class WorkspaceTab extends Component {
   constructor(props) {
@@ -79,11 +81,18 @@ export default class WorkspaceTab extends Component {
         className="workspace-tab active clearfix"
         title={workspace.workspaceName}
       >
-        <span className="display-name-container float-left">
+        <span
+          className="display-name-container float-left"
+          data-testid={getDataTestid(`${TESTID_PREFIX}.name`, workspace.workspaceName)}
+        >
           {this.state.overflow ? this.renderOverflow() : this.renderName()}
         </span>
 
-        <span className="fa fa-fw delete-workspace float-right" onClick={this.props.onDelete}>
+        <span
+          className="fa fa-fw delete-workspace float-right"
+          onClick={this.props.onDelete}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.closeButton`, workspace.workspaceName)}
+        >
           <IconSVG name="icon-close" />
         </span>
       </div>
@@ -95,13 +104,20 @@ export default class WorkspaceTab extends Component {
 
     return (
       <div id={workspace.id} className="workspace-tab clearfix" title={workspace.workspaceName}>
-        <span className="display-name-container float-left">
+        <span
+          className="display-name-container float-left"
+          data-testid={getDataTestid(`${TESTID_PREFIX}.name`, workspace.id)}
+        >
           <Link to={`/ns/${this.namespace}/wrangler/${workspace.workspaceId}`}>
             {this.state.overflow ? this.renderOverflow() : this.renderName()}
           </Link>
         </span>
 
-        <span className="fa fa-fw delete-workspace float-right" onClick={this.props.onDelete}>
+        <span
+          className="fa fa-fw delete-workspace float-right"
+          onClick={this.props.onDelete}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.closeButton`, workspace.id)}
+        >
           <IconSVG name="icon-close" />
         </span>
       </div>

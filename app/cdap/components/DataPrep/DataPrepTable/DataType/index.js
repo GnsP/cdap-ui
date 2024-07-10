@@ -20,8 +20,10 @@ import T from 'i18n-react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DataPrepStore from 'components/DataPrep/store';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.DataPrepTable.DataType';
+const TESTID_PREFIX = 'features.dataprep.workspace.dataTable';
 
 export default class DataType extends Component {
   constructor(props) {
@@ -54,6 +56,7 @@ export default class DataType extends Component {
         className={classnames('col-type', {
           'data-type-updated': this.state.highlightedDataType === this.props.columnName,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.head.dataType`)}
       >
         {types[this.props.columnName] || T.translate(`${PREFIX}.unknown`)}
       </div>

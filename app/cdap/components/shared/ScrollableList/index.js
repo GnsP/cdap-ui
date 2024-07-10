@@ -20,8 +20,10 @@ import React, { Component } from 'react';
 import IconSVG from 'components/shared/IconSVG';
 import findIndex from 'lodash/findIndex';
 import classnames from 'classnames';
+import { getDataTestid } from '../../../testids/TestidsProvider';
 
 require('./ScrollableList.scss');
+const TESTID_PREFIX = 'common.components.scrollableList';
 
 export default class ScrollableList extends Component {
   constructor(props) {
@@ -161,6 +163,7 @@ export default class ScrollableList extends Component {
         onClick={this.scrollDown}
         onMouseEnter={this.onMouseEnter.bind(this, this.scrollDown)}
         onMouseOut={this.onMouseOut}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.scrollDownButton`)}
       >
         <IconSVG name="icon-caret-down" />
       </div>
@@ -175,6 +178,7 @@ export default class ScrollableList extends Component {
         onClick={this.scrollUp}
         onMouseEnter={this.onMouseEnter.bind(this, this.scrollUp)}
         onMouseOut={this.onMouseOut}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.scrollUpButton`)}
       >
         <IconSVG name="icon-caret-up" />
       </div>

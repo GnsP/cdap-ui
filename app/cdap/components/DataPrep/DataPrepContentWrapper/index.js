@@ -29,6 +29,7 @@ import LoadingSVGCentered from 'components/shared/LoadingSVGCentered';
 import DataPrepSidePanel from 'components/DataPrep/DataPrepSidePanel';
 import classnames from 'classnames';
 import T from 'i18n-react';
+import { getDataTestid } from '../../../testids/TestidsProvider';
 require('./DataPrepContentWrapper.scss');
 
 const DataPrepVisualization = Loadable({
@@ -39,6 +40,7 @@ const DataPrepVisualization = Loadable({
   loading: LoadingSVGCentered,
 });
 const PREFIX = 'features.DataPrep.TopPanel';
+const TESTID_PREFIX = 'features.dataprep.workspace.topPanel';
 const DEFAULTVIEW = 'data';
 const DEFAULTSTORESTATE = { view: DEFAULTVIEW };
 const view = (state = DEFAULTVIEW, action = defaultAction) => {
@@ -66,6 +68,7 @@ function ContentSwitch({ onSwitchChange, activeTab }) {
           active: activeTab === 'data',
         })}
         onClick={onSwitchChange.bind(null, 'data')}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.tabs.data`)}
       >
         {T.translate(`${PREFIX}.Tabs.dataprep`)}
       </div>
@@ -74,6 +77,7 @@ function ContentSwitch({ onSwitchChange, activeTab }) {
           active: activeTab === 'viz',
         })}
         onClick={onSwitchChange.bind(null, 'viz')}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.tabs.viz`)}
       >
         {T.translate(`${PREFIX}.Tabs.dataviz`)}
       </div>
