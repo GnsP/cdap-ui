@@ -1164,7 +1164,7 @@ class HydratorPlusPlusTopPanelCtrl {
     this.myAppsApi.summarize({
       namespace: this.$state.params.namespace, 
     }, pipelineConfig).$promise.then((res) => {
-      summarySetter(res);
+      summarySetter(res.summary);
     });
   }
 
