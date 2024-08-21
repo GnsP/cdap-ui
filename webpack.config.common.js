@@ -201,6 +201,7 @@ var webpackConfig = {
       api: __dirname + '/app/cdap/api',
       wrangler: __dirname + '/app/wrangler',
       styles: __dirname + '/app/cdap/styles',
+      '@cdap-ui': __dirname + '/app/cdap',
     },
   },
   plugins,
