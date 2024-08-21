@@ -23,8 +23,10 @@ import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { setPopoverOffset } from 'components/DataPrep/helper';
 import T from 'i18n-react';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.FillNullOrEmpty';
+const TESTID_PREFIX = 'features.dataprep.directives.fillNullOrEmpty';
 
 export default class FillNullOrEmptyDirective extends Component {
   constructor(props) {
@@ -118,6 +120,7 @@ export default class FillNullOrEmptyDirective extends Component {
             onKeyPress={this.handleKeyPress}
             placeholder="Enter value to set"
             ref={(ref) => (this.inputBox = ref)}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.fillerValueInput`)}
           />
         </div>
 
@@ -128,11 +131,16 @@ export default class FillNullOrEmptyDirective extends Component {
             className="btn btn-primary float-left"
             onClick={this.applyDirective}
             disabled={this.state.input.length === 0}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
           >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
 
-          <button className="btn btn-link float-right" onClick={this.props.close}>
+          <button
+            className="btn btn-link float-right"
+            onClick={this.props.close}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </div>
@@ -147,6 +155,7 @@ export default class FillNullOrEmptyDirective extends Component {
         className={classnames('clearfix action-item', {
           active: this.props.isOpen,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span>{T.translate(`${PREFIX}.title`)}</span>
 

@@ -21,7 +21,10 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classnames from 'classnames';
 import T from 'i18n-react';
 import MouseTrap from 'mousetrap';
+import { getDataTestid } from '../../../../../testids/TestidsProvider';
+
 const PREFIX = 'features.DataPrep.Directives.Parse';
+const TESTID_PREFIX = 'features.dataprep.directives.parse.modal.dateFormats';
 
 const OPTIONS_MAP = {
   OPTION1: {
@@ -166,6 +169,7 @@ export default class DateFormatModal extends Component {
           value={this.state.customFormat}
           onChange={this.handleCustomFormatChange}
           placeholder={T.translate(`${PREFIX}.Parsers.SIMPLEDATE.customPlaceholder`)}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.customFormatInput`)}
           autoFocus
         />
       </div>
@@ -185,13 +189,17 @@ export default class DateFormatModal extends Component {
         className="dataprep-parse-modal cdap-modal"
       >
         <ModalHeader>
-          <span>
+          <span data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}>
             {T.translate(`${PREFIX}.Parsers.SIMPLEDATE.ModalHeader.${this.props.source}`, {
               parser: this.props.parserName,
             })}
           </span>
 
-          <div className="close-section float-right" onClick={this.props.toggle}>
+          <div
+            className="close-section float-right"
+            onClick={this.props.toggle}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.closeButton`)}
+          >
             <span className="fa fa-times" />
           </div>
         </ModalHeader>
@@ -203,7 +211,11 @@ export default class DateFormatModal extends Component {
           <div className="list-options">
             {this.state.options.map((option) => {
               return (
-                <div key={option} onClick={this.selectFormat.bind(this, option)}>
+                <div
+                  key={option}
+                  onClick={this.selectFormat.bind(this, option)}
+                  data-testid={getDataTestid(`${TESTID_PREFIX}.option`, option)}
+                >
                   <span
                     className={classnames('fa', {
                       'fa-circle-o': option !== this.state.format,
@@ -220,10 +232,19 @@ export default class DateFormatModal extends Component {
         </ModalBody>
 
         <ModalFooter>
-          <button className="btn btn-primary" onClick={this.apply} disabled={disabled}>
+          <button
+            className="btn btn-primary"
+            onClick={this.apply}
+            disabled={disabled}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
+          >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
-          <button className="btn btn-secondary" onClick={this.props.toggle}>
+          <button
+            className="btn btn-secondary"
+            onClick={this.props.toggle}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </ModalFooter>

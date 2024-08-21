@@ -28,6 +28,9 @@ import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { setPopoverOffset } from 'components/DataPrep/helper';
 import { UncontrolledTooltip } from 'components/UncontrolledComponents';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
+
+const TESTID_PREFIX = 'features.dataprep.directives.extractFields';
 
 require('./ExtractFields.scss');
 export default class ExtractFields extends Component {
@@ -73,7 +76,11 @@ export default class ExtractFields extends Component {
             disabled: this.isUsingPatternsDisabled,
           })}
         >
-          <div onClick={this.parseUsingPatterns} className="option">
+          <div
+            onClick={this.parseUsingPatterns}
+            className="option"
+            data-testid={getDataTestid(`${TESTID_PREFIX}.options.patterns`)}
+          >
             {T.translate(`${PREFIX}.patternSubmenuTitle`)}
           </div>
         </div>
@@ -83,12 +90,19 @@ export default class ExtractFields extends Component {
           </UncontrolledTooltip>
         ) : null}
         <div className="extract-field-options">
-          <div onClick={this.parseUsingDelimiters} className="option">
+          <div
+            onClick={this.parseUsingDelimiters}
+            className="option"
+            data-testid={getDataTestid(`${TESTID_PREFIX}.options.delimiters`)}
+          >
             {T.translate(`${PREFIX}.delimitersSubmenuTitle`)}
           </div>
         </div>
         <div className="extract-field-options">
-          <div onClick={this.parseUsingPosition}>
+          <div
+            onClick={this.parseUsingPosition}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.options.positions`)}
+          >
             <CutMenuItem
               column={Array.isArray(this.props.column) ? this.props.column[0] : this.props.column}
               onComplete={this.props.onComplete}
@@ -169,6 +183,7 @@ export default class ExtractFields extends Component {
         className={classnames('clearfix action-item', {
           active: this.props.isOpen,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span className="option">{T.translate(`${PREFIX}.title`)}</span>
 

@@ -26,12 +26,13 @@ import isNil from 'lodash/isNil';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import DataPrepStore from 'components/DataPrep/store';
-
+import { getDataTestid } from '../../../../../testids/TestidsProvider';
 require('./CutDirective.scss');
 
 const CELLHIGHLIGHTCLASSNAME = 'cl-highlight';
 const POPOVERTHETHERCLASSNAME = 'highlight-popover';
 const PREFIX = `features.DataPrep.Directives.CutDirective`;
+const TESTID_PREFIX = 'features.dataprep.directives.extractFields.modal.positions';
 
 export default class CutDirective extends Component {
   constructor(props) {
@@ -124,7 +125,10 @@ export default class CutDirective extends Component {
           className={`${CELLHIGHLIGHTCLASSNAME} popover-content`}
           onClick={this.preventPropagation}
         >
-          <span className={CELLHIGHLIGHTCLASSNAME}>
+          <span
+            className={CELLHIGHLIGHTCLASSNAME}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.selectionRangeText`)}
+          >
             {T.translate(`${PREFIX}.extractDescription`, { range: `${start + 1}-${end}` })}
           </span>
           <div className={classnames('col-input-container', CELLHIGHLIGHTCLASSNAME)}>
@@ -136,15 +140,21 @@ export default class CutDirective extends Component {
               onChange={this.handleColNameChange}
               value={this.newColName}
               validCharacterRegex={/^\w+$/}
+              dataTestid={getDataTestid(`${TESTID_PREFIX}.destinationColumnNameInput`)}
             />
           </div>
           <div
             className={`btn btn-primary ${CELLHIGHLIGHTCLASSNAME}`}
             onClick={this.applyDirective}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
           >
             {T.translate('features.DataPrep.Directives.apply')}
           </div>
-          <div className={`btn ${CELLHIGHLIGHTCLASSNAME}`} onClick={this.props.onClose}>
+          <div
+            className={`btn ${CELLHIGHLIGHTCLASSNAME}`}
+            onClick={this.props.onClose}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate(`${PREFIX}.cancelBtnLabel`)}
           </div>
         </PopoverBody>

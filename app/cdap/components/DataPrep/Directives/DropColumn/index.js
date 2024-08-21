@@ -21,7 +21,10 @@ import T from 'i18n-react';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
+
 const PREFIX = 'features.DataPrep.Directives.Drop';
+const TESTID_PREFIX = 'features.dataprep.directives.dropColumn';
 
 export default class DropColumnDirective extends Component {
   constructor(props) {
@@ -60,7 +63,11 @@ export default class DropColumnDirective extends Component {
     }
 
     return (
-      <div className="drop-column-directive clearfix action-item" onClick={this.applyDirective}>
+      <div
+        className="drop-column-directive clearfix action-item"
+        onClick={this.applyDirective}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
+      >
         <span>{title}</span>
       </div>
     );

@@ -21,6 +21,9 @@ import T from 'i18n-react';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
+
+const TESTID_PREFIX = 'features.dataprep.directives.swapColumns';
 
 export default class SwapColumnsDirective extends Component {
   constructor(props) {
@@ -54,6 +57,7 @@ export default class SwapColumnsDirective extends Component {
       <div
         className="swap-column-directive clearfix action-item"
         onClick={!this.props.isDisabled ? this.applyDirective : undefined}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span>{T.translate('features.DataPrep.Directives.Swap.title')}</span>
       </div>

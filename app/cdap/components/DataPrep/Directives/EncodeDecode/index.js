@@ -25,9 +25,12 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { UncontrolledTooltip } from 'components/UncontrolledComponents';
 import { setPopoverOffset } from 'components/DataPrep/helper';
 import { preventPropagation } from 'services/helpers';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
 
 require('./EncodeDecode.scss');
 const PREFIX = 'features.DataPrep.Directives.Encode';
+const TESTID_PREFIX = 'features.dataprep.directives.encodeDecode';
+
 const ENCODEOPTIONS = [
   {
     label: T.translate(`${PREFIX}.base64`),
@@ -93,7 +96,12 @@ export default class EncodeDecode extends Component {
       <div className="encode-decode-options second-level-popover" onClick={this.preventPropagation}>
         {this.props.options.map((option, i) => {
           return (
-            <div className="option" key={i} onClick={this.applyDirective.bind(this, option)}>
+            <div
+              className="option"
+              key={i}
+              onClick={this.applyDirective.bind(this, option)}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.options`, option.label)}
+            >
               {option.label}
             </div>
           );
@@ -111,6 +119,10 @@ export default class EncodeDecode extends Component {
             active: this.props.isOpen && !this.props.isDisabled,
             disabled: this.props.isDisabled,
           })}
+          data-testid={getDataTestid(
+            `${TESTID_PREFIX}.title`,
+            this.props.mainMenuLabel
+          )}
         >
           <span>{this.props.mainMenuLabel}</span>
 

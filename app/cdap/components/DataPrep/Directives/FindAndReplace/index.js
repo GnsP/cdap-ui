@@ -24,8 +24,10 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import T from 'i18n-react';
 import { setPopoverOffset } from 'components/DataPrep/helper';
 import MouseTrap from 'mousetrap';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
 
 const PREFIX = `features.DataPrep.Directives.FindAndReplace`;
+const TESTID_PREFIX = 'features.dataprep.directives.findAndReplace';
 
 export default class FindAndReplaceDirective extends Component {
   constructor(props) {
@@ -168,10 +170,15 @@ export default class FindAndReplaceDirective extends Component {
               onChange={this.handleFindInputChange}
               placeholder={T.translate(`${PREFIX}.findPlaceholder`)}
               ref={(ref) => (this.findInputBox = ref)}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.oldValueInput`)}
             />
           </div>
           <div>
-            <span className="cursor-pointer" onClick={this.handleExactMatchChange}>
+            <span
+              className="cursor-pointer"
+              onClick={this.handleExactMatchChange}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.exactMatch`)}
+            >
               <span
                 className={classnames('fa', {
                   'fa-square-o': !this.state.exactMatch,
@@ -182,7 +189,11 @@ export default class FindAndReplaceDirective extends Component {
             </span>
           </div>
           <div>
-            <span className="cursor-pointer" onClick={this.handleIgnoreCaseChange}>
+            <span
+              className="cursor-pointer"
+              onClick={this.handleIgnoreCaseChange}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.ignoreCase`)}
+            >
               <span
                 className={classnames('fa', {
                   'fa-square-o': !this.state.ignoreCase,
@@ -206,6 +217,7 @@ export default class FindAndReplaceDirective extends Component {
             onKeyPress={this.handleKeyPress}
             onChange={this.handleReplaceInputChange}
             placeholder={T.translate(`${PREFIX}.replacePlaceholder`)}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.newValueInput`)}
           />
         </div>
 
@@ -216,11 +228,16 @@ export default class FindAndReplaceDirective extends Component {
             className="btn btn-primary float-left"
             onClick={this.applyDirective}
             disabled={this.state.findInput.length === 0}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
           >
             {T.translate(`${PREFIX}.buttonLabel`)}
           </button>
 
-          <button className="btn btn-link float-right" onClick={this.props.close}>
+          <button
+            className="btn btn-link float-right"
+            onClick={this.props.close}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </div>
@@ -235,6 +252,7 @@ export default class FindAndReplaceDirective extends Component {
         className={classnames('clearfix action-item', {
           active: this.state.isOpen,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span>{T.translate(`${PREFIX}.title`)}</span>
 

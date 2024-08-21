@@ -22,9 +22,12 @@ import classnames from 'classnames';
 import uuidV4 from 'uuid/v4';
 import { Observable } from 'rxjs/Observable';
 import intersection from 'lodash/intersection';
+import { getDataTestid } from '../../../testids/TestidsProvider';
 
 require('../DataPrepTable/DataPrepTable.scss');
+
 const CELLHIGHLIGHTCLASSNAME = 'cl-highlight';
+const TESTID_PREFIX = 'features.dataprep.columnTextSelection';
 
 export default class ColumnTextSelection extends Component {
   constructor(props) {
@@ -137,10 +140,14 @@ export default class ColumnTextSelection extends Component {
     let { data, headers } = DataPrepStore.getState().dataprep;
     let column = this.props.columns[0];
 
-    const renderTableCell = (row, index, head, highlightColumn) => {
+    const renderTableCell = (row, index, head, highlightColumn, colIndex) => {
       if (head !== highlightColumn) {
         return (
-          <td key={uuidV4()} className="gray-out">
+          <td
+            key={uuidV4()}
+            className="gray-out"
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cell`, `${index}-${colIndex}`)}
+          >
             <div>{row[head]}</div>
           </td>
         );
@@ -151,6 +158,7 @@ export default class ColumnTextSelection extends Component {
           className={CELLHIGHLIGHTCLASSNAME}
           onMouseDown={this.mouseDownHandler}
           onMouseUp={this.mouseUpHandler.bind(this, head, index)}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.cell`, `${index}-${colIndex}`)}
         >
           <div className={CELLHIGHLIGHTCLASSNAME}>
             {index === this.state.textSelectionRange.index ? (
@@ -174,14 +182,22 @@ export default class ColumnTextSelection extends Component {
     const renderTableHeader = (head, index) => {
       if (head !== column) {
         return (
-          <th key={index} className="gray-out">
+          <th
+            key={index}
+            className="gray-out"
+            data-testid={getDataTestid(`${TESTID_PREFIX}.header`, index)}
+          >
             <div>{head}</div>
           </th>
         );
       }
 
       return (
-        <th key={index} id="highlighted-header">
+        <th
+          key={index}
+          id="highlighted-header"
+          data-testid={getDataTestid(`${TESTID_PREFIX}.header`, index)}
+        >
           <div>{head}</div>
         </th>
       );
@@ -198,6 +214,7 @@ export default class ColumnTextSelection extends Component {
                   className={classnames({
                     'highlight-column': head === column,
                   })}
+                  data-testid={getDataTestid(`${TESTID_PREFIX}.column`, i)}
                 />
               );
             })}
@@ -215,8 +232,8 @@ export default class ColumnTextSelection extends Component {
               return (
                 <tr key={i}>
                   <td>{i}</td>
-                  {headers.map((head) => {
-                    return renderTableCell(row, i, head, column);
+                  {headers.map((head, j) => {
+                    return renderTableCell(row, i, head, column, j);
                   })}
                 </tr>
               );

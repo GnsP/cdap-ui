@@ -20,7 +20,10 @@ import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import T from 'i18n-react';
 import MouseTrap from 'mousetrap';
+import { getDataTestid } from '../../../../../testids/TestidsProvider';
+
 const SUFFIX = 'features.DataPrep.Directives.Parse';
+const TESTID_PREFIX = 'features.dataprep.directives.parse.modal.singleField';
 
 export default class SingleFieldModal extends Component {
   constructor(props) {
@@ -84,6 +87,7 @@ export default class SingleFieldModal extends Component {
           placeholder={T.translate(`${SUFFIX}.Parsers.${parser}.optionalPlaceholder`)}
           value={this.state.optionalText}
           onChange={this.onOptionalTextChange}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.optionalFieldInput`)}
         />
       </div>
     );
@@ -106,9 +110,15 @@ export default class SingleFieldModal extends Component {
         autoFocus={false}
       >
         <ModalHeader>
-          <span>{T.translate(`${SUFFIX}.modalTitle`, { parser: parserTitle })}</span>
+          <span data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}>
+            {T.translate(`${SUFFIX}.modalTitle`, { parser: parserTitle })}
+          </span>
 
-          <div className="close-section float-right" onClick={this.props.toggle}>
+          <div
+            className="close-section float-right"
+            onClick={this.props.toggle}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.closeButton`)}
+          >
             <span className="fa fa-times" />
           </div>
         </ModalHeader>
@@ -123,6 +133,7 @@ export default class SingleFieldModal extends Component {
               placeholder={T.translate(`${SUFFIX}.Parsers.${parser}.placeholder`)}
               value={this.state.text}
               onChange={this.onTextChange}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.mainFieldInput`)}
               autoFocus
             />
           </div>
@@ -131,10 +142,19 @@ export default class SingleFieldModal extends Component {
         </ModalBody>
 
         <ModalFooter>
-          <button className="btn btn-primary" disabled={disabled} onClick={this.apply}>
+          <button
+            className="btn btn-primary"
+            disabled={disabled}
+            onClick={this.apply}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
+          >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
-          <button className="btn btn-secondary" onClick={this.props.toggle}>
+          <button
+            className="btn btn-secondary"
+            onClick={this.props.toggle}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </ModalFooter>

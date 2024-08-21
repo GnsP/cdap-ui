@@ -23,10 +23,12 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import MouseTrap from 'mousetrap';
 import { setPopoverOffset } from 'components/DataPrep/helper';
 import { preventPropagation } from 'services/helpers';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
 
 require('./Hash.scss');
 
 const PREFIX = 'features.DataPrep.Directives.Hash';
+const TESTID_PREFIX = 'features.dataprep.directives.hash';
 const VALID_TYPES = ['string', 'byte[]'];
 
 interface IHashProps {
@@ -170,7 +172,11 @@ export default class Hash extends Component<IHashProps> {
   public renderEncode = () => {
     const encode = (
       <div>
-        <span className="cursor-pointer" onClick={this.toggleEncode}>
+        <span
+          className="cursor-pointer"
+          onClick={this.toggleEncode}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.encode`)}
+        >
           <span
             className={classnames('fa', {
               'fa-square-o': !this.state.encode,
@@ -202,10 +208,18 @@ export default class Hash extends Component<IHashProps> {
                 className="form-control mousetrap"
                 value={this.state.selectedHashAlgorithm}
                 onChange={this.handleHashAlgorithmSelect}
+                data-testid={getDataTestid(`${TESTID_PREFIX}.hashSelector`)}
               >
                 {hashAlgorithms.map((algorithm) => {
                   return (
-                    <option value={algorithm.algorithm} key={algorithm.algorithm}>
+                    <option
+                      value={algorithm.algorithm}
+                      key={algorithm.algorithm}
+                      data-testid={getDataTestid(
+                        `${TESTID_PREFIX}.hashOptions`,
+                        algorithm.algorithm
+                      )}
+                    >
                       {algorithm.displayText}
                     </option>
                   );
@@ -232,11 +246,19 @@ export default class Hash extends Component<IHashProps> {
         <hr />
 
         <div className="action-buttons">
-          <button className="btn btn-primary float-left" onClick={this.applyDirective}>
+          <button
+            className="btn btn-primary float-left"
+            onClick={this.applyDirective}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
+          >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
 
-          <button className="btn btn-link float-right" onClick={this.props.close}>
+          <button
+            className="btn btn-link float-right"
+            onClick={this.props.close}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </div>
@@ -252,6 +274,7 @@ export default class Hash extends Component<IHashProps> {
           active: this.props.isOpen && !this.state.isDisabled,
           disabled: this.state.isDisabled,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span>{T.translate(`${PREFIX}.title`)}</span>
 

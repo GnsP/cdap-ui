@@ -24,10 +24,12 @@ import DataPrepStore from 'components/DataPrep/store';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import Mousetrap from 'mousetrap';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
+import { getDataTestid } from '../../../../../testids/TestidsProvider';
 
 const POPOVERTHETHERCLASSNAME = 'highlight-popover';
 const CELLHIGHLIGHTCLASSNAME = 'cl-highlight';
 const PREFIX = `features.DataPrep.Directives.MaskSelection`;
+const TESTID_PREFIX = 'features.dataprep.directives.maskData';
 
 export default class MaskSelection extends Component {
   constructor(props) {
@@ -134,10 +136,15 @@ export default class MaskSelection extends Component {
           <div
             className={`btn btn-primary ${CELLHIGHLIGHTCLASSNAME}`}
             onClick={this.applyDirective}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.customSelectionApplyButton`)}
           >
             {T.translate('features.DataPrep.Directives.apply')}
           </div>
-          <div className={`btn ${CELLHIGHLIGHTCLASSNAME}`} onClick={this.props.onClose}>
+          <div
+            className={`btn ${CELLHIGHLIGHTCLASSNAME}`}
+            onClick={this.props.onClose}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.customSelectionCancelButton`)}
+          >
             {T.translate(`${PREFIX}.cancelBtnLabel`)}
           </div>
         </PopoverBody>

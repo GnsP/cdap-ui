@@ -33,11 +33,13 @@ import { preventPropagation } from 'services/helpers';
 import { NUMBER_TYPES, NATIVE_NUMBER_TYPES } from 'services/global-constants';
 import capitalize from 'lodash/capitalize';
 import Mousetrap from 'mousetrap';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
 
 require('./Calculate.scss');
 
 const PREFIX = 'features.DataPrep.Directives.Calculate';
 const COPY_NEW_COLUMN_PREFIX = 'features.DataPrep.DataPrepTable.copyToNewColumn';
+const TESTID_PREFIX = 'features.dataprep.directives.calculate';
 
 export default class Calculate extends Component {
   constructor(props) {
@@ -674,6 +676,7 @@ export default class Calculate extends Component {
             active: this.state.operationPopoverOpen === option.name,
           })}
           onClick={this.popoverOptionClick.bind(this, option.name)}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.option`, option.name)}
         >
           <span>{T.translate(`${PREFIX}.OptionsLabels.${option.name}`)}</span>
           <span className="float-right">
@@ -713,7 +716,11 @@ export default class Calculate extends Component {
   renderNewColumnNameInputWithCheckbox() {
     return (
       <div>
-        <div className="create-new-column-line" onClick={this.toggleCreateNewColumn}>
+        <div
+          className="create-new-column-line"
+          onClick={this.toggleCreateNewColumn}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.submenu.copyToNewColumn`)}
+        >
           <span className="fa fa-fw">
             <IconSVG name={this.state.createNewColumn ? 'icon-check-square' : 'icon-square-o'} />
           </span>
@@ -753,6 +760,7 @@ export default class Calculate extends Component {
           onChange={this.setNewColumnInput}
           placeholder={inputPlaceholder}
           autoFocus
+          data-testid={getDataTestid(`${TESTID_PREFIX}.submenu.destinationColumnNameInput`)}
         />
         {columnNameAlreadyExists(this.state.newColumnInput) ? (
           <WarningContainer message={T.translate(`${COPY_NEW_COLUMN_PREFIX}.inputDuplicate`)} />
@@ -768,11 +776,16 @@ export default class Calculate extends Component {
           className="btn btn-primary float-left"
           disabled={this.isApplyDisabled()}
           onClick={this.getExpressionAndApply}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.submenu.applyButton`)}
         >
           {T.translate('features.DataPrep.Directives.apply')}
         </button>
 
-        <button className="btn btn-link float-right" onClick={this.setDefaultState}>
+        <button
+          className="btn btn-link float-right"
+          onClick={this.setDefaultState}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.submenu.cancelButton`)}
+        >
           {T.translate('features.DataPrep.Directives.cancel')}
         </button>
       </div>
@@ -846,6 +859,7 @@ export default class Calculate extends Component {
             step="any"
             min={inputMin}
             autoFocus
+            data-testid={getDataTestid(`${TESTID_PREFIX}.submenu.operandInput`)}
           />
         </div>
         {this.renderNewColumnNameInputWithCheckbox()}
@@ -868,6 +882,7 @@ export default class Calculate extends Component {
             active: this.props.isOpen && !this.state.isDisabled,
             disabled: this.state.isDisabled,
           })}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
         >
           <span>{T.translate(`${PREFIX}.title`)}</span>
 

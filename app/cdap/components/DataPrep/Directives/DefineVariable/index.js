@@ -25,10 +25,12 @@ import { setPopoverOffset } from 'components/DataPrep/helper';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import Mousetrap from 'mousetrap';
 import { preventPropagation } from 'services/helpers';
+import { getDataTestid } from '../../../../testids/TestidsProvider';
 
 require('./DefineVariable.scss');
 
 const PREFIX = `features.DataPrep.Directives.DefineVariable`;
+const TESTID_PREFIX = 'features.dataprep.directives.defineVariable';
 
 export default class DefineVariableDirective extends Component {
   constructor(props) {
@@ -164,6 +166,7 @@ export default class DefineVariableDirective extends Component {
           onChange={this.handleStateValueChange.bind(this, 'customFilter')}
           ref={(ref) => (this.customFilterRef = ref)}
           placeholder={T.translate(`${PREFIX}.Placeholders.CUSTOMCONDITION`)}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.customConditionInput`)}
         />
       </div>
     );
@@ -184,6 +187,7 @@ export default class DefineVariableDirective extends Component {
           placeholder={T.translate(`${PREFIX}.Placeholders.${this.state.selectedCondition}`)}
           ref={(ref) => (this.textFilterRef = ref)}
           onKeyPress={this.handleKeyPress}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.conditionTextInput`)}
         />
       </div>
     );
@@ -209,10 +213,18 @@ export default class DefineVariableDirective extends Component {
                 className="form-control mousetrap"
                 value={this.state.selectedCondition}
                 onChange={this.handleStateValueChange.bind(this, 'selectedCondition')}
+                data-testid={getDataTestid(`${TESTID_PREFIX}.conditionSelector`)}
               >
                 {selectConditions.map((condition) => {
                   return (
-                    <option value={condition.filter} key={condition.filter}>
+                    <option
+                      value={condition.filter}
+                      key={condition.filter}
+                      data-testid={getDataTestid(
+                        `${TESTID_PREFIX}.conditionOption`, 
+                        condition.filter
+                      )}
+                    >
                       {condition.displayText}
                     </option>
                   );
@@ -220,7 +232,13 @@ export default class DefineVariableDirective extends Component {
                 <option disabled="disabled" role="separator">
                   &#x2500;&#x2500;&#x2500;&#x2500;
                 </option>
-                <option value="CUSTOMCONDITION">
+                <option
+                  value="CUSTOMCONDITION"
+                  data-testid={getDataTestid(
+                    `${TESTID_PREFIX}.conditionOption`,
+                    'CUSTOMCONDITION'
+                  )}
+                >
                   {T.translate(`${PREFIX}.Conditions.CUSTOMCONDITION`)}
                 </option>
               </select>
@@ -247,6 +265,7 @@ export default class DefineVariableDirective extends Component {
             onChange={this.handleStateValueChange.bind(this, 'variableName')}
             placeholder={T.translate(`${PREFIX}.variableNamePlaceholder`)}
             onKeyPress={this.handleKeyPress}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.variableNameInput`)}
           />
         </div>
       </div>
@@ -266,10 +285,18 @@ export default class DefineVariableDirective extends Component {
               className="form-control"
               value={this.state.selectedColumn}
               onChange={this.handleStateValueChange.bind(this, 'selectedColumn')}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.columnSelector`)}
             >
               {this.columnsList.map((column) => {
                 return (
-                  <option value={column} key={column}>
+                  <option
+                    value={column}
+                    key={column}
+                    data-testid={getDataTestid(
+                      `${TESTID_PREFIX}.columnOption`,
+                      column
+                    )}
+                  >
                     {column}
                   </option>
                 );
@@ -289,7 +316,7 @@ export default class DefineVariableDirective extends Component {
     return (
       <div className="summary">
         <strong className="summary-label">{T.translate(`${PREFIX}.summaryLabel`)}</strong>
-        <span>
+        <span data-testid={getDataTestid(`${TESTID_PREFIX}.summaryText`)}>
           {T.translate(`${PREFIX}.summaryText`, {
             variableName: this.state.variableName,
             condition: T.translate(`${PREFIX}.Conditions.${this.state.selectedCondition}`),
@@ -328,11 +355,16 @@ export default class DefineVariableDirective extends Component {
             className="btn btn-primary float-left"
             onClick={this.applyDirective}
             disabled={this.isApplyDisabled()}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
           >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
 
-          <button className="btn btn-link float-right" onClick={this.props.close}>
+          <button
+            className="btn btn-link float-right"
+            onClick={this.props.close}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </div>
@@ -347,6 +379,7 @@ export default class DefineVariableDirective extends Component {
         className={classnames('set-variable-directive clearfix action-item', {
           active: this.state.isOpen,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span>{T.translate(`${PREFIX}.title`)}</span>
 
