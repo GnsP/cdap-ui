@@ -40,6 +40,9 @@
       ],
       "test-utils": [
         "./jest/test-utils"
+      ],
+      "@cdap-ui/*": [
+        "./app/cdap/*"
       ]
     }
   },

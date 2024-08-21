@@ -20,7 +20,7 @@ import T from 'i18n-react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DataPrepStore from 'components/DataPrep/store';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.DataPrepTable.DataType';
 const TESTID_PREFIX = 'features.dataprep.workspace.dataTable';

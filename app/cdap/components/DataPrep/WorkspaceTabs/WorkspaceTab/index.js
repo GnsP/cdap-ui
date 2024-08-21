@@ -20,7 +20,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import NamespaceStore from 'services/NamespaceStore';
 import IconSVG from 'components/shared/IconSVG';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./WorkspaceTab.scss');
 

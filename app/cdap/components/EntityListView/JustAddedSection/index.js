@@ -34,7 +34,7 @@ import SearchStoreActions from 'components/EntityListView/SearchStore/SearchStor
 import { SCOPES } from 'services/global-constants';
 import { MyAppApi } from 'api/app';
 require('./JustAddedSection.scss');
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const TESTID_PREFIX = 'features.entityListView.justAdded';
 

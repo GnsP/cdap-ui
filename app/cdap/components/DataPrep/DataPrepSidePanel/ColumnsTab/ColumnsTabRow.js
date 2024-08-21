@@ -21,7 +21,7 @@ import { preventPropagation } from 'services/helpers';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames';
 import { CSSTransition } from 'react-transition-group';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const TESTID_PREFIX = 'features.dataprep.workspace.columnsPanel.list.column';
 

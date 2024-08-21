@@ -28,7 +28,7 @@ import { Label, Input } from 'reactstrap';
 import { getProfiles, resetProfiles } from 'components/Cloud/Profiles/Store/ActionCreator';
 import { SYSTEM_NAMESPACE } from 'services/global-constants';
 import { Theme } from 'services/ThemeHelper';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 import If from 'components/shared/If';
 require('./SystemProfilesAccordion.scss');
 

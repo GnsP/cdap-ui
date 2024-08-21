@@ -26,7 +26,7 @@ import MouseTrap from 'mousetrap';
 import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import IconSVG from 'components/shared/IconSVG';
 import { setPopoverOffset } from 'components/DataPrep/helper';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./FilterDirective.scss');
 

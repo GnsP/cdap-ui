@@ -21,7 +21,7 @@ import T from 'i18n-react';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.Keep';
 const TESTID_PREFIX = 'features.dataprep.directives.keepColumn';

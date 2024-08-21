@@ -25,7 +25,7 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { columnNameAlreadyExists } from 'components/DataPrep/helper';
 import WarningContainer from 'components/shared/WarningContainer';
 import { setPopoverOffset } from 'components/DataPrep/helper';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 import T from 'i18n-react';
 require('./MergeColumns.scss');

@@ -26,7 +26,7 @@ import findIndex from 'lodash/findIndex';
 import T from 'i18n-react';
 import ColumnActions from 'components/DataPrep/Directives/ColumnActions';
 import IconSVG from 'components/shared/IconSVG';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.DataPrepSidePanel.ColumnsTab';
 const TESTID_PREFIX = 'features.dataprep.workspace.columnsPanel';

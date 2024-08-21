@@ -24,7 +24,7 @@ import DataPrepStore from 'components/DataPrep/store';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import Mousetrap from 'mousetrap';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
-import { getDataTestid } from '../../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const POPOVERTHETHERCLASSNAME = 'highlight-popover';
 const CELLHIGHLIGHTCLASSNAME = 'cl-highlight';

@@ -25,7 +25,7 @@ import isNil from 'lodash/isNil';
 import classnames from 'classnames';
 import T from 'i18n-react';
 import { Theme } from 'services/ThemeHelper';
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 require('./AdminTabSwitch.scss');
 
 const PREFIX = 'features.Administration';

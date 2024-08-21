@@ -33,7 +33,7 @@ import {
 import isNil from 'lodash/isNil';
 import { getCurrentNamespace } from 'services/NamespaceStore';
 import { MyAppApi } from 'api/app';
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const TESTID_PREFIX = 'features.entityListView';
 

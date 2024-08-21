@@ -24,7 +24,7 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import T from 'i18n-react';
 import { setPopoverOffset } from 'components/DataPrep/helper';
 import MouseTrap from 'mousetrap';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = `features.DataPrep.Directives.FindAndReplace`;
 const TESTID_PREFIX = 'features.dataprep.directives.findAndReplace';

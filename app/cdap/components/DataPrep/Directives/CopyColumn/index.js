@@ -25,7 +25,7 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import WarningContainer from 'components/shared/WarningContainer';
 import { columnNameAlreadyExists } from 'components/DataPrep/helper';
 import { setPopoverOffset } from 'components/DataPrep/helper';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.Copy';
 const COPY_NEW_COLUMN_PREFIX = 'features.DataPrep.DataPrepTable.copyToNewColumn';

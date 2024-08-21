@@ -31,7 +31,7 @@ import capitalize from 'lodash/capitalize';
 import { getCurrentNamespace } from 'services/NamespaceStore';
 import { objectQuery } from 'services/helpers';
 require('./EntityCard.scss');
-import { getDataTestid } from '../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const TESTID_PREFIX = 'features.entityListView.entity';
 

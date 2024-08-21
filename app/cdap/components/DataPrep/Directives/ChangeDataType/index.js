@@ -29,7 +29,7 @@ import { preventPropagation } from 'services/helpers';
 import { UncontrolledTooltip } from 'components/UncontrolledComponents';
 import If from 'components/shared/If';
 import { DecimalOptions } from 'components/DataPrep/Directives/ChangeDataType/DecimalOptions';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.ChangeDataType';
 const TESTID_PREFIX = 'features.dataprep.directives.changeDataType';

@@ -20,7 +20,7 @@ import React, { Component } from 'react';
 import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import T from 'i18n-react';
-import { getDataTestid } from '../../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const TESTID_PREFIX = 'features.dataprep.directives.extractFields.modal.positions';
 

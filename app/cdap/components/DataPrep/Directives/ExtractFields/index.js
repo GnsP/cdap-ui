@@ -28,7 +28,7 @@ import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { setPopoverOffset } from 'components/DataPrep/helper';
 import { UncontrolledTooltip } from 'components/UncontrolledComponents';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const TESTID_PREFIX = 'features.dataprep.directives.extractFields';
 

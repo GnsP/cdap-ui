@@ -25,7 +25,7 @@ import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { Theme } from 'services/ThemeHelper';
 import T from 'i18n-react';
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./AdminConfigTabContent.scss');
 

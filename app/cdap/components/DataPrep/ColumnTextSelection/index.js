@@ -22,7 +22,7 @@ import classnames from 'classnames';
 import uuidV4 from 'uuid/v4';
 import { Observable } from 'rxjs/Observable';
 import intersection from 'lodash/intersection';
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('../DataPrepTable/DataPrepTable.scss');
 

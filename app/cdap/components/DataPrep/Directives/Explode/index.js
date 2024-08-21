@@ -25,7 +25,7 @@ import DataPrepStore from 'components/DataPrep/store';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { setPopoverOffset } from 'components/DataPrep/helper';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 require('./Explode.scss');
 
 const TESTID_PREFIX = 'features.dataprep.directives.explode';

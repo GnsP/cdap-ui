@@ -16,7 +16,7 @@
 
 import T from 'i18n-react';
 import { Theme } from 'services/ThemeHelper';
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 const PREFIX = 'features.Home';
 const TESTID_PREFIX = 'features.home';
 

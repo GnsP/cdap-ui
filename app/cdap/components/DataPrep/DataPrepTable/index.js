@@ -33,7 +33,7 @@ import DataQuality from 'components/DataPrep/DataPrepTable/DataQuality';
 import DataType from 'components/DataPrep/DataPrepTable/DataType';
 import Page500 from 'components/500';
 import Page404 from 'components/404';
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 // Lazy load polyfill in safari as InteresectionObservers are not implemented there yet.
 (async function() {

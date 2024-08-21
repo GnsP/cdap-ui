@@ -33,7 +33,7 @@ import { preventPropagation } from 'services/helpers';
 import { NUMBER_TYPES, NATIVE_NUMBER_TYPES } from 'services/global-constants';
 import capitalize from 'lodash/capitalize';
 import Mousetrap from 'mousetrap';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./Calculate.scss');
 

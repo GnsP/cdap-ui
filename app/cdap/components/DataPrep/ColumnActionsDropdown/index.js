@@ -27,7 +27,7 @@ import isEqual from 'lodash/isEqual';
 import DataPrepStore from 'components/DataPrep/store';
 import ScrollableList from 'components/shared/ScrollableList';
 import { Theme } from 'services/ThemeHelper';
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 // Directives List
 import ParseDirective from 'components/DataPrep/Directives/Parse';

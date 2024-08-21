@@ -27,7 +27,7 @@ import Mousetrap from 'mousetrap';
 import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { UncontrolledDropdown } from 'components/UncontrolledComponents';
-import { getDataTestid } from '../../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 require('./UsingPatternsModal.scss');
 
 const PREFIX = 'features.DataPrep.Directives.ExtractFields.UsingPatterns';

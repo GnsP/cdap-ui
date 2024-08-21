@@ -23,7 +23,7 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import MouseTrap from 'mousetrap';
 import { setPopoverOffset } from 'components/DataPrep/helper';
 import { preventPropagation } from 'services/helpers';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./Hash.scss');
 

@@ -21,7 +21,7 @@ import classnames from 'classnames';
 import T from 'i18n-react';
 import Mousetrap from 'mousetrap';
 import isEmpty from 'lodash/isEmpty';
-import { getDataTestid } from '../../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 require('./UsingDelimiter.scss');
 
 const PREFIX = 'features.DataPrep.Directives.ExtractFields.UsingDelimiters';

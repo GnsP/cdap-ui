@@ -26,7 +26,7 @@ import isNil from 'lodash/isNil';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import DataPrepStore from 'components/DataPrep/store';
-import { getDataTestid } from '../../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 require('./CutDirective.scss');
 
 const CELLHIGHLIGHTCLASSNAME = 'cl-highlight';

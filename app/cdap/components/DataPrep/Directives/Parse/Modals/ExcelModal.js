@@ -22,7 +22,7 @@ import isNil from 'lodash/isNil';
 import MouseTrap from 'mousetrap';
 import classnames from 'classnames';
 import T from 'i18n-react';
-import { getDataTestid } from '../../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.Parse.Parsers.EXCEL';
 const TESTID_PREFIX = 'features.dataprep.directives.parse.modal.excel';

@@ -21,7 +21,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classnames from 'classnames';
 import T from 'i18n-react';
 import MouseTrap from 'mousetrap';
-import { getDataTestid } from '../../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.Parse';
 const TESTID_PREFIX = 'features.dataprep.directives.parse.modal.dateFormats';

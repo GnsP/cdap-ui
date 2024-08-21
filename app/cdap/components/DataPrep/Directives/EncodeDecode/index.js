@@ -25,7 +25,7 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { UncontrolledTooltip } from 'components/UncontrolledComponents';
 import { setPopoverOffset } from 'components/DataPrep/helper';
 import { preventPropagation } from 'services/helpers';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./EncodeDecode.scss');
 const PREFIX = 'features.DataPrep.Directives.Encode';

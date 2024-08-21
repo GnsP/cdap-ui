@@ -21,7 +21,7 @@ import DirectivesTabRow from 'components/DataPrep/DataPrepSidePanel/DirectivesTa
 import fileDownload from 'js-file-download';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import T from 'i18n-react';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./DirectivesTab.scss');
 

@@ -20,7 +20,7 @@ import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import T from 'i18n-react';
 import MouseTrap from 'mousetrap';
-import { getDataTestid } from '../../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const SUFFIX = 'features.DataPrep.Directives.Parse';
 const TESTID_PREFIX = 'features.dataprep.directives.parse.modal.singleField';

@@ -32,7 +32,7 @@ import { preventPropagation } from 'services/helpers';
 import { columnNameAlreadyExists } from 'components/DataPrep/helper';
 import capitalize from 'lodash/capitalize';
 import Mousetrap from 'mousetrap';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.Format';
 const COPY_NEW_COLUMN_PREFIX = 'features.DataPrep.DataPrepTable.copyToNewColumn';

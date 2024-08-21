@@ -23,7 +23,7 @@ import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { setPopoverOffset } from 'components/DataPrep/helper';
 import T from 'i18n-react';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.FillNullOrEmpty';
 const TESTID_PREFIX = 'features.dataprep.directives.fillNullOrEmpty';

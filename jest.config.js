@@ -38,6 +38,7 @@ module.exports = {
     '/^components/': '<rootDir>/app/cdap/components',
     '/^services/': '<rootDir>/app/cdap/services',
     '/^api/': '<rootDir>/app/cdap/api',
+    '^@cdap-ui/(.*)': '<rootDir>/app/cdap/$1',
     '^lib': '<rootDir>/../lib',
     '^mocks': '<rootDir>/__mocks__',
   },

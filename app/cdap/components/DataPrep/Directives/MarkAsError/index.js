@@ -26,7 +26,7 @@ import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import IconSVG from 'components/shared/IconSVG';
 import MouseTrap from 'mousetrap';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./MarkAsError.scss');
 

@@ -25,7 +25,7 @@ import { setPopoverOffset } from 'components/DataPrep/helper';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import Mousetrap from 'mousetrap';
 import { preventPropagation } from 'services/helpers';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./DefineVariable.scss');
 

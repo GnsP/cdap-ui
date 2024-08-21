@@ -26,7 +26,7 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { preventPropagation } from 'services/helpers';
 import Mousetrap from 'mousetrap';
 import { setPopoverOffset } from 'components/DataPrep/helper';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./CustomTransform.scss');
 
