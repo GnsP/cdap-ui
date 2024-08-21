@@ -67,7 +67,7 @@ export function getDataTestid(prefixPath: string, siblingKey?: string | number):
   const testidValue = getDataTestidInternal(prefixPath, siblingKey);
 
   // runs only in development
-  if (window.CDAP_CONFIG.uiValidateTestids) {
+  if (window && _get(window, 'CDAP_CONFIG.uiValidateTestids', false)) {
     if (!testidValue) {
       throw new Error(
         `Using a data-testid that is not defined in testids.yaml: 
