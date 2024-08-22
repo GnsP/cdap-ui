@@ -259,6 +259,7 @@ var webpackConfig = {
       api: __dirname + '/app/cdap/api',
       lib: __dirname + '/app/lib',
       styles: __dirname + '/app/cdap/styles',
+      '@cdap-ui': __dirname + '/app/cdap',
       'react-dom': '@hot-loader/react-dom',
     },
   },

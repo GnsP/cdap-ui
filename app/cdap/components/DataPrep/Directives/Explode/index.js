@@ -25,8 +25,11 @@ import DataPrepStore from 'components/DataPrep/store';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { setPopoverOffset } from 'components/DataPrep/helper';
-
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 require('./Explode.scss');
+
+const TESTID_PREFIX = 'features.dataprep.directives.explode';
+
 export default class Explode extends Component {
   constructor(props) {
     super(props);
@@ -128,17 +131,29 @@ export default class Explode extends Component {
             disabled: disableFilterSubmenu,
           })}
         >
-          <div onClick={this.explodeUsingFilters} className="option">
+          <div
+            onClick={this.explodeUsingFilters}
+            className="option"
+            data-testid={getDataTestid(`${TESTID_PREFIX}.options.delimited`)}
+          >
             {T.translate(`${PREFIX}.filtersSubmenuTitle`)}
           </div>
         </div>
         <div className="explode-field-options">
-          <div onClick={this.explodeByFlattening} className="option">
+          <div
+            onClick={this.explodeByFlattening}
+            className="option"
+            data-testid={getDataTestid(`${TESTID_PREFIX}.options.arrayFlattening`)}
+          >
             {T.translate(`${PREFIX}.flatteningSubmenuTitle`)}
           </div>
         </div>
         <div className="explode-field-options">
-          <div onClick={this.explodeRecordByFlattening} className="option">
+          <div
+            onClick={this.explodeRecordByFlattening}
+            className="option"
+            data-testid={getDataTestid(`${TESTID_PREFIX}.options.recordFlattening`)}
+          >
             {T.translate(`${PREFIX}.recordFlatteningSubmenuTitle`)}
           </div>
         </div>
@@ -153,6 +168,7 @@ export default class Explode extends Component {
         className={classnames('clearfix action-item', {
           active: this.props.isOpen,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span className="option">{T.translate(`${PREFIX}.title`)}</span>
 

@@ -30,6 +30,7 @@ module.exports = {
     },
   },
   moduleDirectories: ['node_modules', 'jest', __dirname],
+  moduleFileExtensions: [ 'js', 'jsx', 'ts', 'tsx',  'yaml' ],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/__mocks__/fileMock.js',
@@ -37,6 +38,7 @@ module.exports = {
     '/^components/': '<rootDir>/app/cdap/components',
     '/^services/': '<rootDir>/app/cdap/services',
     '/^api/': '<rootDir>/app/cdap/api',
+    '^@cdap-ui/(.*)': '<rootDir>/app/cdap/$1',
     '^lib': '<rootDir>/../lib',
     '^mocks': '<rootDir>/__mocks__',
   },
@@ -52,6 +54,7 @@ module.exports = {
   transform: {
     '.+\\.(css|styl|less|sass|scss)$': 'jest-css-modules-transform',
     '\\.[jt]sx?$': 'babel-jest',
+    '\\.yaml$': 'yaml-jest',
   },
   transformIgnorePatterns: ['<rootDir>/node_modules/?!(@material)/'],
 };

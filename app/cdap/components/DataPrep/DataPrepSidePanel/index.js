@@ -23,7 +23,7 @@ import TargetTab from 'components/DataPrep/DataPrepSidePanel/TargetTab';
 import DirectivesTab from 'components/DataPrep/DataPrepSidePanel/DirectivesTab';
 import T from 'i18n-react';
 import If from 'components/shared/If';
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./DataPrepSidePanel.scss');
 const PREFIX = 'features.DataPrep.DataPrepSidePanel';

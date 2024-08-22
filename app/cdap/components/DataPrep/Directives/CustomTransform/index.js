@@ -26,10 +26,12 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { preventPropagation } from 'services/helpers';
 import Mousetrap from 'mousetrap';
 import { setPopoverOffset } from 'components/DataPrep/helper';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./CustomTransform.scss');
 
 const PREFIX = 'features.DataPrep.Directives.CustomTransform';
+const TESTID_PREFIX = 'features.dataprep.directives.customTransform';
 
 export default class CustomTransform extends Component {
   static propTypes = {
@@ -106,6 +108,7 @@ export default class CustomTransform extends Component {
           onChange={this.handleInputChange}
           placeholder={T.translate(`${PREFIX}.placeholder`, { column: this.props.column })}
           autoFocus
+          data-testid={getDataTestid(`${TESTID_PREFIX}.expressionTextarea`)}
         />
 
         <hr />
@@ -115,11 +118,16 @@ export default class CustomTransform extends Component {
             className="btn btn-primary float-left"
             onClick={this.applyDirective}
             disabled={this.state.input.length === 0}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
           >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
 
-          <button className="btn btn-link float-right" onClick={this.props.close}>
+          <button
+            className="btn btn-link float-right"
+            onClick={this.props.close}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </div>
@@ -134,6 +142,7 @@ export default class CustomTransform extends Component {
         className={classnames('clearfix action-item', {
           active: this.props.isOpen,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span>{T.translate(`${PREFIX}.title`)}</span>
 

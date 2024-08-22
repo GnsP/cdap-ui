@@ -23,9 +23,11 @@ import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import DataPrepStore from 'components/DataPrep/store';
 import T from 'i18n-react';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 require('./MaskData.scss');
 
 const PREFIX = 'features.DataPrep.Directives.MaskData';
+const TESTID_PREFIX = 'features.dataprep.directives.maskData';
 
 export default class MaskData extends Component {
   constructor(props) {
@@ -115,17 +117,29 @@ export default class MaskData extends Component {
     return (
       <div className="mask-fields second-level-popover" onClick={this.preventPropagation}>
         <div className="mask-field-options">
-          <div onClick={this.maskLast4Digits} className="option">
+          <div
+            onClick={this.maskLast4Digits}
+            className="option"
+            data-testid={getDataTestid(`${TESTID_PREFIX}.options.last4Chars`)}
+          >
             {T.translate(`${PREFIX}.option1`)}
           </div>
         </div>
         <div className="mask-field-options">
-          <div onClick={this.maskLast2Digits} className="option">
+          <div
+            onClick={this.maskLast2Digits}
+            className="option"
+            data-testid={getDataTestid(`${TESTID_PREFIX}.options.last2Chars`)}
+          >
             {T.translate(`${PREFIX}.option2`)}
           </div>
         </div>
         <div className="mask-field-options">
-          <div onClick={this.maskCustomSelection} className="option">
+          <div
+            onClick={this.maskCustomSelection}
+            className="option"
+            data-testid={getDataTestid(`${TESTID_PREFIX}.options.customSelection`)}
+          >
             {T.translate(`${PREFIX}.option3`)}
           </div>
         </div>
@@ -133,7 +147,11 @@ export default class MaskData extends Component {
           <hr />
         </div>
         <div className="mask-field-options">
-          <div onClick={this.maskByShuffling} className="option">
+          <div
+            onClick={this.maskByShuffling}
+            className="option"
+            data-testid={getDataTestid(`${TESTID_PREFIX}.options.shuffling`)}
+          >
             {T.translate(`${PREFIX}.option4`)}
           </div>
         </div>
@@ -148,6 +166,7 @@ export default class MaskData extends Component {
           active: this.props.isOpen && this.isDirectiveEnabled(),
           disabled: !this.isDirectiveEnabled(),
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span className="option">{T.translate(`${PREFIX}.menuLabel`)}</span>
 

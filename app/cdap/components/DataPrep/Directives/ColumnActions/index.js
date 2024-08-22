@@ -24,7 +24,7 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import Bulkset from 'components/DataPrep/Directives/ColumnActions/Bulkset';
 import ReplaceColumns from 'components/DataPrep/Directives/ColumnActions/ReplaceColumns';
 import T from 'i18n-react';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 require('./ColumnActions.scss');
 
 const PREFIX = 'features.DataPrep.Directives.ColumnActions';

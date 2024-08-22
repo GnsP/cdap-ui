@@ -22,7 +22,7 @@ import classnames from 'classnames';
 import T from 'i18n-react';
 import MouseTrap from 'mousetrap';
 import DeprecatedMessage from 'components/shared/DeprecatedMessage';
-import { getDataTestid } from '../../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.Parse';
 const TESTID_PREFIX = 'features.dataprep.directives.parse.modal.csv';
@@ -99,7 +99,7 @@ export default class CSVModal extends Component {
           onChange={this.handleCustomDelimiterChange}
           placeholder={T.translate(`${PREFIX}.Parsers.CSV.customPlaceholder`)}
           autoFocus
-          data-testid={getDataTestid(`${TESTID_PREFIX}.customDelimeterInput`)}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.customDelimiterInput`)}
         />
       </div>
     );

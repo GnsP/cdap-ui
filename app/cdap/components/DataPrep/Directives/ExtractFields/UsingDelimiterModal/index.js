@@ -21,9 +21,11 @@ import classnames from 'classnames';
 import T from 'i18n-react';
 import Mousetrap from 'mousetrap';
 import isEmpty from 'lodash/isEmpty';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 require('./UsingDelimiter.scss');
 
 const PREFIX = 'features.DataPrep.Directives.ExtractFields.UsingDelimiters';
+const TESTID_PREFIX = 'features.dataprep.directives.extractFields.modal.delimiters';
 const DEFAULT_DELIMITER = T.translate(`${PREFIX}.comma`);
 const DELIMITER_MAP = {
   [T.translate(`${PREFIX}.comma`)]: ',',
@@ -87,6 +89,7 @@ export default class UsingDelimiterModal extends Component {
           value={this.state.customDelimiter}
           placeholder="e.g. \d+"
           autoFocus
+          data-testid={getDataTestid(`${TESTID_PREFIX}.customDelimiterInput`)}
         />
       </div>
     );
@@ -122,9 +125,15 @@ export default class UsingDelimiterModal extends Component {
         className="dataprep-parse-modal using-delimiter-modal cdap-modal"
       >
         <ModalHeader>
-          <span>{T.translate(`${PREFIX}.modalTitle`)}</span>
+          <span data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}>
+            {T.translate(`${PREFIX}.modalTitle`)}
+          </span>
 
-          <div className="close-section float-right" onClick={this.props.onClose}>
+          <div
+            className="close-section float-right"
+            onClick={this.props.onClose}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.closeButton`)}
+          >
             <span className="fa fa-times" />
           </div>
         </ModalHeader>
@@ -135,6 +144,7 @@ export default class UsingDelimiterModal extends Component {
                 key={option}
                 onClick={this.handleSplitByClick.bind(this, option)}
                 className="cursor-pointer"
+                data-testid={getDataTestid(`${TESTID_PREFIX}.delimiterOption`, option)}
               >
                 <span
                   className={classnames('fa fa-fw', {
@@ -154,10 +164,15 @@ export default class UsingDelimiterModal extends Component {
             className="btn btn-primary"
             onClick={this.applyDirective}
             disabled={getApplyBtnDisabledState()}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
           >
             {T.translate('features.DataPrep.Directives.ExtractFields.extractBtnLabel')}
           </button>
-          <button className="btn btn-secondary" onClick={this.props.onClose}>
+          <button
+            className="btn btn-secondary"
+            onClick={this.props.onClose}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </ModalFooter>

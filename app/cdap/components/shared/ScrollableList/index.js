@@ -20,7 +20,7 @@ import React, { Component } from 'react';
 import IconSVG from 'components/shared/IconSVG';
 import findIndex from 'lodash/findIndex';
 import classnames from 'classnames';
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./ScrollableList.scss');
 const TESTID_PREFIX = 'common.components.scrollableList';

@@ -192,6 +192,7 @@ var webpackConfig = {
       services: __dirname + '/app/cdap/services',
       styles: __dirname + '/app/cdap/styles',
       api: __dirname + '/app/cdap/api',
+      '@cdap-ui': __dirname + '/app/cdap',
     },
   },
 };

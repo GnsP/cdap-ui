@@ -29,8 +29,10 @@ import { preventPropagation } from 'services/helpers';
 import { UncontrolledTooltip } from 'components/UncontrolledComponents';
 import If from 'components/shared/If';
 import { DecimalOptions } from 'components/DataPrep/Directives/ChangeDataType/DecimalOptions';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.ChangeDataType';
+const TESTID_PREFIX = 'features.dataprep.directives.changeDataType';
 
 require('./ChangeDataType.scss');
 
@@ -152,6 +154,7 @@ export default class ChangeDataTypeDirective extends Component {
               className='option clearfix'
               key={i}
               onClick={this.handleOptionSelect.bind(this, option)}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.option`, option)}
             >
               <span>{T.translate(`${PREFIX}.Options.${option}`)}</span>
               { !!DATATYPES_WITH_SUBMENU[option] &&
@@ -179,6 +182,7 @@ export default class ChangeDataTypeDirective extends Component {
             active: this.props.isOpen && !this.state.isDisabled,
             disabled: this.state.isDisabled,
           })}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
         >
           <span>{T.translate(`${PREFIX}.title`)}</span>
 

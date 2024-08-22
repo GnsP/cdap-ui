@@ -26,16 +26,197 @@ features:
     tethering:
       tab: ~
   dataprep:
+    columnTextSelection:
+      cell: ~
+      column: ~
+      header: ~
     directives:
+      calculate:
+        option: ~
+        submenu:
+          applyButton: ~
+          cancelButton: ~
+          copyToNewColumn: ~
+          destinationColumnNameInput: ~
+          operandInput: ~
+        title: ~
+      changeDataType:
+        option: ~
+        submenu:
+          decimal:
+            applyButton: ~
+            cancelButton: ~
+            precisionInput: ~
+            roundingOption: ~
+            roundingSelector: ~
+            scaleInput: ~
+        title: ~
+      copyColumn:
+        applyButton: ~
+        cancelButton: ~
+        newColumnNameInput: ~
+        title: ~
+      customTransform:
+        applyButton: ~
+        cancelButton: ~
+        expressionTextarea: ~
+        title: ~
+      defineVariable:
+        applyButton: ~
+        cancelButton: ~
+        columnOption: ~
+        columnSelector: ~
+        conditionOption: ~
+        conditionSelector: ~
+        conditionTextInput: ~
+        customConditionInput: ~
+        summaryText: ~
+        title: ~
+        variableNameInput: ~
+      dropColumn:
+        title: ~
+      encodeDecode:
+        options: ~
+        title: ~
+      explode:
+        options:
+          arrayFlattening: ~
+          delimited: ~
+          recordFlattening: ~
+        title: ~
+      extractFields:
+        modal:
+          delimiters:
+            applyButton: ~
+            cancelButton: ~
+            closeButton: ~
+            customDelimiterInput: ~
+            delimiterOption: ~
+            title: ~
+          patterns:
+            applyButton: ~
+            cancelButton: ~
+            closeButton: ~
+            customPatternInput: ~
+            editPatternInput: ~
+            numDigitsPatternInput: ~
+            patternEndInput: ~
+            patternStartInput: ~
+            patternsOption: ~
+            patternsSelector: ~
+            title: ~
+            togglePatternEdit: ~
+          positions:
+            applyButton: ~
+            cancelButton: ~
+            destinationColumnNameInput: ~
+            modalTrigger: ~
+            selectionRangeText: ~
+        options:
+          delimiters: ~
+          patterns: ~
+          positions: ~
+        title: ~
+      fillNullOrEmpty:
+        applyButton: ~
+        cancelButton: ~
+        fillerValueInput: ~
+        title: ~
+      filter:
+        applyButton: ~
+        cancelButton: ~
+        conditionOption: ~
+        conditionSelector: ~
+        customFilterTextarea: ~
+        ignoreCase: ~
+        keepRows: ~
+        removeRows: ~
+        textFilterInput: ~
+        title: ~
+      findAndReplace:
+        applyButton: ~
+        cancelButton: ~
+        exactMatch: ~
+        ignoreCase: ~
+        newValueInput: ~
+        oldValueInput: ~
+        title: ~
+      format:
+        option: ~
+        submenu:
+          concat:
+            applyButton: ~
+            cancelButton: ~
+            copyToNewColumn: ~
+            newColumnNameInput: ~
+            option: ~
+            optionSelector: ~
+            stringInput: ~
+        title: ~
+      hash:
+        applyButton: ~
+        cancelButton: ~
+        encode: ~
+        hashOptions: ~
+        hashSelector: ~
+        title: ~
+      keepColumn:
+        title: ~
+      markAsError:
+        applyButton: ~
+        cancelButton: ~
+        conditionOption: ~
+        conditionSelector: ~
+        customConditionInput: ~
+        ignoreCase: ~
+        textConditionInput: ~
+        title: ~
+      maskData:
+        customSelectionApplyButton: ~
+        customSelectionCancelButton: ~
+        options:
+          customSelection: ~
+          last2Chars: ~
+          last4Chars: ~
+          shuffling: ~
+        title: ~
+      mergeColumns:
+        applyButton: ~
+        cancelButton: ~
+        changeOrder: ~
+        customDelimiterInput: ~
+        delimiterOption: ~
+        delimiterSelector: ~
+        firstColumnName: ~
+        newColumnNameInput: ~
+        secondColumnName: ~
+        title: ~
       parse:
         modal:
           csv:
             applyButton: ~
             cancelButton: ~
             closeButton: ~
-            customDelimeterInput: ~
+            customDelimiterInput: ~
             firstRowAsHeaderToggle: ~
             option: ~
+            title: ~
+          dateFormats:
+            applyButton: ~
+            cancelButton: ~
+            closeButton: ~
+            customFormatInput: ~
+            option: ~
+            title: ~
+          excel:
+            applyButton: ~
+            cancelButton: ~
+            closeButton: ~
+            setFirstRowAsHeader: ~
+            sheetNameInput: ~
+            sheetNameRadio: ~
+            sheetNumberInput: ~
+            sheetNumberRadio: ~
             title: ~
           log:
             applyButton: ~
@@ -43,6 +224,13 @@ features:
             closeButton: ~
             customLogFormatInput: ~
             option: ~
+            title: ~
+          singleField:
+            applyButton: ~
+            cancelButton: ~
+            closeButton: ~
+            mainFieldInput: ~
+            optionalFieldInput: ~
             title: ~
           xmlToJson:
             applyButton: ~
@@ -52,6 +240,17 @@ features:
             keepStringsToggle: ~
             title: ~
         option: ~
+        title: ~
+      setCounter:
+        applyButton: ~
+        cancelButton: ~
+        conditionOption: ~
+        conditionSelector: ~
+        counterIncrementInput: ~
+        counterNameInput: ~
+        customConditionInput: ~
+        title: ~
+      swapColumns:
         title: ~
     workspace:
       cli:

@@ -31,6 +31,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 import {
   ISubmenuProps,
@@ -45,6 +46,7 @@ const PREFIX = 'features.DataPrep.Directives.ChangeDataType.decimalConfig';
 const ROUNDING_PREFIX = `${PREFIX}.roundingOptions`;
 
 const ID_PREFIX = 'DataPrep-Directives-ChangeDataType-decimal';
+const TESTID_PREFIX = 'features.dataprep.directives.changeDataType.submenu.decimal';
 
 const SCALE_INPUT_ID = `${ID_PREFIX}-scaleInputId`;
 const PRECISION_INPUT_ID = `${ID_PREFIX}-precisionInputId`;
@@ -161,6 +163,7 @@ export const DecimalOptions = ({ onApply, onCancel }: ISubmenuProps): JSX.Elemen
               type="number"
               value={scale}
               onChange={handleScaleChange}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.scaleInput`)}
               endAdornment={
                 <InputAdornment position="end">
                   <Tooltip
@@ -192,6 +195,7 @@ export const DecimalOptions = ({ onApply, onCancel }: ISubmenuProps): JSX.Elemen
               type="number"
               value={precision}
               onChange={handlePrecisionChange}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.precisionInput`)}
               endAdornment={
                 <InputAdornment position="end">
                   <Tooltip
@@ -231,6 +235,7 @@ export const DecimalOptions = ({ onApply, onCancel }: ISubmenuProps): JSX.Elemen
                 value={rounding}
                 onChange={handleRoundingChange}
                 label={T.translate(`${PREFIX}.roundingLabel`)}
+                data-testid={getDataTestid(`${TESTID_PREFIX}.roundingSelector`)}
                 endAdornment={
                   <InputAdornment position="end">
                     <Tooltip
@@ -253,7 +258,11 @@ export const DecimalOptions = ({ onApply, onCancel }: ISubmenuProps): JSX.Elemen
                 }
               >
                 {ROUNDING_MODES.map((mode: IRoundingMode) => (
-                  <MenuItem value={mode.value} key={mode.value}>
+                  <MenuItem
+                    value={mode.value}
+                    key={mode.value}
+                    data-testid={getDataTestid(`${TESTID_PREFIX}.roundingOption`, mode.text)}
+                  >
                     <Tooltip
                       arrow
                       enterDelay={500}
@@ -272,10 +281,20 @@ export const DecimalOptions = ({ onApply, onCancel }: ISubmenuProps): JSX.Elemen
             </FormControl>
           </Tooltip>
           <ButtonsContainer>
-            <Button variant="contained" color="primary" disableElevation onClick={applyDirective}>
+            <Button
+              variant="contained"
+              color="primary"
+              disableElevation
+              onClick={applyDirective}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
+            >
               {T.translate(`${PREFIX}.applyButton`)}
             </Button>
-            <Button color="primary" onClick={onCancel}>
+            <Button
+              color="primary"
+              onClick={onCancel}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+            >
               {T.translate(`${PREFIX}.cancelButton`)}
             </Button>
           </ButtonsContainer>

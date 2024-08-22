@@ -23313,6 +23313,13 @@ yallist@^4.0.0:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
+yaml-jest@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/yaml-jest/-/yaml-jest-1.2.0.tgz#5e863a8c3ce5aa7b9f63e12f8bffd6e2e47b4bf7"
+  integrity sha512-rrUNn3ovs5J8td7i3k6rJfh3leBydnM+3YqKJcVyTFRiSiEAdKMy7uhqBxJfsJ+w1le5AGCkMTldNEMY8oqbPg==
+  dependencies:
+    js-yaml "^4.1.0"
+
 yaml@^1.10.0:
   version "1.10.2"
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"

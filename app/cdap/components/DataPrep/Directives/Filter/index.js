@@ -26,10 +26,12 @@ import MouseTrap from 'mousetrap';
 import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import IconSVG from 'components/shared/IconSVG';
 import { setPopoverOffset } from 'components/DataPrep/helper';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./FilterDirective.scss');
 
 const PREFIX = 'features.DataPrep.Directives.Filter';
+const TESTID_PREFIX = 'features.dataprep.directives.filter';
 
 const DIRECTIVES_MAP = {
   KEEP: {
@@ -277,6 +279,7 @@ export default class FilterDirective extends Component {
           onChange={this.handleCustomFilterChange}
           ref={(ref) => (this.customFilterRef = ref)}
           placeholder={T.translate(`${PREFIX}.Placeholders.CUSTOMCONDITION`)}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.customFilterTextarea`)}
         />
       </div>
     );
@@ -291,7 +294,11 @@ export default class FilterDirective extends Component {
     if (this.state.selectedCondition !== 'TEXTREGEX') {
       ignoreCase = (
         <div>
-          <span className="cursor-pointer" onClick={this.toggleIgnoreCase}>
+          <span
+            className="cursor-pointer"
+            onClick={this.toggleIgnoreCase}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.ignoreCase`)}
+          >
             <span
               className={classnames('fa', {
                 'fa-square-o': !this.state.ignoreCase,
@@ -316,6 +323,7 @@ export default class FilterDirective extends Component {
             placeholder={T.translate(`${PREFIX}.Placeholders.${this.state.selectedCondition}`)}
             ref={(ref) => (this.textFilterRef = ref)}
             onKeyPress={this.handleKeyPress}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.textFilterInput`)}
           />
         </div>
         {ignoreCase}
@@ -339,6 +347,7 @@ export default class FilterDirective extends Component {
               active: this.state.rowFilter === 'KEEP',
             })}
             onClick={this.handleRowFilter.bind(this, 'KEEP')}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.keepRows`)}
           >
             {T.translate(`${PREFIX}.KEEP`)}
           </span>
@@ -348,6 +357,7 @@ export default class FilterDirective extends Component {
               active: this.state.rowFilter === 'REMOVE',
             })}
             onClick={this.handleRowFilter.bind(this, 'REMOVE')}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.removeRows`)}
           >
             {T.translate(`${PREFIX}.REMOVE`)}
           </span>
@@ -361,10 +371,15 @@ export default class FilterDirective extends Component {
                 className="form-control mousetrap"
                 value={this.state.selectedCondition}
                 onChange={this.handleConditionSelect}
+                data-testid={getDataTestid(`${TESTID_PREFIX}.conditionSelector`)}
               >
                 {filterConditions.map((condition) => {
                   return (
-                    <option value={condition.filter} key={condition.filter}>
+                    <option
+                      value={condition.filter} 
+                      key={condition.filter}
+                      data-testid={getDataTestid(`${TESTID_PREFIX}.conditionOption`, condition.filter)}
+                    >
                       {condition.displayText}
                     </option>
                   );
@@ -372,7 +387,10 @@ export default class FilterDirective extends Component {
                 <option disabled="disabled" role="separator">
                   &#x2500;&#x2500;&#x2500;&#x2500;
                 </option>
-                <option value="CUSTOMCONDITION">
+                <option 
+                  value="CUSTOMCONDITION"
+                  data-testid={getDataTestid(`${TESTID_PREFIX}.conditionOption`, 'CUSTOMCONDITION')}
+                >
                   {T.translate(`${PREFIX}.Conditions.CUSTOMCONDITION`)}
                 </option>
               </select>
@@ -406,11 +424,16 @@ export default class FilterDirective extends Component {
             className="btn btn-primary float-left"
             onClick={this.applyDirective}
             disabled={disabled}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
           >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
 
-          <button className="btn btn-link float-right" onClick={this.props.close}>
+          <button
+            className="btn btn-link float-right"
+            onClick={this.props.close}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </div>
@@ -425,6 +448,7 @@ export default class FilterDirective extends Component {
         className={classnames('filter-directive clearfix action-item', {
           active: this.props.isOpen,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span>{T.translate(`${PREFIX}.title`)}</span>
 

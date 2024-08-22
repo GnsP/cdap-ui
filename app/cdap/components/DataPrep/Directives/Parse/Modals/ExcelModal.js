@@ -22,8 +22,10 @@ import isNil from 'lodash/isNil';
 import MouseTrap from 'mousetrap';
 import classnames from 'classnames';
 import T from 'i18n-react';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.Parse.Parsers.EXCEL';
+const TESTID_PREFIX = 'features.dataprep.directives.parse.modal.excel';
 
 export default class ExcelModal extends Component {
   constructor(props) {
@@ -114,11 +116,15 @@ export default class ExcelModal extends Component {
         autoFocus={false}
       >
         <ModalHeader>
-          <span>
+          <span data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}>
             {T.translate(`features.DataPrep.Directives.Parse.modalTitle`, { parser: 'Excel' })}
           </span>
 
-          <div className="close-section float-right" onClick={this.props.toggle}>
+          <div
+            className="close-section float-right"
+            onClick={this.props.toggle}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.closeButton`)}
+          >
             <span className="fa fa-times" />
           </div>
         </ModalHeader>
@@ -132,6 +138,7 @@ export default class ExcelModal extends Component {
                 min="0"
                 onChange={this.onSheetSourceChange}
                 checked={this.state.sheetSource === 'sheetnumber'}
+                data-testid={getDataTestid(`${TESTID_PREFIX}.sheetNumberRadio`)}
               />{' '}
               {T.translate(`${PREFIX}.modal.sheetNumberLabel`)}
             </Label>
@@ -142,6 +149,7 @@ export default class ExcelModal extends Component {
                 value={this.state.sheetNumber}
                 onChange={this.onSheetNumberChange}
                 autoFocus
+                data-testid={getDataTestid(`${TESTID_PREFIX}.sheetNumberInput`)}
               />
             ) : null}
           </FormGroup>
@@ -152,6 +160,7 @@ export default class ExcelModal extends Component {
                 value="sheetname"
                 onChange={this.onSheetSourceChange}
                 checked={this.state.sheetSource === 'sheetname'}
+                data-testid={getDataTestid(`${TESTID_PREFIX}.sheetNameRadio`)}
               />{' '}
               {T.translate(`${PREFIX}.modal.sheetNameLabel`)}
             </Label>
@@ -163,11 +172,15 @@ export default class ExcelModal extends Component {
                 onChange={this.onSheetNameChange}
                 placeholder={T.translate(`${PREFIX}.modal.sheetNameInputPlaceholder`)}
                 autoFocus
+                data-testid={getDataTestid(`${TESTID_PREFIX}.sheetNameInput`)}
               />
             ) : null}
           </FormGroup>
           <div className="optional-config">
-            <span onClick={this.toggleSetFirstRow}>
+            <span
+              onClick={this.toggleSetFirstRow}
+              data-testid={getDataTestid(`${TESTID_PREFIX}.setFirstRowAsHeader`)}
+            >
               <span
                 className={classnames('fa', {
                   'fa-square-o': !this.state.firstRowHeader,
@@ -183,10 +196,15 @@ export default class ExcelModal extends Component {
             className="btn btn-primary"
             disabled={this.isApplyDisabled() ? 'disabled' : null}
             onClick={this.applyDirective}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
           >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
-          <button className="btn btn-secondary" onClick={this.props.toggle}>
+          <button
+            className="btn btn-secondary"
+            onClick={this.props.toggle}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </ModalFooter>

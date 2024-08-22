@@ -25,10 +25,12 @@ import { setPopoverOffset } from 'components/DataPrep/helper';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
 import { preventPropagation } from 'services/helpers';
 import Mousetrap from 'mousetrap';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./SetCounter.scss');
 
 const PREFIX = `features.DataPrep.Directives.SetCounter`;
+const TESTID_PREFIX = 'features.dataprep.directives.setCounter';
 
 export default class SetCounterDirective extends Component {
   constructor(props) {
@@ -116,6 +118,7 @@ export default class SetCounterDirective extends Component {
         value={this.state.ifCondition}
         onChange={this.handleStateValueChange.bind(this, 'ifCondition')}
         placeholder={T.translate(`${PREFIX}.ifConditionPlaceholder`)}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.customConditionInput`)}
       />
     );
   }
@@ -127,10 +130,18 @@ export default class SetCounterDirective extends Component {
           className="form-control"
           value={this.state.selectedCondition}
           onChange={this.handleStateValueChange.bind(this, 'selectedCondition')}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.conditionSelector`)}
         >
           {this.conditions.map((condition) => {
             return (
-              <option key={condition} value={condition}>
+              <option
+                key={condition}
+                value={condition}
+                data-testid={getDataTestid(
+                  `${TESTID_PREFIX}.conditionOption`,
+                  condition
+                )}
+              >
                 {T.translate(`${PREFIX}.Conditions.${condition}`)}
               </option>
             );
@@ -152,6 +163,7 @@ export default class SetCounterDirective extends Component {
           className="form-control"
           value={this.state.incrementBy}
           onChange={this.handleStateValueChange.bind(this, 'incrementBy')}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.counterIncrementInput`)}
         />
       </div>
     );
@@ -168,6 +180,7 @@ export default class SetCounterDirective extends Component {
           value={this.state.variableName}
           onChange={this.handleStateValueChange.bind(this, 'variableName')}
           placeholder={T.translate(`${PREFIX}.variableNamePlaceholder`)}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.counterNameInput`)}
         />
       </div>
     );
@@ -198,11 +211,16 @@ export default class SetCounterDirective extends Component {
             className="btn btn-primary float-left"
             onClick={this.applyDirective}
             disabled={disabled}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
           >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
 
-          <button className="btn btn-link float-right" onClick={this.props.close}>
+          <button
+            className="btn btn-link float-right"
+            onClick={this.props.close}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </div>
@@ -217,6 +235,7 @@ export default class SetCounterDirective extends Component {
         className={classnames('set-counter-directive clearfix action-item', {
           active: this.state.isOpen,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span>{T.translate(`${PREFIX}.title`)}</span>
 

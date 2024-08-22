@@ -31,7 +31,7 @@ import XmlToJsonModal from 'components/DataPrep/Directives/Parse/Modals/XmlToJso
 import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { setPopoverOffset } from 'components/DataPrep/helper';
-import { getDataTestid } from '../../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const SUFFIX = 'features.DataPrep.Directives.Parse';
 const TESTID_PREFIX = 'features.dataprep.directives.parse';

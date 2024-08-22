@@ -26,10 +26,13 @@ import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import IconSVG from 'components/shared/IconSVG';
 import MouseTrap from 'mousetrap';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 require('./MarkAsError.scss');
 
 const PREFIX = 'features.DataPrep.Directives.MarkAsError';
+const TESTID_PREFIX = 'features.dataprep.directives.markAsError';
+
 const addPrefix = (directive) => [`IS${directive}`, `ISNOT${directive}`];
 const conditionsOptions = [
   'EMPTY',
@@ -268,7 +271,11 @@ export default class MarkAsError extends Component {
     if (['TEXTREGEX', ...dateFormatConditions].indexOf(this.state.selectedCondition) === -1) {
       ignoreCase = (
         <div>
-          <span className="cursor-pointer" onClick={this.toggleIgnoreCase}>
+          <span
+            className="cursor-pointer"
+            onClick={this.toggleIgnoreCase}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.ignoreCase`)}
+          >
             <IconSVG
               className="fa"
               name={this.state.ignoreCase ? 'icon-check-square-o' : 'icon-square-o'}
@@ -290,6 +297,7 @@ export default class MarkAsError extends Component {
             onChange={this.handleConditionValueChange}
             placeholder={T.translate(`${PREFIX}.Placeholders.${this.state.selectedCondition}`)}
             ref={(ref) => (this.conditionValueRef = ref)}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.textConditionInput`)}
           />
         </div>
         {ignoreCase}
@@ -313,6 +321,7 @@ export default class MarkAsError extends Component {
           placeholder={T.translate(`${PREFIX}.Placeholders.CUSTOMCONDITION`, {
             column: this.props.column,
           })}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.customConditionInput`)}
         />
       </div>
     );
@@ -341,6 +350,7 @@ export default class MarkAsError extends Component {
                 className="form-control mousetrap"
                 value={this.state.selectedCondition}
                 onChange={this.setCondition}
+                data-testid={getDataTestid(`${TESTID_PREFIX}.conditionSelector`)}
               >
                 {markAsConditions.map((condition, i) => {
                   const key = `${condition.id}${i}`;
@@ -352,7 +362,11 @@ export default class MarkAsError extends Component {
                     );
                   }
                   return (
-                    <option value={condition.id} key={key}>
+                    <option
+                      value={condition.id}
+                      key={key}
+                      data-testid={getDataTestid(`${TESTID_PREFIX}.conditionOption`, condition.id)}
+                    >
                       {condition.displayText}
                     </option>
                   );
@@ -400,11 +414,16 @@ export default class MarkAsError extends Component {
             className="btn btn-primary float-left"
             onClick={this.applyDirective}
             disabled={this.isApplyDisabled()}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
           >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
 
-          <button className="btn btn-link float-right" onClick={this.props.close}>
+          <button
+            className="btn btn-link float-right"
+            onClick={this.props.close}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </div>
@@ -419,6 +438,7 @@ export default class MarkAsError extends Component {
         className={classnames('clearfix action-item', {
           active: this.state.isOpen,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span>{T.translate(`${PREFIX}.title`)}</span>
 

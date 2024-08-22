@@ -20,6 +20,9 @@ import React, { Component } from 'react';
 import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import T from 'i18n-react';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
+
+const TESTID_PREFIX = 'features.dataprep.directives.extractFields.modal.positions';
 
 export default class CutMenuItem extends Component {
   constructor(props) {
@@ -41,7 +44,11 @@ export default class CutMenuItem extends Component {
   }
   render() {
     return (
-      <div className="cut-menu-item option clearfix" onClick={this.highlightColumn}>
+      <div
+        className="cut-menu-item option clearfix"
+        onClick={this.highlightColumn}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.modalTrigger`)}
+      >
         <span>{T.translate('features.DataPrep.Directives.CutMenuItem.menuLabel')}</span>
       </div>
     );

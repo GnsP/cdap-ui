@@ -65,7 +65,7 @@ import history from 'services/history';
 import { CookieBanner } from 'components/CookieBanner';
 // See ./graphql/fragements/README.md
 import introspectionQueryResultData from '../../graphql/fragments/fragmentTypes.json';
-import { TestidProvider } from './testids/TestidsProvider';
+import { TestidProvider } from '@cdap-ui/testids/TestidsProvider';
 
 require('../ui-utils/url-generator');
 require('font-awesome-sass-loader!./styles/font-awesome.config.js');

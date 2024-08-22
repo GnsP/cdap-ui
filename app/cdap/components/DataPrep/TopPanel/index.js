@@ -30,7 +30,7 @@ import IconSVG from 'components/shared/IconSVG';
 import DataPrepPlusButton from 'components/DataPrep/TopPanel/PlusButton';
 import { Theme } from 'services/ThemeHelper';
 import classnames from 'classnames';
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const SchemaModal = Loadable({
   loader: () =>

@@ -25,9 +25,11 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import WarningContainer from 'components/shared/WarningContainer';
 import { columnNameAlreadyExists } from 'components/DataPrep/helper';
 import { setPopoverOffset } from 'components/DataPrep/helper';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.Copy';
 const COPY_NEW_COLUMN_PREFIX = 'features.DataPrep.DataPrepTable.copyToNewColumn';
+const TESTID_PREFIX = 'features.dataprep.directives.copyColumn';
 
 export default class CopyColumnDirective extends Component {
   constructor(props) {
@@ -118,6 +120,7 @@ export default class CopyColumnDirective extends Component {
             onKeyPress={this.handleKeyPress}
             placeholder={T.translate(`${COPY_NEW_COLUMN_PREFIX}.inputPlaceholder`)}
             ref={(ref) => (this.inputBox = ref)}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.newColumnNameInput`)}
           />
         </div>
 
@@ -132,11 +135,16 @@ export default class CopyColumnDirective extends Component {
             className="btn btn-primary float-left"
             onClick={this.applyDirective}
             disabled={this.state.input.length === 0}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
           >
             {T.translate('features.DataPrep.Directives.apply')}
           </button>
 
-          <button className="btn btn-link float-right" onClick={this.props.close}>
+          <button
+            className="btn btn-link float-right"
+            onClick={this.props.close}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </div>
@@ -151,6 +159,7 @@ export default class CopyColumnDirective extends Component {
         className={classnames('copy-directive clearfix action-item', {
           active: this.props.isOpen,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span>{T.translate(`${PREFIX}.title`)}</span>
 

@@ -32,9 +32,11 @@ import { preventPropagation } from 'services/helpers';
 import { columnNameAlreadyExists } from 'components/DataPrep/helper';
 import capitalize from 'lodash/capitalize';
 import Mousetrap from 'mousetrap';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const PREFIX = 'features.DataPrep.Directives.Format';
 const COPY_NEW_COLUMN_PREFIX = 'features.DataPrep.DataPrepTable.copyToNewColumn';
+const TESTID_PREFIX = 'features.dataprep.directives.format';
 const VALID_TYPES = ['string', 'date', 'datetime'];
 
 export default class Format extends Component {
@@ -260,11 +262,16 @@ export default class Format extends Component {
           className="btn btn-primary float-left"
           disabled={this.isApplyDisabled()}
           onClick={this.getConcatExpressionAndApply}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.submenu.concat.applyButton`)}
         >
           {T.translate('features.DataPrep.Directives.apply')}
         </button>
 
-        <button className="btn btn-link float-right" onClick={this.setDefaultFormatPopoverState}>
+        <button
+          className="btn btn-link float-right"
+          onClick={this.setDefaultFormatPopoverState}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.submenu.concat.cancelButton`)}
+        >
           {T.translate('features.DataPrep.Directives.cancel')}
         </button>
       </div>
@@ -285,6 +292,7 @@ export default class Format extends Component {
           onChange={this.setNewColumnInput}
           placeholder={T.translate(`${COPY_NEW_COLUMN_PREFIX}.inputPlaceholder`)}
           autoFocus
+          data-testid={getDataTestid(`${TESTID_PREFIX}.submenu.concat.newColumnNameInput`)}
         />
         {columnNameAlreadyExists(this.state.newColumnInput) ? (
           <WarningContainer message={T.translate(`${COPY_NEW_COLUMN_PREFIX}.inputDuplicate`)} />
@@ -307,16 +315,22 @@ export default class Format extends Component {
           placeholder={T.translate(`${PREFIX}.Formats.CONCATENATE.inputPlaceholder`)}
           onChange={this.setFormatInput}
           autoFocus
+          data-testid={getDataTestid(`${TESTID_PREFIX}.submenu.concat.stringInput`)}
         />
         <Input
           type="select"
           className="concatenate-option-select"
           onChange={this.setConcatOption}
           value={this.state.concatOption}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.submenu.concat.optionSelector`)}
         >
           {this.CONCATENATE_OPTIONS.map((option) => {
             return (
-              <option key={option.name} value={option.name}>
+              <option
+                key={option.name}
+                value={option.name}
+                data-testid={getDataTestid(`${TESTID_PREFIX}.submenu.concat.option`, option.name)}
+              >
                 {option.label}
               </option>
             );
@@ -324,7 +338,11 @@ export default class Format extends Component {
         </Input>
         <div>{T.translate(`${PREFIX}.Formats.CONCATENATE.addDescription`)}</div>
 
-        <div className="create-new-column-line" onClick={this.toggleCreateNewColumn}>
+        <div
+          className="create-new-column-line"
+          onClick={this.toggleCreateNewColumn}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.submenu.concat.copyToNewColumn`)}
+        >
           <span className="fa fa-fw">
             <IconSVG name={this.state.createNewColumn ? 'icon-check-square' : 'icon-square-o'} />
           </span>
@@ -355,6 +373,7 @@ export default class Format extends Component {
             active: this.state.formatPopoverOpen === option.name,
           })}
           onClick={option.onClick}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.option`, option.name)}
         >
           {T.translate(`${PREFIX}.Formats.${option.name}.label`)}
           {option.name === 'CONCATENATE' ? (
@@ -392,6 +411,7 @@ export default class Format extends Component {
             active: this.props.isOpen && !this.state.isDisabled,
             disabled: this.state.isDisabled,
           })}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
         >
           <span>{T.translate(`${PREFIX}.title`)}</span>
 

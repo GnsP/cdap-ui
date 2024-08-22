@@ -23,13 +23,15 @@ import isNil from 'lodash/isNil';
 import isEmpty from 'lodash/isEmpty';
 import { Input, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { execute } from 'components/DataPrep/store/DataPrepActionCreator';
-const PREFIX = 'features.DataPrep.Directives.ExtractFields.UsingPatterns';
 import Mousetrap from 'mousetrap';
 import DataPrepStore from 'components/DataPrep/store';
 import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { UncontrolledDropdown } from 'components/UncontrolledComponents';
-
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 require('./UsingPatternsModal.scss');
+
+const PREFIX = 'features.DataPrep.Directives.ExtractFields.UsingPatterns';
+const TESTID_PREFIX = 'features.dataprep.directives.extractFields.modal.patterns';
 
 export default class UsingPatternsModal extends Component {
   constructor(props) {
@@ -276,6 +278,7 @@ export default class UsingPatternsModal extends Component {
           onChange={this.setStartEndPattern.bind(this, 'start')}
           value={this.state.startAndEndPattern.start}
           autoFocus
+          data-testid={getDataTestid(`${TESTID_PREFIX}.patternStartInput`)}
         />
         {T.translate(`${PREFIX}.startEndPatternContent.description2`)}
         <Input
@@ -283,6 +286,7 @@ export default class UsingPatternsModal extends Component {
           placeholder={`${T.translate(`${PREFIX}.exampleLabel`)} >`}
           onChange={this.setStartEndPattern.bind(this, 'end')}
           value={this.state.startAndEndPattern.end}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.patternEndInput`)}
         />
       </span>
     );
@@ -298,6 +302,7 @@ export default class UsingPatternsModal extends Component {
           value={this.state.nDigitPattern}
           type="number"
           autoFocus
+          data-testid={getDataTestid(`${TESTID_PREFIX}.numDigitsPatternInput`)}
         />
         {T.translate(`${PREFIX}.ndigitnumberPatternContent.description2`)}
       </span>
@@ -312,6 +317,7 @@ export default class UsingPatternsModal extends Component {
           placeholder={`${T.translate(`${PREFIX}.exampleLabel`)} [^(]+\(([0-9]{4})\).* `}
           onChange={this.setCustomPattern}
           autoFocus
+          data-testid={getDataTestid(`${TESTID_PREFIX}.customPatternInput`)}
         />
       </span>
     );
@@ -335,10 +341,15 @@ export default class UsingPatternsModal extends Component {
         className="btn btn-primary"
         onClick={this.applyDirective}
         disabled={isNil(this.state.pattern) ? 'disabled' : null}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
       >
         {T.translate('features.DataPrep.Directives.ExtractFields.extractBtnLabel')}
       </button>,
-      <button className="btn btn-secondary" onClick={this.props.onClose}>
+      <button
+        className="btn btn-secondary"
+        onClick={this.props.onClose}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+      >
         {T.translate('features.DataPrep.Directives.cancel')}
       </button>,
     ];
@@ -353,7 +364,11 @@ export default class UsingPatternsModal extends Component {
         showHideLink = T.translate(`${PREFIX}.showPatternLabel`);
       }
       showHideLink = (
-        <div className="showhidelink" onClick={this.toggleShowEditPatternTxtBox}>
+        <div
+          className="showhidelink"
+          onClick={this.toggleShowEditPatternTxtBox}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.togglePatternEdit`)}
+        >
           {showHideLink}
         </div>
       );
@@ -368,9 +383,15 @@ export default class UsingPatternsModal extends Component {
         className="dataprep-parse-modal using-patterns-modal cdap-modal"
       >
         <ModalHeader>
-          <span>{T.translate(`${PREFIX}.modalTitle`, { parser: 'Log' })}</span>
+          <span data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}>
+            {T.translate(`${PREFIX}.modalTitle`, { parser: 'Log' })}
+          </span>
 
-          <div className="close-section float-right" onClick={this.props.onClose}>
+          <div
+            className="close-section float-right"
+            onClick={this.props.onClose}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.closeButton`)}
+          >
             <span className="fa fa-times" />
           </div>
         </ModalHeader>
@@ -378,7 +399,7 @@ export default class UsingPatternsModal extends Component {
           <p>{T.translate(`${PREFIX}.patternDescription`, { column: this.props.column })}</p>
           {this.patterns[0].patternLabel}
           <UncontrolledDropdown>
-            <DropdownToggle caret>
+            <DropdownToggle caret data-testid={getDataTestid(`${TESTID_PREFIX}.patternsSelector`)}>
               {isNil(this.state.patternLabel) ? this.patterns[0].label : this.state.patternLabel}
             </DropdownToggle>
 
@@ -386,7 +407,10 @@ export default class UsingPatternsModal extends Component {
               <div className="using-patterns-modal-dropdown">
                 {this.patterns.map((pattern, index) => {
                   return (
-                    <DropdownItem onClick={this.onPatternChange.bind(this, index)}>
+                    <DropdownItem
+                      onClick={this.onPatternChange.bind(this, index)}
+                      data-testid={getDataTestid(`${TESTID_PREFIX}.patternsOption`, pattern.patternName || 'none')}
+                    >
                       <span>{pattern.label}</span>
                     </DropdownItem>
                   );
@@ -407,6 +431,7 @@ export default class UsingPatternsModal extends Component {
                 onChange={this.onRawPatternChange}
                 value={this.state.pattern}
                 autoFocus
+                data-testid={getDataTestid(`${TESTID_PREFIX}.editPatternInput`)}
               />
             ) : null}
           </div>

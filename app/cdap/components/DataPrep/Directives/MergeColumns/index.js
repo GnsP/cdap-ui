@@ -25,11 +25,14 @@ import DataPrepActions from 'components/DataPrep/store/DataPrepActions';
 import { columnNameAlreadyExists } from 'components/DataPrep/helper';
 import WarningContainer from 'components/shared/WarningContainer';
 import { setPopoverOffset } from 'components/DataPrep/helper';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 import T from 'i18n-react';
 require('./MergeColumns.scss');
 
 const PREFIX = `features.DataPrep.Directives.Merge`;
+const TESTID_PREFIX = 'features.dataprep.directives.mergeColumns';
+
 const DEFAULT_DELIMITER = 'COMMA';
 const DELIMITER_MAP = {
   COMMA: ',',
@@ -165,6 +168,7 @@ export default class MergeColumnsDirective extends Component {
           onChange={this.handleCustomDelimiterChange}
           autoFocus
           placeholder={T.translate(`${PREFIX}.customDelimiterPlaceholder`)}
+          data-testid={getDataTestid(`${TESTID_PREFIX}.customDelimiterInput`)}
         />
       </div>
     );
@@ -191,11 +195,19 @@ export default class MergeColumnsDirective extends Component {
 
         <div className="columns-order">
           <span className="columns-names">
-            <span>{this.state.firstColumn}</span>
+            <span data-testid={getDataTestid(`${TESTID_PREFIX}.firstColumnName`)}>
+              {this.state.firstColumn}
+            </span>
             <hr />
-            <span>{this.state.secondColumn}</span>
+            <span data-testid={getDataTestid(`${TESTID_PREFIX}.secondColumnName`)}>
+              {this.state.secondColumn}
+            </span>
           </span>
-          <span className="fa fa-exchange" onClick={this.switchColumnOrder} />
+          <span
+            className="fa fa-exchange"
+            onClick={this.switchColumnOrder}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.changeOrder`)}
+          />
         </div>
 
         <br />
@@ -207,10 +219,15 @@ export default class MergeColumnsDirective extends Component {
             className="form-control mousetrap"
             value={this.state.selectedDelimiter}
             onChange={this.handleDelimiterSelect}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.delimiterSelector`)}
           >
             {mergeDelimiters.map((delimiterOption) => {
               return (
-                <option value={delimiterOption.delimiter} key={delimiterOption.delimiter}>
+                <option
+                  value={delimiterOption.delimiter}
+                  key={delimiterOption.delimiter}
+                  data-testid={getDataTestid(`${TESTID_PREFIX}.delimiterOption`, delimiterOption.delimiter)}
+                >
                   {delimiterOption.displayText}
                 </option>
               );
@@ -218,7 +235,10 @@ export default class MergeColumnsDirective extends Component {
             <option disabled="disabled" role="separator">
               &#x2500;&#x2500;&#x2500;&#x2500;
             </option>
-            <option value="CUSTOMDELIMITER">
+            <option
+              value="CUSTOMDELIMITER"
+              data-testid={getDataTestid(`${TESTID_PREFIX}.delimiterOption`, 'CUSTOMDELIMITER')}
+            >
               {T.translate(`${PREFIX}.Delimiters.CUSTOMDELIMITER`)}
             </option>
           </select>
@@ -239,6 +259,7 @@ export default class MergeColumnsDirective extends Component {
             onChange={this.handleNewColumnInputChange}
             placeholder={T.translate(`${PREFIX}.newColumnPlaceholder`)}
             autoFocus
+            data-testid={getDataTestid(`${TESTID_PREFIX}.newColumnNameInput`)}
           />
         </div>
 
@@ -253,11 +274,16 @@ export default class MergeColumnsDirective extends Component {
             className="btn btn-primary float-left"
             onClick={this.applyDirective}
             disabled={disabledCondition}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.applyButton`)}
           >
             {T.translate(`${PREFIX}.buttonLabel`)}
           </button>
 
-          <button className="btn btn-link float-right" onClick={this.props.close}>
+          <button
+            className="btn btn-link float-right"
+            onClick={this.props.close}
+            data-testid={getDataTestid(`${TESTID_PREFIX}.cancelButton`)}
+          >
             {T.translate('features.DataPrep.Directives.cancel')}
           </button>
         </div>
@@ -272,6 +298,7 @@ export default class MergeColumnsDirective extends Component {
         className={classnames('merge-columns-directive clearfix action-item', {
           active: this.state.isOpen,
         })}
+        data-testid={getDataTestid(`${TESTID_PREFIX}.title`)}
       >
         <span>{T.translate(`${PREFIX}.title`)}</span>
 

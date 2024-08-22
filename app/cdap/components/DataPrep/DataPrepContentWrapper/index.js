@@ -29,7 +29,7 @@ import LoadingSVGCentered from 'components/shared/LoadingSVGCentered';
 import DataPrepSidePanel from 'components/DataPrep/DataPrepSidePanel';
 import classnames from 'classnames';
 import T from 'i18n-react';
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 require('./DataPrepContentWrapper.scss');
 
 const DataPrepVisualization = Loadable({

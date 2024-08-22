@@ -20,7 +20,7 @@ import React, { Component } from 'react';
 import FastAction from 'components/FastAction';
 import { objectQuery } from 'services/helpers';
 import isNil from 'lodash/isNil';
-import { getDataTestid } from '../../../testids/TestidsProvider';
+import { getDataTestid } from '@cdap-ui/testids/TestidsProvider';
 
 const TESTID_PREFIX = 'features.entityListView.entity.fastActions';
 
